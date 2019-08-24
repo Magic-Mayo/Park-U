@@ -1,0 +1,25 @@
+{
+  "name": "tri-city-gamblers",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.16.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Magic-Mayo/Tri-City-Gamblers.git"
+  },
+  "author": "Mike Mayo, Rodolfo Morales, Brett Schnaidt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Magic-Mayo/Tri-City-Gamblers/issues"
+  },
+  "homepage": "https://github.com/Magic-Mayo/Tri-City-Gamblers#readme"
+}
