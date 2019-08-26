@@ -3,10 +3,6 @@ module.exports = (sequelize, DataTypes)=>{
         pass: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                len: [8, 20],
-                isAplhanumeric: true
-            }
         }
     });
 
