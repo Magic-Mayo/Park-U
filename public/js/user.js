@@ -13,17 +13,12 @@ $(document).ready(()=>{
             return
         }
 
-        createUser({
-            userName: newUser.val().trim()
-        });
+        createUser({userName: newUser.val().trim()}, userWord({pass: newWord.val().trim()}));
     }
 
-    const createUser = (user) => {
+    const createUser = (user, pass) => {
         $.post('/new/user', user).then(
-            userWord({
-                pass: newWord.val().trim()
-            })    
-        )
+            pass())
     }
 
     const userWord = (pass) => {
