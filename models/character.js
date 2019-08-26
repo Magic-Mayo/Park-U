@@ -28,14 +28,14 @@ module.exports = (sequelize, DataTypes)=>{
             type: DataTypes.INTEGER,
             allowNull: false
         }
-    })
+    });
 
     Character.associate = (models) => {
         Character.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false,
             },
-        })
+        });
     }
-    return Character
+    return Character;
 }

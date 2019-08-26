@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes)=>{
                 len: [1, 50]
             }
         }
-    })
+    });
 
     User.associate = (models) => {
         User.hasMany(models.Character, {
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes)=>{
                 allowNull: false,
             },
             onDelete: 'cascade'
-        })
+        });
     }
-    return User
+    return User;
 }
