@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes)=>{
     });
 
     Word.associate = (models) =>{
-        Word.hasOne(models.User, {
+        Word.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false
             }
