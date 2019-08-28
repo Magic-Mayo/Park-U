@@ -21,14 +21,22 @@ module.exports = (app) => {
         db.Character.create(req.body)
     })
 
-    app.get('/word/verify', (req,res)=>{
-        db.Users.findOne({where: {userName: req.body.user}}).then(pass=>{
-            bcrypt.compare(req.body.pass, hash)
+    app.post('/word/verify', (req,res)=>{
+        console.log(req.body)
+        db.User.findOne({where: {userName: req.body.user.toString()}}).then(pass=>{
+            console.log(pass.dataValues.pass)
+            bcrypt.compare(req.body.userPass, pass.dataValues.pass).then((result)=>{
+                if(result){
+                    res.json(result)
+                } else {
+                    res.json(false)
+                }
+            })
         })
     })
 
     app.delete('/delete/:id', (req, res)=>{
-        db.Users.destroy({where: {id: req.params.id}}).then(deleteUser=>{
+        db.User.destroy({where: {id: req.params.id}}).then(deleteUser=>{
             res.json(deleteUser);
         })
     })
