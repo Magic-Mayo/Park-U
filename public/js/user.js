@@ -17,8 +17,9 @@ $(document).ready(()=>{
     }
 
     const createUser = (user, pass) => {
+        // $.get('/api/')
         $.post('/new/user', user).then(
-            pass())
+            pass(pw))
     }
 
     const userWord = (pass) => {
