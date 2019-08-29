@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="./js/user.js"></script>
     <title>Document</title>
 </head>
 <div class="nes-field">
@@ -23,6 +28,16 @@
 </div>
       
 <body>
-    
+  <form method="post" action="/new/user">
+    <input type="text" name="NewUser">
+    <input type="text" name="newWord">
+    <button type="submit" id="add-user">submit</button>
+  </form>
+  <form method="post" action='/word/verify'>
+    <input type="text" name="user">
+    <input type="text" name="pass">
+    <button type="submit" id="login">login</button>
+  </form>
+
 </body>
 </html>
