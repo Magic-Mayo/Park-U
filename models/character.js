@@ -39,7 +39,8 @@ module.exports = (sequelize, DataTypes)=>{
         Character.belongsTo(models.Attack, {
             foreignKey: {
                 allowNull: false
-            }
+            },
+            constraints: false
         })
     }
 
