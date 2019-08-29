@@ -1,71 +1,83 @@
 $(document).ready(()=>{
-    let gotUserStats = false;
     let gotCompStats = false;
-    let userHP;
-    let userDef;
-    let userLuck;
-    let userAcc;
     let compHP = 100;
-    let attacks = {
+    let userStats = {
         data: false,
-        attackOne: {
-            name: {},
-            attackStrength: [],
-            attackAcc: {}
+        attack: {
+            names: {
+                attackOne: {},
+                attackTwo: {},
+                attackThree: {},
+                attackFour: {}
+            },
+            strength: {
+                attackOne: [],
+                attackTwo: [],
+                attackThree: [],
+                attackFour: []
+            },
+            accuracy: {
+                attackOne: {},
+                attackTwo: {},
+                attackThree: {},
+                attackFour: {}
+            }
         },
-        attackTwo: {
-            name: {},
-            attackStrength: [],
-            attackAcc: {}
-        },
-        attackThree: {
-            name: {},
-            attackStrength: [],
-            attackAcc: {}
-        },
-        attackFour: {
-            name: {},
-            attackStrength: [],
-            attackAcc: {}
-        },
+        defense: {},
+        luck: {},
+        hp: {}
     }
 
-    console.log(userHP)
     const id = $('.userId').val().trim();
     
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleAtk(id)
-    }
-
-    const handleAtk = (id) => {
-        if (!gotUserStats){
+    const getStats = (id) => {
+        if (!userStats.data){
             $.get(`user/stats/${id}`, (stats)=>{
-                if (userHP === undefined && userDef === undefined && userLuck === undefined){
-                    userHP = stats.hp;
-                    userDef = stats.defense;
-                    userLuck = stats.luck;
+                userStats.attack.names.attackOne = stats.Attack.attackOneName;
+                userStats.attack.names.attackTwo = stats.Attack.attackTwoName;
+                userStats.attack.names.attackThree = stats.Attack.attackThreeName;
+                userStats.attack.names.attackFour = stats.Attack.attackFourName;
+                userStats.attack.strength.attackOne = stats.Attack.attackOne.split('-');
+                userStats.attack.strength.attackTwo = stats.Attack.attackTwo.split('-');
+                userStats.attack.strength.attackThree = stats.Attack.attackThree.split('-');
+                userStats.attack.strength.attackFour = stats.Attack.attackFour.split('-');
+                userStats.attack.accuracy.attackOne = stats.Attack.attackOneAcc
+                userStats.attack.accuracy.attackTwo = stats.Attack.attackTwoAcc;
+                userStats.attack.accuracy.attackThree = stats.Attack.attackThreeAcc;
+                userStats.attack.accuracy.attackFour = stats.Attack.attackFourAcc;
+                userStats.data = true;
+
+                for (i in userStats.attack.strength){
+                    console.log(i)
+                    let j = 1;
+                    const form = $('<form>');
+                    const btn = $('<button>');
+                    form.addClass('atk');
+                    btn.addClass('attack').attr('id', `attack-${j}`).attr('atk-strength', i);
+                    form.append(btn);
+                    $('#gameWindow').append(form);
+                    j++;
                 }
 
-                if (!attacks.data){
-                    attacks.attackOne.name = stats.Attack.attackOneName
-                    attacks.attackTwo.name = stats.Attack.attackTwoName
-                    attacks.attackThree.name = stats.Attack.attackThreeName
-                    attacks.attackFour.name = stats.Attack.attackFourName
-                    attacks.attackOne.attackStrength = stats.Attack.attackOne
-                    attacks.attackTwo.attackStrength = stats.Attack.attackTwo
-                    attacks.attackThree.attackStrength = stats.Attack.attackThree
-                    attacks.attackFour.attackStrength = stats.Attack.attackFour
-                    attacks.attackOne.attackAcc = stats.Attack.attackOneAcc.split('-')
-                    attacks.attackTwo.attackAcc = stats.Attack.attackTwoAcc.split('-')
-                    attacks.attackThree.attackAcc = stats.Attack.attackThreeAcc.split('-')
-                    attacks.attackFour.attackAcc = stats.Attack.attackFourAcc.split('-')
-                }
-                console.log(stats)
+                $('#attack-1').attr('value', 1).append(userStats.attack.names.attackOne);
+                $('#attack-2').attr('value', 2).append(userStats.attack.names.attackTwo);
+                $('#attack-3').attr('value', 3).append(userStats.attack.names.attackThree);
+                $('#attack-4').attr('value', 4).append(userStats.attack.names.attackFour);
+
+                console.log(stats);
                 gotStats = true;
             })
         }
-        attack(, 90, 5, userLuck, compHP)
+    }
+
+    const handleAtk = (attackId) => {
+        // switch (/* attack selected */){
+        //     case 1: attack(attacks.strength.attackOne, 90, 5, userLuck, compHP); break;
+        //     case 2: attack(attacks.strength.attackTwo, 90, 5, userLuck, compHP); break;
+        //     case 3: attack(attacks.strength.attackThree, 90, 5, userLuck, compHP); break;
+        //     case 4: attack(attacks.strength.attackFour, 90, 5, userLuck, compHP); break;
+        // }
+        
     }
 
     const attack = (attack, acc, defense, luck, hp) => {
@@ -110,5 +122,24 @@ $(document).ready(()=>{
         }
     }
 
-    $('.atk').on('submit', handleSubmit)
+    // $('.atk').on('submit', handleAtkSubmit);
+
+    $('.atk').on('click', function(e){
+        e.preventDefault();
+        const atkChosen = $(this).val().trim();
+        handleAtk(atkChosen);
+    })
+    getStats(id);
+    // $('#attack-2').on('click', function(e){
+    //     e.preventDefault();
+    //     atkChosen = $(this).val().trim();
+    // })
+    // $('#attack-3').on('click', function(e){
+    //     e.preventDefault();
+    //     atkChosen = $(this).val().trim();
+    // })
+    // $('#attack-4').on('click', function(e){
+    //     e.preventDefault();
+    //     atkChosen = $(this).val().trim();
+    // })
 })
