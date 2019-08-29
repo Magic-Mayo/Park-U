@@ -28,11 +28,15 @@
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a class="nes-btn">Normal</a></li>
-        <form id="attack">
-        <input type="hidden" name="userId" value='1'>
-           <button type="submit" class="nes-btn is-primary">Proper referencing</button>
-          </form>
-            <li><button type="button" class="nes-btn is-success">Restful API</button></li>
+        <form class='atk'>
+            <input type="hidden" class='userId' value='1'>
+            <button type="submit" class="nes-btn is-primary attack">Proper referencing</button>
+        </form>
+        <form class="attack">
+            <input type="hidden" class='id' value='1'>
+            <button type="submit" class="nes-btn is-primary">Restful API</button>
+        </form>
+            <li><button type="button" class="nes-btn is-success"></button></li>
                 <li><button type="button" class="nes-btn is-warning">Murder</button></li>
                     <li><button type="button" class="nes-btn is-error">Redirect</button></li>
       </ul>
@@ -56,4 +60,9 @@
 
     </div>
 </body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="./js/game.js"></script>
 </html>
