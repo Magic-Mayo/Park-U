@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes)=>{
     User.associate = (models) => {
         User.hasMany(models.Character, {
             foreignKey: {
-                allowNull: false,
+                allowNull: false
             },
             onDelete: 'cascade'
         });
