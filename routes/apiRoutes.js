@@ -40,4 +40,11 @@ module.exports = (app) => {
             res.json(deleteUser);
         })
     })
+
+    app.get('/user/stats/:id', (req,res)=>{
+        console.log(req.params.id)
+        db.Character.findOne({where: {id: req.params.id}}).then((stats)=>{
+            res.json(stats)
+        })
+    })
 }
