@@ -3,17 +3,38 @@ $(document).ready(()=>{
     let gotCompStats = false;
     let userHP;
     let userDef;
-    let userAtk = [];
     let userLuck;
     let userAcc;
     let compHP = 100;
+    let attacks = {
+        data: false,
+        attackOne: {
+            name: {},
+            attackStrength: [],
+            attackAcc: {}
+        },
+        attackTwo: {
+            name: {},
+            attackStrength: [],
+            attackAcc: {}
+        },
+        attackThree: {
+            name: {},
+            attackStrength: [],
+            attackAcc: {}
+        },
+        attackFour: {
+            name: {},
+            attackStrength: [],
+            attackAcc: {}
+        },
+    }
+
     console.log(userHP)
     const id = $('.userId').val().trim();
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        const atk = $('.atk-rng').val().trim();
-        userAtk = atk.split('-');
         handleAtk(id)
     }
 
@@ -25,11 +46,26 @@ $(document).ready(()=>{
                     userDef = stats.defense;
                     userLuck = stats.luck;
                 }
+
+                if (!attacks.data){
+                    attacks.attackOne.name = stats.Attack.attackOneName
+                    attacks.attackTwo.name = stats.Attack.attackTwoName
+                    attacks.attackThree.name = stats.Attack.attackThreeName
+                    attacks.attackFour.name = stats.Attack.attackFourName
+                    attacks.attackOne.attackStrength = stats.Attack.attackOne
+                    attacks.attackTwo.attackStrength = stats.Attack.attackTwo
+                    attacks.attackThree.attackStrength = stats.Attack.attackThree
+                    attacks.attackFour.attackStrength = stats.Attack.attackFour
+                    attacks.attackOne.attackAcc = stats.Attack.attackOneAcc.split('-')
+                    attacks.attackTwo.attackAcc = stats.Attack.attackTwoAcc.split('-')
+                    attacks.attackThree.attackAcc = stats.Attack.attackThreeAcc.split('-')
+                    attacks.attackFour.attackAcc = stats.Attack.attackFourAcc.split('-')
+                }
                 console.log(stats)
                 gotStats = true;
             })
         }
-        attack(userAtk, 90, 5, userLuck, compHP)
+        attack(, 90, 5, userLuck, compHP)
     }
 
     const attack = (attack, acc, defense, luck, hp) => {
