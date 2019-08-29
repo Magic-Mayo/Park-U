@@ -43,7 +43,7 @@ module.exports = (app) => {
 
     app.get('/user/stats/:id', (req,res)=>{
         console.log(req.params.id)
-        db.Character.findOne({where: {id: req.params.id}}).then((stats)=>{
+        db.Character.findOne({where: {id: req.params.id}, include: [db.Attack]}).then(stats=>{
             res.json(stats)
         })
     })
