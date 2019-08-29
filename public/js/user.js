@@ -32,7 +32,6 @@ $(document).ready(()=>{
     }
 
     const handleDeleteUser = (e) => {
-        console.log($('#delete-user').val())
         e.preventDefault();
         const user = $('#delete-user').val().trim();
         deleteUser(user);
