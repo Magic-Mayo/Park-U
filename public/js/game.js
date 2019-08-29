@@ -41,18 +41,22 @@ $(document).ready(()=>{
         if (!userStats.data){
             $.get(`user/stats/${id}`, (stats)=>{
                 const atk = userStats.attack;
-                atk.names.attackOne = stats.Attack.attackOneName;
-                atk.names.attackTwo = stats.Attack.attackTwoName;
-                atk.names.attackThree = stats.Attack.attackThreeName;
-                atk.names.attackFour = stats.Attack.attackFourName;
-                atk.strength.attackOne = stats.Attack.attackOne.split('-');
-                atk.strength.attackTwo = stats.Attack.attackTwo.split('-');
-                atk.strength.attackThree = stats.Attack.attackThree.split('-');
-                atk.strength.attackFour = stats.Attack.attackFour.split('-');
-                atk.accuracy.attackOne = stats.Attack.attackOneAcc
-                atk.accuracy.attackTwo = stats.Attack.attackTwoAcc;
-                atk.accuracy.attackThree = stats.Attack.attackThreeAcc;
-                atk.accuracy.attackFour = stats.Attack.attackFourAcc;
+                const stat = stats.Attack;
+                // for (i in stats){
+                //     atk.names
+                // }
+                atk.names.attackOne = stat.attackOneName;
+                atk.names.attackTwo = stat.attackTwoName;
+                atk.names.attackThree = stat.attackThreeName;
+                atk.names.attackFour = stat.attackFourName;
+                atk.strength.attackOne = stat.attackOne.split('-');
+                atk.strength.attackTwo = stat.attackTwo.split('-');
+                atk.strength.attackThree = stat.attackThree.split('-');
+                atk.strength.attackFour = stat.attackFour.split('-');
+                atk.accuracy.attackOne = stat.attackOneAcc
+                atk.accuracy.attackTwo = stat.attackTwoAcc;
+                atk.accuracy.attackThree = stat.attackThreeAcc;
+                atk.accuracy.attackFour = stat.attackFourAcc;
                 userStats.hp = stats.hp;
                 userStats.defense = stats.defense;
                 userStats.luck = stats.luck;
@@ -64,7 +68,7 @@ $(document).ready(()=>{
                     const form = $('<form>');
                     const btn = $('<button>');
                     form.addClass('atk');
-                    btn.addClass('attack').attr('value', i).append(name[i]);
+                    btn.addClass('attack nes-btn is-primary').attr('value', i).append(name[i]);
                     form.append(btn);
                     $('#gameWindow').append(form);
                 }
