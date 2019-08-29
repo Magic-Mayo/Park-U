@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes)=>{
             type: DataTypes.STRING,
             allowNull: false,
         },
-        attack: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
         defense: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -35,7 +31,17 @@ module.exports = (sequelize, DataTypes)=>{
             foreignKey: {
                 allowNull: false,
             },
+            constraints: false
         });
     }
+    
+    Character.associate = (models) => {
+        Character.belongsTo(models.Attack, {
+            foreignKey: {
+                allowNull: false
+            }
+        })
+    }
+
     return Character;
 }
