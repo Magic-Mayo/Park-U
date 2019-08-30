@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt')
 
 module.exports = (app) => {
     app.post('/new/user', (req,res)=>{
-        bcrypt.hash(req.body.newWord, 8).then((hash)=>{
-            db.User.create({userName: req.body.newUser, pass: hash}).then(created=>{
+        bcrypt.hash(req.body.pass, 8).then((hash)=>{
+            db.User.create({userName: req.body.userName, pass: hash}).then(created=>{
                 if (created){
                     res.json(true)
                 } else {
