@@ -47,3 +47,9 @@ html, body {
     width: 100%;
     text-align: center;
 }
+#gameWindowLeft, #gameWindowRight{
+    text-align: center;
+    background-color: black;
+    height: 100px;
+    width: 500px;
+}
