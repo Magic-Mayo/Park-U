@@ -2,7 +2,6 @@ module.exports = (sequelize, DataTypes)=>{
     const User = sequelize.define('User', {
         userName: {
             type: DataTypes.STRING,
-            // allowNull: false,
             underscored: true,
             validate: {
                 len: [1, 50]
@@ -10,16 +9,16 @@ module.exports = (sequelize, DataTypes)=>{
         },
         pass: {
             type: DataTypes.STRING,
-            // allowNull: false,
         }
     });
 
     User.associate = (models) => {
         User.hasMany(models.Character, {
             foreignKey: {
-                allowNull: false,
+                allowNull: false
             },
-            onDelete: 'cascade'
+            onDelete: 'cascade',
+            constraints: false
         });
     }
     return User;
