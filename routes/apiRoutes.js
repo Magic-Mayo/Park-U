@@ -1,6 +1,7 @@
 const db = require('../models');
 const path = require('path');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const uid = require('uid-safe');
 
 module.exports = (app) => {
     app.post('/new/user', (req,res)=>{
@@ -22,9 +23,13 @@ module.exports = (app) => {
 
     app.post('/word/verify', (req,res)=>{
         console.log(req.body)
-        db.User.findOne({where: {userName: req.body.user.toString()}}).then(pass=>{
-            bcrypt.compare(req.body.userPass, pass.dataValues.pass).then((result)=>{
+        db.User.findOne({where: {userName: req.body.userName.toString()}}).then(pass=>{
+            console.log(pass)
+            bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
                 if(result){
+                    if(pass.dataValues.authToken === null){
+                        // uid.
+                    }
                     res.redirect('/start')
                 } else {
                     res.json(false)
