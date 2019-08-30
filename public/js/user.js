@@ -1,7 +1,11 @@
 $(document).ready(()=>{
-    $('.modal').modal();
+    $('.modal').modal({
+        endingTop: '25%'
+    });
     const newUser = $('#new-user');
     const newWord = $('#new-word');
+    const user = $('#user');
+    const userPass = $('#userPass')
 
 
     const formSubmit = (e) => {
@@ -17,7 +21,7 @@ $(document).ready(()=>{
     const handleVerifyPass = (e) => {
         e.preventDefault();
 
-        verifyPass({userName: user.val().trim(), pass: userPass.val().trim()})
+        verifyPass({userName: user.val().trim(), password: userPass.val().trim()})
     }
 
     const createUser = (user) => {
@@ -45,7 +49,7 @@ $(document).ready(()=>{
     }
 
     const verifyPass = (pass) => {
-        $.get('/word/verify', pass).then((next)=>{
+        $.post('/word/verify', pass).then((next)=>{
             console.log(next)
         })
     }
@@ -53,5 +57,5 @@ $(document).ready(()=>{
     $(document).on('submit', '#add-user', formSubmit);
     $(document).on('click', '#delete-user', handleDeleteUser);
     $(document).on('click', '#new-char', newCharacter);
-    $(document).on('click', '#login', handleVerifyPass)
+    $(document).on('submit', '#login', handleVerifyPass)
 })
