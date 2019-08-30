@@ -19,6 +19,7 @@
      <script src="./js/user.js"></script>
 </head>
 <body>
+    <h1 class="title">Park U</h1>
     <!-- Sign Up -->
                   <div id="signLogButtons">
                     <button type="button" id="signUp" class="nes-btn is-success modal-trigger" href="#modal1">Sign Up!</button>
@@ -28,7 +29,7 @@
 
     <!-- Log In -->
     
-                        <button type="button" id="logIn" class="nes-btn is-success modal-trigger" href='#modal2' id="nameSubmit">Log In</button>
+                        <button type="button" id="logIn" class="nes-btn is-success modal-trigger" href='#modal2' id="nameSubmit">Login</button>
                </div>
 
           <!-- Log In Modal -->
@@ -40,14 +41,14 @@
     <h4 class="modalTitle">Sign Up</h4>
     <div class="modal-content">
       
-      <form>
+      <form id="add-user">
           <div class="nes-field">
               <label for="name_field">Email:</label>
-              <input type="text" id="newUser" autocomplete="username" class="nes-input name_field">
+              <input type="text" id="new-user" autocomplete="username" class="nes-input name_field">
 
               <label for="password_field">Password:</label>
-              <input type="password" id="newWord" autocomplete="new-password" class="nes-input password_field">
-        <button class="modal-close waves-effect waves-green btn-flat" id="add-user">Submit</button> 
+              <input type="password" id="new-word" autocomplete="new-password" class="nes-input password_field">
+        <button class="modal-close waves-effect waves-green btn-flat">Submit</button> 
       </form>
       </div>
     </div>
