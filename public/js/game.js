@@ -27,8 +27,11 @@ $(document).ready(()=>{
         luck: {},
         hp: {}
     }
-
-    const id = $('.userId').val().trim();
+    // const getUserinfo = () => {
+    //     $.get('')
+    //     $('#userId').attr('value', )
+    // }
+    const id = $('#userId').val().trim();
     
     $('#gameWindow').on('click', '.attack', function(e){
         e.preventDefault();
