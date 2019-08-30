@@ -1,10 +1,8 @@
 $(document).ready(()=>{
+    $('.modal').modal();
     const newUser = $('#new-user');
     const newWord = $('#new-word');
 
-    $(document).on('submit', '#add-user', formSubmit);
-    $(document).on('click', '#delete-user', handleDeleteUser);
-    $(document).on('click', '#new-char', newCharacter);
 
     const formSubmit = (e) => {
         e.preventDefault();
@@ -39,4 +37,8 @@ $(document).ready(()=>{
             method: 'DELETE',
             url: `delete/${id}`})
     }
+    $(document).on('submit', '#add-user', formSubmit);
+    $(document).on('click', '#delete-user', handleDeleteUser);
+    $(document).on('click', '#new-char', newCharacter);
+
 })
