@@ -18,3 +18,13 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.modalTitle{
+    left: 50%;
+    transform: translatex(-50%);
+    top: 1.5rem;
+    position: absolute;
+
+}
+.modal{
+    padding-top: 50px;
+}
