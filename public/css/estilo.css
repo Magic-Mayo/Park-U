@@ -10,13 +10,14 @@
 html, body {
     font-family: 'Press Start 2P';
     background-color: #111a29;
+    color: #b7b7af;
 }
 #signLogButtons{
     text-align: center;
     top: 50%;
     position: absolute;
     left: 50%;
-    transform: translateX(-60%);
+    transform: translateX(-50%);
 }
 .modalTitle{
     left: 50%;
@@ -26,17 +27,21 @@ html, body {
 }
 .modal{
     padding-top: 50px;
+    transform: scaleX(1.6) !important;
+    transform: scaleY(1.6) !important;
 }
 
 .nes-btn, .nes-btn::after {
     border-radius: 10px;
     padding: 25px;
     font-size: 2rem;
+    box-shadow: 4px 4px 4px 4px #b7b7af;
+    border-image-repeat: unset;
+    border: none;
 }
 
 .title {
     font-size: 10rem;
-    color: black;
     position: absolute;
     top: 10%;
     width: 100%;
