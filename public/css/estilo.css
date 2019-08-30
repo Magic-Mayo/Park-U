@@ -6,3 +6,7 @@
     background-color: black;
     height: 800px;
 }
+
+html, body {
+    font-family: 'Press Start 2P'
+}
