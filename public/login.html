@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
 </head>
 <div class="nes-field">
-      //Name
+      <!-- //Name -->
         <label for="name_field">Enter a name for your personnage</label>
         <input type="text" id="name_field" class="nes-input">
+        
       </div>
 
-      //Choose a Role
+      
       <label for="default_select">Choose a Role</label>
+      
 <div class="nes-select">
   <select required id="default_select">
     <option value="" disabled selected hidden>Select...</option>
@@ -21,6 +25,10 @@
     <option value="1">healer</option>
   </select>
 </div>
+
+<!-- //Submit -->
+<br>
+<button type="button" class="nes-btn is-success" id="nameSubmit">Submit</button>
       
 <body>
     
