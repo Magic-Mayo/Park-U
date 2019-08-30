@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
-    <link type="text/css" rel="stylesheet" href="estilo.css">
+    <link type="text/css" rel="stylesheet" href="css/estilo.css">
      <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -20,36 +20,16 @@
 </head>
 <body>
     <!-- Sign Up -->
-    <div class="row">
-            <div class="col s12 m6">
-              <div class="card blue-grey darken-1">
-                <div class="card-content white-text">
-                  <span class="card-title">Sign Up</span>
-                  <p>Make an account and play our game!</p>
-                </div>
-                <div class="card-action">
-                    <button type="button" class="nes-btn is-success modal-trigger" href="#modal1">Sign Up!</button>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <div id="signLogButtons">
+                    <button type="button" id="signUp" class="nes-btn is-success modal-trigger" href="#modal1">Sign Up!</button>
+                
 
           <!-- Sign Up Modal -->
 
     <!-- Log In -->
-    <div class="row">
-            <div class="col s12 m6">
-              <div class="card blue-grey darken-1">
-                <div class="card-content white-text">
-                  <span class="card-title">Log in</span>
-                  <p>Log into your account and play from one of your saves!</p>
-                </div>
-                <div class="card-action">
-                        <button type="button" class="nes-btn is-success modal-trigger" href='#modal2' id="nameSubmit">Log In</button>
-                </div>
-              </div>
-            </div>
-          </div>
+    
+                        <button type="button" id="logIn" class="nes-btn is-success modal-trigger" href='#modal2' id="nameSubmit">Log In</button>
+               </div>
 
           <!-- Log In Modal -->
           <!-- Modal Trigger -->
@@ -67,7 +47,7 @@
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
     </div>
   </div>
-  \
+  
   <div id="modal2" class="modal">
       <div class="modal-content">
           <h4>Log In</h4>
