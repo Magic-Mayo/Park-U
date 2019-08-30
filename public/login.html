@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet" href="css/estilo.css">
+    <!-- <link rel="stylesheet" href="css/game.css"> -->
      <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -19,6 +20,7 @@
      <script src="./js/user.js"></script>
 </head>
 <body>
+    
     <h1 class="title">Park U</h1>
     <!-- Sign Up -->
                   <div id="signLogButtons">
@@ -57,17 +59,18 @@
   <div id="modal2" class="modal">
     <h4 class="modalTitle">Log In</h4>
       <div class="modal-content">
-        <form>
+        <form id="login">
             <div class="nes-field">
                 <label for="name_field">Email:</label>
                 <input type="text" id="user" autocomplete="username" class="nes-input name_field">
 
                 <label for="password_field">Password:</label>
                 <input type="password" id="userPass" autocomplete="current-password" class="nes-input password_field">
-          <button class="modal-close waves-effect waves-green btn-flat" id="login">Submit</button> 
+          <button class="modal-close waves-effect waves-green btn-flat">Submit</button> 
         </form> 
       </div>
   </div>
         
 </body>
+<!-- <script src="./js/modals.js"></script> -->
 </html>
