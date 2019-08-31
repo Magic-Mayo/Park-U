@@ -56,7 +56,7 @@ $(document).ready(()=>{
                 atk.strength.attackTwo = stat.attackTwo.split('-');
                 atk.strength.attackThree = stat.attackThree.split('-');
                 atk.strength.attackFour = stat.attackFour.split('-');
-                atk.accuracy.attackOne = stat.attackOneAcc
+                atk.accuracy.attackOne = stat.attackOneAcc;
                 atk.accuracy.attackTwo = stat.attackTwoAcc;
                 atk.accuracy.attackThree = stat.attackThreeAcc;
                 atk.accuracy.attackFour = stat.attackFourAcc;
@@ -99,7 +99,7 @@ $(document).ready(()=>{
 
     const attack = (attack, acc, defense, luck, hp) => {
         let finalAtk;
-        const atkRng = Math.floor(Math.random()*5)
+        const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random() * 100);
         let total = hp + defense;
         const dblDmg = Math.ceil(Math.random()*100);
