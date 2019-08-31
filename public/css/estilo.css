@@ -2,16 +2,13 @@
     background-color: purple;
     height: 60px;
 }
-#gameWindow{
-    background-color: black;
-    height: 800px;
-}
 
-html, body {
+html, body, .attack {
     font-family: 'Press Start 2P';
     background-color: #111a29;
     color: #b7b7af;
 }
+
 #signLogButtons{
     text-align: center;
     top: 50%;
@@ -19,16 +16,25 @@ html, body {
     left: 50%;
     transform: translateX(-50%);
 }
+
 .modalTitle{
     left: 50%;
     transform: translatex(-50%);
     top: 1.5rem;
+    color: #111a29;
     position: absolute;
 }
-.modal{
-    padding-top: 50px;
+
+#modal1{
+    padding: 50px 75px 25px;
     transform: scaleX(1.6) !important;
-    transform: scaleY(1.6) !important;
+    transform: scaleY(1.8) !important;
+}
+
+#modal2{
+    padding: 50px 75px 25px;
+    transform: scaleX(1.6) !important;
+    transform: scaleY(2) !important;
 }
 
 .nes-btn, .nes-btn::after {
@@ -47,9 +53,115 @@ html, body {
     width: 100%;
     text-align: center;
 }
+
 #gameWindowLeft, #gameWindowRight{
     text-align: center;
-    background-color: black;
     height: 100px;
     width: 500px;
+}
+
+#gameWindowRight {
+    position: absolute;
+    bottom: 0;
+    min-width: 100vw;
+    height: 45.35vh;
+}
+
+#gameWindowLeft {
+    position: absolute;
+    top: 64px;
+    min-width: 100vw;
+    height: 46vh;
+}
+@keyframes flash {
+    0% {z-index: 1000;}
+    50% {background-color: #ffffff;}
+    99% {z-index: 1000;}
+}
+
+.flash {
+    min-width: 100vw;
+    min-height: 100vh;
+    animation: flash .08s linear;
+}
+
+.attack {
+    font-size: 1rem;
+    width: 250px;
+}
+
+nav {
+    background-color: #0D584E !important;
+}
+
+.battle-scene {
+    background-color: #29111E;
+}
+
+.hp-bar {
+    height: 3vh;
+    width: 600px;
+    border-radius: 10px;
+}
+
+.atk {
+    position: relative;
+    bottom: -3vh;
+    left: -30vw;
+}
+
+.user-hp-bar {
+    position: relative;
+    top: 11vh;
+    left: -44.75%;
+    transform: translateX(51%)
+}
+
+.comp-hp {
+    position: relative;
+    top: 5vh;
+    right: -23.25vw;
+}
+
+#attackOne {
+    position: absolute;
+    left: 2.5vw;
+    top: 2.5vh;
+}
+
+#attackTwo {
+    position: absolute;
+    left: 2.5vw;
+    bottom: 2.5vh;
+}
+
+#attackThree {
+    position: absolute;
+    top: 2.5vh;
+    right: 2.5vw;
+}
+
+#attackFour {
+    position: absolute;
+    bottom: 2.5vh;
+    right: 2.5vw;
+}
+
+.atk-btn {
+    left: 3vw;
+    width: 673px;
+    height: 255px;
+    bottom: -10vh;
+    border-radius: 5px;
+    position: relative;
+    background-color: #dfdfdf;
+}
+
+.user-hp-text {
+    position: absolute;
+    left: 20.75%;
+    transform: translateX(-51%);
+    top: 11.7vh;
+    z-index: 1000;
+    color: black;
 }
