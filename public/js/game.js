@@ -33,11 +33,12 @@ $(document).ready(()=>{
     // }
     const id = $('#userId').val().trim();
     
-    $('#gameWindow').on('click', '.attack', function(e){
+    $('#gameWindowRight').on('click', '.attack', function(e){
         e.preventDefault();
         const atkChosen = $(this).val().trim();
         handleAtk(atkChosen);
     });
+
     
     const getStats = (id) => {
         console.log(userStats)
@@ -56,7 +57,7 @@ $(document).ready(()=>{
                 atk.strength.attackTwo = stat.attackTwo.split('-');
                 atk.strength.attackThree = stat.attackThree.split('-');
                 atk.strength.attackFour = stat.attackFour.split('-');
-                atk.accuracy.attackOne = stat.attackOneAcc
+                atk.accuracy.attackOne = stat.attackOneAcc;
                 atk.accuracy.attackTwo = stat.attackTwoAcc;
                 atk.accuracy.attackThree = stat.attackThreeAcc;
                 atk.accuracy.attackFour = stat.attackFourAcc;
@@ -68,15 +69,15 @@ $(document).ready(()=>{
 
                 for (i in userStats.attack.names){
                     const name = userStats.attack.names;
-                    const form = $('<form>');
                     const btn = $('<button>');
-                    form.addClass('atk');
-                    btn.addClass('attack nes-btn is-primary').attr('value', i).append(name[i]);
-                    form.append(btn);
-                    $('#gameWindow').append(form);
+                    btn.addClass('attack nes-btn is-primary').attr('value', i).append(name[i]).attr('id', i);
+                    $('.atk-btn').append(btn);
                 }
 
                 console.log(stats);
+                $('.user-hp-bar').attr('value', `${userStats.hp}`).attr('max', `${userStats.hp}`);
+                $('.user-hp-text').text(`${userStats.hp}/${userStats.hp}`)
+                // $('.comp-hp-bar').attr('value', `${compStats.hp}`).attr('max', `${compStats.hp}`)
                 gotStats = true;
             })
         }
@@ -99,7 +100,7 @@ $(document).ready(()=>{
 
     const attack = (attack, acc, defense, luck, hp) => {
         let finalAtk;
-        const atkRng = Math.floor(Math.random()*5)
+        const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random() * 100);
         let total = hp + defense;
         const dblDmg = Math.ceil(Math.random()*100);
@@ -124,6 +125,8 @@ $(document).ready(()=>{
                 }
                 total-=finalAtk;
                 compHP=total;
+                $('.user-hp-text').text(`${compHP}/${$('.user-hp-bar').attr('max')}`);
+                $('.user-hp-bar').val(compHP);
             }
 
             // if(){
