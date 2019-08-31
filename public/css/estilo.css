@@ -5,8 +5,12 @@
 
 html, body {
     font-family: 'Press Start 2P';
+}
+
+body {
     background-color: #111a29;
     color: #b7b7af;
+    height: 1%;
 }
 
 #signLogButtons{
@@ -60,7 +64,6 @@ html, body {
 
 .game-window {
     width: 100%;
-    margin: 0;
 }
 
 #gameWindowRight {
@@ -94,9 +97,8 @@ nav {
     background-color: #0D584E !important;
 }
 
-.battle-scene {
-    background-color: #29111E !important;
-    height: 100vh;
+#battle-scene {
+    background-color: #29111E;
 }
 
 .game-title {
@@ -192,4 +194,8 @@ nav {
 .user-hp-row {
     position: relative;
     top: 7rem;
+}
+
+.hide {
+    display: none;
 }
