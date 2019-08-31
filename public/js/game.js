@@ -126,7 +126,7 @@ $(document).ready(()=>{
                 total-=finalAtk;
                 compHP=total;
                 $('.game-window').addClass('flash');
-                setTimeout($('.game-window').removeClass('flash'), 300)
+                setTimeout(()=>{$('.game-window').removeClass('flash')},300);
                 $('.user-hp-text').text(`${compHP}/${$('.user-hp-bar').attr('max')}`);
                 $('.user-hp-bar').val(compHP);
             }
