@@ -25,7 +25,9 @@ $(document).ready(()=>{
     }
 
     const createUser = (user) => {
-        $.post('/new/user', user)
+        $.post('/new/user', user).then(token=>{
+            localStorage.setItem('_ParkU',token)
+        })
     }
 
     const userWord = (pass) => {
