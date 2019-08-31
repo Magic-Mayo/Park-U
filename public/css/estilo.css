@@ -3,7 +3,7 @@
     height: 60px;
 }
 
-html, body, .attack {
+html, body {
     font-family: 'Press Start 2P';
     background-color: #111a29;
     color: #b7b7af;
@@ -56,23 +56,23 @@ html, body, .attack {
 
 #gameWindowLeft, #gameWindowRight{
     text-align: center;
-    height: 100px;
-    width: 500px;
+}
+
+.game-window {
+    width: 100%;
+    margin: 0;
 }
 
 #gameWindowRight {
-    position: absolute;
     bottom: 0;
-    min-width: 100vw;
-    height: 45.35vh;
+    height: 427px;
 }
 
 #gameWindowLeft {
-    position: absolute;
     top: 64px;
-    min-width: 100vw;
-    height: 46vh;
+    height: 427px;
 }
+
 @keyframes flash {
     0% {z-index: 1000;}
     50% {background-color: #ffffff;}
@@ -95,7 +95,15 @@ nav {
 }
 
 .battle-scene {
-    background-color: #29111E;
+    background-color: #29111E !important;
+    height: 100vh;
+}
+
+.game-title {
+    height: 64px;
+    margin: 0;
+    text-align: center;
+    line-height: 64px;
 }
 
 .hp-bar {
@@ -104,54 +112,58 @@ nav {
     border-radius: 10px;
 }
 
-.atk {
-    position: relative;
-    bottom: -3vh;
-    left: -30vw;
-}
-
 .user-hp-bar {
-    position: relative;
-    top: 11vh;
-    left: -44.75%;
-    transform: translateX(51%)
+    position: absolute;
+    left: 5.25rem;
 }
 
-.comp-hp {
+.comp-hp-row {
     position: relative;
-    top: 5vh;
-    right: -23.25vw;
+    top: 5rem;
+}
+
+.comp-hp-bar {
+    position: absolute;
+    right: 5.25rem;
+}
+
+.comp-hp-stats {
+    position: relative;
+}
+
+.atk-row {
+    position: relative;
+    top: 8.5rem;
 }
 
 #attackOne {
     position: absolute;
-    left: 2.5vw;
-    top: 2.5vh;
+    left: 2.5rem;
+    top: 1.7rem;
 }
 
 #attackTwo {
     position: absolute;
-    left: 2.5vw;
-    bottom: 2.5vh;
+    left: 2.5rem;
+    bottom: 1.7rem;
 }
 
 #attackThree {
     position: absolute;
-    top: 2.5vh;
-    right: 2.5vw;
+    top: 1.7rem;
+    right: 2.5rem;
 }
 
 #attackFour {
     position: absolute;
-    bottom: 2.5vh;
-    right: 2.5vw;
+    bottom: 1.7rem;
+    right: 2.5rem;
 }
 
 .atk-btn {
-    left: 3vw;
+    left: 3rem;
     width: 673px;
     height: 255px;
-    bottom: -10vh;
     border-radius: 5px;
     position: relative;
     background-color: #dfdfdf;
@@ -159,9 +171,25 @@ nav {
 
 .user-hp-text {
     position: absolute;
-    left: 20.75%;
-    transform: translateX(-51%);
-    top: 11.7vh;
+    left: 22rem;
+    top: .45rem;
     z-index: 1000;
     color: black;
+}
+
+.comp-hp-text {
+    position: absolute;
+    right: 22rem;
+    top: .45rem;
+    z-index: 1000;
+    color: #000000;
+}
+
+.user-hp-stats {
+    position: relative;
+}
+
+.user-hp-row {
+    position: relative;
+    top: 7rem;
 }
