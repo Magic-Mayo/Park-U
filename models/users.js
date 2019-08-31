@@ -22,5 +22,12 @@ module.exports = (sequelize, DataTypes)=>{
             constraints: false
         });
     }
+    User.associate = (models) => {
+        User.hasMany(models.Token, {
+            foreignKey: {
+                allowNull: false
+            },
+        })
+    }
     return User;
 }
