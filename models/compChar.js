@@ -3,9 +3,6 @@ module.exports = (sequelize, DataTypes) => {
         charName: {
             type: DataTypes.STRING
         },
-        attack: {
-            type: DataTypes.STRING
-        },
         defense: {
             type: DataTypes.INTEGER,
         },
