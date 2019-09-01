@@ -20,9 +20,12 @@ module.exports = (sequelize, DataTypes)=>{
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        hp: {
+        maxHP: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        currentHP: {
+            type: DataTypes.INTEGER
         }
     });
 
@@ -41,14 +44,6 @@ module.exports = (sequelize, DataTypes)=>{
                 allowNull: false
             },
             constraints: false
-        })
-    }
-
-    Character.associate = (models) => {
-        Character.belongsTo(models.User, {
-            foreignKey: {
-                allowNull: false
-            }
         })
     }
 
