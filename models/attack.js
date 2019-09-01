@@ -55,5 +55,13 @@ module.exports = (sequelize, DataTypes)=>{
     },
     {timestamps: false}
     )
+
+    Attack.associate = (models) => {
+        Attack.hasMany(models.Character, {
+            foreignKey: {
+                allowNull: false
+            }
+        })
+    }
     return Attack;
 }
