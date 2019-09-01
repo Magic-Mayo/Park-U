@@ -5,5 +5,14 @@ module.exports = (sequelize, DataTypes)=>{
             allowNull: false
         }
     })
+
+    Token.associate = (models) => {
+        Token.belongsTo(models.User, {
+            foreignKey: {
+                allowNull: false
+            }
+        })
+    }
+    
     return Token;
 }
