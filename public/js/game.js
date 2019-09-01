@@ -25,13 +25,12 @@ $(document).ready(()=>{
         },
         defense: {},
         luck: {},
-        hp: {}
+        maxHP: {},
+        currentHP: {}
     }
-    // const getUserinfo = () => {
-    //     $.get('')
-    //     $('#userId').attr('value', )
-    // }
-    const id = $('#userId').val().trim();
+    const id = window.location.href.split('=')[1];
+    let windowTitle = $('title');
+    const title = $('.game-title').html();
     
     $('#gameWindowRight').on('click', '.attack', function(e){
         e.preventDefault();
@@ -43,7 +42,7 @@ $(document).ready(()=>{
     const getStats = (id) => {
         console.log(userStats)
         if (!userStats.data){
-            $.get(`user/stats/${id}`, (stats)=>{
+            $.get(`/user/char/${id}/stats`, (stats)=>{
                 const atk = userStats.attack;
                 const stat = stats.Attack;
                 // for (i in stats){
@@ -61,7 +60,8 @@ $(document).ready(()=>{
                 atk.accuracy.attackTwo = stat.attackTwoAcc;
                 atk.accuracy.attackThree = stat.attackThreeAcc;
                 atk.accuracy.attackFour = stat.attackFourAcc;
-                userStats.hp = stats.hp;
+                userStats.maxHP = stats.maxHP;
+                userStats.currentHP = stats.currentHP;
                 userStats.defense = stats.defense;
                 userStats.luck = stats.luck;
 
@@ -75,8 +75,8 @@ $(document).ready(()=>{
                 }
 
                 console.log(stats);
-                $('.user-hp-bar').attr('value', `${userStats.hp}`).attr('max', `${userStats.hp}`);
-                $('.user-hp-text').text(`${userStats.hp}/${userStats.hp}`)
+                $('.user-hp-bar').attr('value', `${userStats.currentHP}`).attr('max', `${userStats.maxHP}`);
+                $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`)
                 // $('.comp-hp-bar').attr('value', `${compStats.hp}`).attr('max', `${compStats.hp}`)
                 gotStats = true;
             })
