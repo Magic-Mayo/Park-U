@@ -22,23 +22,24 @@ body {
 }
 
 .modalTitle{
-    left: 50%;
-    transform: translatex(-50%);
-    top: 1.5rem;
+    position: relative;
+    top: -2rem;
     color: #111a29;
-    position: absolute;
 }
 
-#modal1{
+#modal1, #modal2, #modal3, #modal4 {
     padding: 50px 75px 25px;
     transform: scaleX(1.6) !important;
     transform: scaleY(1.8) !important;
 }
 
-#modal2{
-    padding: 50px 75px 25px;
-    transform: scaleX(1.6) !important;
-    transform: scaleY(2) !important;
+.char-btn {
+    display: flex;
+    position: relative;
+    height: auto;
+    top: -1rem;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
 .nes-btn, .nes-btn::after {
@@ -53,9 +54,24 @@ body {
 .title {
     font-size: 10rem;
     position: absolute;
-    top: 10%;
+    top: 2.5rem;
     width: 100%;
     text-align: center;
+}
+
+.subtitle {
+    position: absolute;
+    text-align: center;
+    top: 14rem;
+    width: 100%;
+    font-size: 1.3rem;
+}
+.subtitle p:not(:last-child) {
+    text-decoration-line: line-through;
+}
+
+.subtitle p:last-of-type {
+    text-decoration-line: none;
 }
 
 #gameWindowLeft, #gameWindowRight{
@@ -198,4 +214,12 @@ nav {
 
 .hide {
     display: none;
+}
+
+::placeholder {
+    font-size: .8rem;
+}
+
+.modal-title {
+    font-size: 2.21rem;
 }
