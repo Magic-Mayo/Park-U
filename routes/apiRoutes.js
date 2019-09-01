@@ -27,7 +27,7 @@ module.exports = (app) => {
 
     app.post('/word/verify', (req,res)=>{
         db.User.findOne({where: {userName: req.body.userName.toString()}, include: [db.Token]}).then(pass=>{
-            console.log(pass.Token)
+            console.log(pass)
             bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
                 if(result){
                     console.log(pass.dataValues.id)
@@ -55,6 +55,19 @@ module.exports = (app) => {
         })
     })
 
+    app.get('/token/:token', (req,res)=>{
+        console.log('db token')
+        db.Token.findOne({where: {token: req.params.token}, include: [db.User]}).then(token=>{
+            console.log(token)
+            if (token !== null){
+                db.Character.findAll({where: {UserId: token.User.id}}).then(char=>{
+                    res.json({userId: token.User.id, characters: char})
+                })
+            } else {
+                res.json(false)
+            }
+        })
+    })
     // app.get('user/:id', (req,res)=>{
     //     db.User.findOne({where: {}})
     // })
