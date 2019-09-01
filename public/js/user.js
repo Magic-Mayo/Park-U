@@ -2,16 +2,18 @@ $(document).ready(()=>{
     $('.modal').modal({
         endingTop: '25%'
     });
+
+    const parkUToken = localStorage.getItem('_ParkU');
     const newUser = $('#new-user');
     const newWord = $('#new-word');
     const user = $('#user');
-    const userPass = $('#userPass')
+    const userPass = $('#userPass');
 
 
     const formSubmit = (e) => {
         e.preventDefault();
         
-        if(!newUser.val().trim()){
+        if(!newUser.val().trim() || !newWord.val().trim()){
             return
         }
 
@@ -25,9 +27,12 @@ $(document).ready(()=>{
     }
 
     const createUser = (user) => {
-        $.post('/new/user', user)
+        $.post('/new/user', user).then(token=>{
+            localStorage.setItem('_ParkU',token)
+        })
     }
 
+    // Future for resetting passwords
     const userWord = (pass) => {
         $.post('/new/word', pass)
     }
@@ -49,9 +54,35 @@ $(document).ready(()=>{
     }
 
     const verifyPass = (pass) => {
-        $.post('/word/verify', pass).then((next)=>{
-            console.log(next)
+        $.post('/word/verify', pass).then((verified)=>{
+            if (verified){
+                window.location.href = '/start'
+            } else {
+                // let user know wrong password was entered
+            }
         })
+    }
+
+    const verifyToken = (token) => {
+        $.get(`/token/${token}`, (dbtoken)=>{
+            console.log(dbtoken.characters)
+            if (dbtoken){
+                for (let i=0; i<dbtoken.characters.length; i++){
+                    const btn = $('<button>')
+                    btn.append(`<h4 class='char-name'>${dbtoken.characters[i].charName}</h4>`)
+                    .append(`<p class='char-stats'>Class: ${dbtoken.characters[i].class} || HP: ${dbtoken.characters[i].hp}`);
+                    $('.char-btn').append(btn)
+                }
+                $('#modal3').modal('open');
+            } else {
+                console.log('sign in')
+            }
+        })
+    }
+
+    if (parkUToken){
+        console.log('token here')
+        verifyToken(parkUToken);
     }
 
     $(document).on('submit', '#add-user', formSubmit);

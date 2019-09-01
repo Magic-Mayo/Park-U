@@ -8,7 +8,11 @@ module.exports = (app) => {
         bcrypt.hash(req.body.pass, 8).then((hash)=>{
             db.User.create({userName: req.body.userName, pass: hash}).then(created=>{
                 if (created){
-                    res.json(true)
+                    uid(18).then(newToken=>{
+                        db.Token.create({token: newToken, UserId: created.dataValues.id}).then(
+                            res.json(newToken)
+                        )
+                    })
                 } else {
                     res.json(false)
                 }
@@ -22,17 +26,17 @@ module.exports = (app) => {
     })
 
     app.post('/word/verify', (req,res)=>{
-        console.log(req.body)
-        db.User.findOne({where: {userName: req.body.userName.toString()}}).then(pass=>{
+        db.User.findOne({where: {userName: req.body.userName.toString()}, include: [db.Token]}).then(pass=>{
             console.log(pass)
             bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
                 if(result){
-                    if(pass.dataValues.authToken === null){
-                        // uid.
-                    }
-                    res.redirect('/start')
+                    console.log(pass.dataValues.id)
+                    uid(18).then(newToken=>{
+                        db.Token.update({token: newToken}, {where: {userId: pass.dataValues.id}});
+                        res.json(newToken)
+                    })
                 } else {
-                    res.json(false)
+                    res.json('Incorrect Password')
                 }
             });
             
@@ -51,6 +55,19 @@ module.exports = (app) => {
         })
     })
 
+    app.get('/token/:token', (req,res)=>{
+        console.log('db token')
+        db.Token.findOne({where: {token: req.params.token}, include: [db.User]}).then(token=>{
+            console.log(token)
+            if (token !== null){
+                db.Character.findAll({where: {UserId: token.User.id}}).then(char=>{
+                    res.json({userId: token.User.id, characters: char})
+                })
+            } else {
+                res.json(false)
+            }
+        })
+    })
     // app.get('user/:id', (req,res)=>{
     //     db.User.findOne({where: {}})
     // })
