@@ -99,8 +99,6 @@ body {
 }
 
 .flash {
-    min-width: 100vw;
-    min-height: 100vh;
     animation: flash .08s linear;
 }
 
@@ -111,6 +109,8 @@ body {
 
 nav {
     background-color: #0D584E !important;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #battle-scene {
@@ -222,4 +222,40 @@ nav {
 
 .modal-title {
     font-size: 2.21rem;
+}
+
+@keyframes top-smash {
+    0% {top: -120px}
+    20% {top: -80px}
+    40% {top: -100px}
+    70% {top: -50px}
+    80% {top: -85px}
+    90% {top: -69px}
+}
+
+@keyframes smashed {
+    20% {top: 17px}
+    40% {top: 17px}
+    60% {top: 45px}
+    80% {top: 45px}
+    85% {top: 51px}
+    100% {top: 70px; display: none}
+}
+
+@keyframes defeat {
+    100% {opacity: 0; display: none}
+}
+
+.defeat {
+    animation: defeat 2s linear;
+}
+
+.smash {
+    position: relative;
+    animation: top-smash 1.35s linear;
+}
+
+.smashed {
+    position: relative;
+    animation: smashed 1.35s linear;
 }
