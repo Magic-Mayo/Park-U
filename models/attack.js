@@ -60,7 +60,8 @@ module.exports = (sequelize, DataTypes)=>{
         Attack.hasMany(models.Character, {
             foreignKey: {
                 allowNull: false
-            }
+            },
+            constraints: false
         })
     }
     return Attack;
