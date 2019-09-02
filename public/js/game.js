@@ -70,7 +70,7 @@ $(document).ready(()=>{
                     const btn = $('<button>');
                     switch(i.toString().slice(-3)){
                         case 'ame':
-                            btn.addClass('attack nes-btn is-primary').attr('value', i.toString().split('N')[0]).append(stat[i]).attr('id', i.toString().split('N')[0]);
+                            btn.addClass('attack').attr('value', i.toString().split('N')[0]).append(stat[i]).attr('id', i.toString().split('N')[0]);
                             $('.atk-btn').append(btn); break;
                     }
                 }
@@ -167,7 +167,7 @@ $(document).ready(()=>{
             console.log('missed')
             // send to dialog attack was missed
         }
-        if (who==='user' && finalAtk !== undefined){
+        if (who === 'user' && finalAtk !== undefined){
             if(finalHP<=0){
                 userStats.data = false;
                 userStats.currentHP = userStats.maxHP;
@@ -177,9 +177,9 @@ $(document).ready(()=>{
                 $('.comp-hp-text').text(`${compStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
                 $('.comp-hp-bar').val(compStats.currentHP);
                 handleSpeech(who);
-                handleCompAtk();
+                return handleCompAtk();
             }
-        } else if(who==='comp' && finalAtk !== undefined){
+        } else if(who === 'comp' && finalAtk !== undefined){
             if(finalHP<=0){
                 // modal for game over
             } else {
@@ -191,7 +191,7 @@ $(document).ready(()=>{
     }
 
     const handleSpeech = (who) =>{
-        if (who==='user'){
+        if (who === 'user'){
 
         } else {
 
@@ -229,4 +229,19 @@ $(document).ready(()=>{
             case 'Log Out': handleLogOut(parkUToken); break;
         }
     })
+
+    const verifyToken = (token) => {
+        $.post(`/token/`, {token: token}).then(dbtoken=>{
+            console.log(dbtoken)
+            if (!dbtoken){
+                window.location.href = '/'
+            }
+        })
+    }
+
+    if (parkUToken){
+        verifyToken(parkUToken);
+    } else {
+        window.location.href = '/start/droppedout'
+    }
 })
