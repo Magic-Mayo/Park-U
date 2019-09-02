@@ -32,13 +32,10 @@ module.exports = (sequelize, DataTypes)=>{
     Character.associate = (models) => {
         Character.belongsTo(models.User, {
             foreignKey: {
-                allowNull: false,
+                allowNull: false
             },
             constraints: false
         });
-    }
-    
-    Character.associate = (models) => {
         Character.belongsTo(models.Attack, {
             foreignKey: {
                 allowNull: false
@@ -46,6 +43,6 @@ module.exports = (sequelize, DataTypes)=>{
             constraints: false
         })
     }
-
+    
     return Character;
 }
