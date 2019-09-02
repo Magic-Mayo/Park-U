@@ -6,18 +6,19 @@ const moment = require('moment')
 
 module.exports = (app) => {
     app.post('/new/user', (req,res)=>{
-        bcrypt.hash(req.body.pass, 8).then((hash)=>{
-            db.User.findOrCreate({where: {userName: req.body.userName, pass: hash}}).then(([user, created])=>{
-                if (!user){
+        db.User.findOrCreate({where: {userName: req.body.userName}}).then(([user, created])=>{
+            if (created){
+                bcrypt.hash(req.body.pass, 8).then((hash)=>{
                     uid(18).then(newToken=>{
                         db.Token.create({token: newToken, UserId: user.dataValues.id}).then(
-                            res.json({token: newToken, uid: user.dataValues.id})
-                        )
+                            db.User.update({pass: hash}, {where: {userName: req.body.userName}}).then(
+                                res.json({token: newToken, uid: user.dataValues.id})
+                        ))
                     })
-                } else {
+                })
+            } else {
                     res.json(false)
-                }
-            })
+            }
         })
     })
 
