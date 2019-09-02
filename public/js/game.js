@@ -1,4 +1,14 @@
 $(document).ready(()=>{
+    const modal1 = $('#game-modal1')
+    $('.modal').modal({
+        endingTop: '28%'
+    });
+    modal1.modal({
+        endingTop: '28%',
+        dismissible: false
+    })
+    
+    const parkUToken = localStorage.getItem('_ParkU');
     let gotCompStats = false;
     let compHP = 100;
     let userStats = {
@@ -28,10 +38,38 @@ $(document).ready(()=>{
         maxHP: {},
         currentHP: {}
     }
+
+    let compStats = {
+        data: false,
+        whichComp: null,
+        attack: {
+            attackOne: {},
+            attackTwo: {},
+            attackThree: {},
+            attackFour: {}
+        },
+        strength: {
+            attackOne: [],
+            attackTwo: [],
+            attackThree: [],
+            attackFour: []
+        },
+        accuracy: {
+            attackOne: {},
+            attackTwo: {},
+            attackThree: {},
+            attackFour: {}
+        },
+        defense: {},
+        luck: {},
+        maxHP: {},
+        currentHP: {}
+    }
+
     const id = window.location.href.split('=')[1];
     let windowTitle = $('title');
     const title = $('.game-title').html();
-    
+
     $('#gameWindowRight').on('click', '.attack', function(e){
         e.preventDefault();
         const atkChosen = $(this).val().trim();
@@ -39,10 +77,10 @@ $(document).ready(()=>{
     });
 
     
-    const getStats = (id) => {
+    const getStats = (charId, comp) => {
         console.log(userStats)
         if (!userStats.data){
-            $.get(`/user/char/${id}/stats`, (stats)=>{
+            $.get(`/user/char/${charId}/stats`, (stats)=>{
                 const atk = userStats.attack;
                 const stat = stats.Attack;
                 // for (i in stats){
@@ -81,6 +119,12 @@ $(document).ready(()=>{
                 gotStats = true;
             })
         }
+
+        if(!compStats.data){
+            $.get(`/comp/${comp}/stats`, stats=>{
+
+            })
+        }
     }
 
     getStats(id);
@@ -98,7 +142,7 @@ $(document).ready(()=>{
         
     }
 
-    const attack = (attack, acc, defense, luck, hp) => {
+    const attack = (attack, acc, defense, luck, hp, who) => {
         let finalAtk;
         const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random() * 100);
@@ -142,4 +186,32 @@ $(document).ready(()=>{
             // send to dialog attack was missed
         }
     }
+
+    const handleLogOut = (token) => {
+
+        $.ajax({
+            method: 'PATCH',
+            url: `/logout/user/`,
+            data: token
+        }).then(logout=>{
+            console.log(logout)
+            if (logout){
+                window.location.href = '/'
+            }
+        })
+    }
+
+    $('.nes-logo').click(function(){
+        // $.get(`/`
+        modal1.modal('open')
+    })
+
+    modal1.on('click', 'button', function(){
+        console.log($(this).text())
+        switch ($(this).text()){
+            case 'Resume': modal1.modal('close'); break;
+            case 'Exit to Main Menu': window.location.href = '/'; break;
+            case 'Log Out': handleLogOut(parkUToken); break;
+        }
+    })
 })
