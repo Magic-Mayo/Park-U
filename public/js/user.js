@@ -3,6 +3,10 @@ $(document).ready(()=>{
         endingTop: '25%'
     });
 
+    $('#modal1').modal({
+        endingTop: '28%'
+    })
+
     const parkUToken = localStorage.getItem('_ParkU');
     const newUser = $('#new-user');
     const newWord = $('#new-word');
@@ -10,8 +14,10 @@ $(document).ready(()=>{
     const userPass = $('#userPass');
     const charName = $('#char-name');
     const luck = $('#luck');
-    let userId = $('#userId').val();
+    let userId;
     const newClass = $('input:checked').val();
+    const passCheck = $('#pass-check');
+    const pass = $('.pass')
 
     const handleNewUser = (e) => {
         e.preventDefault();
@@ -28,7 +34,12 @@ $(document).ready(()=>{
         if (!luck.val().trim() || !charName.val().trim()){
             return;
         }
-        console.log(newClass)
+        if (parkUToken){
+            $.get(`/token/${parkUToken}`).then(uid=>{
+                userId = uid.userId
+            })
+        }
+
         newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val(), class: newClass})
     }
 
@@ -40,8 +51,11 @@ $(document).ready(()=>{
 
     const createUser = (user) => {
         $.post('/new/user', user).then(token=>{
-            localStorage.setItem('_ParkU', token);
-            $('#modal4').modal('open');
+            if(token.token){
+                localStorage.setItem('_ParkU', token.token);
+                $('#modal4').modal('open');
+                userId = token.uid;
+            } 
         })
     }
 
@@ -51,10 +65,8 @@ $(document).ready(()=>{
     }
 
     const newCharacter = (newChar) => {
-        console.log(newChar)
-        $.post(`/new/char/${newChar.id}`, newChar).then(newChar=>{
-            
-            window.location.href = `/start/id=${newChar.id}`;
+        $.post(`/new/char/${newChar.id}`, newChar).then(char=>{
+            window.location.href = `/start/id=${char}`;
         })
     }
 
@@ -78,7 +90,6 @@ $(document).ready(()=>{
                 
                 if (verified.token && verified.character.length > 0){
                     // uid = verified.
-                    console.log('verified')
                     for (let i=0; i<verified.character.length; i++){
                         const btn = $('<button>');
                         btn.append(`<h4 class='char-name'>${verified.character[i].charName}</h4>`)
@@ -89,11 +100,9 @@ $(document).ready(()=>{
                     }
                     $('#modal3').modal('open');
                 } else {
-                    console.log('modal 4')
                     $('#modal4').modal('open');
                 }
             } else {
-                console.log('wrong')
                 // let user know wrong password was entered
             }
         })
@@ -101,28 +110,24 @@ $(document).ready(()=>{
     let uid;
     const verifyToken = (token) => {
         $.get(`/token/${token}`, (dbtoken)=>{
-            console.log(dbtoken.characters)
             if (dbtoken){
+                userId = dbtoken.characters.id
                 for (let i=0; i<dbtoken.characters.length; i++){
                     const btn = $('<button>')
                     btn.append(`<h4 class='char-name'>${dbtoken.characters[i].charName}</h4>`)
                     .append(`<p class='char-stats'>Class: ${dbtoken.characters[i].class} && HP: ${dbtoken.characters[i].currentHP}`)
-                    .addClass('flex-btn')
+                    .addClass('user-char-btn')
                     .data('id', dbtoken.characters[i].id);
                     $('.char-btn').append('<br>').append(btn);
                 }
-                $('#modal4').modal('open');
-            } else {
-                console.log('sign in')
+                $('#modal3').modal('open');
             }
         })
     }
 
-    // if (parkUToken){
-    //     console.log('token here')
-    //     console.log(userId.val())
-    //     verifyToken(parkUToken);
-    // }
+    if (parkUToken){
+        verifyToken(parkUToken);
+    }
 
     $(document).on('submit', '#add-user', handleNewUser);
     $(document).on('submit', '#delete-user', handleDeleteUser);
@@ -131,5 +136,35 @@ $(document).ready(()=>{
     
     $('.char-btn').on('click', '.user-char-btn', function(){
         window.location.href = `/start/id=${$(this).data('id')}`
+    })
+
+    $('#new-user').change(()=>{
+        $.get(`/user/${newUser.val().trim()}`).then(user=>{
+            if(user){
+                $('.user-check').css('color', 'red').text('Not available!');
+                // .css('left', '453px')
+            } else {
+                $('.user-check').css('color', '#17e73a').text('Available!');
+                // .css('left', '484px')
+            }
+        })
+    })
+
+    passCheck.keyup(function(){
+        if (passCheck.val().trim()===newWord.val().trim()){
+            $('.pass-check').text('Passwords Match!').css('color', '#17e73a')
+            // .css('left', '438px')
+        } else {
+            $('.pass-check').text('Passwords don\'t match!').css('color', 'red')
+            // .css('left', '388px')
+        }
+    })
+
+    newWord.keyup(function(){
+        if (newWord.val().match(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)){
+            pass.css('color', '#17e73a').text('Password is Valid!')
+        } else {
+            pass.css('color', 'red').text('Invalid Password!')
+        }
     })
 })

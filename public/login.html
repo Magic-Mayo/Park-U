@@ -39,14 +39,16 @@
       
             <form id="add-user">
                 <div class="nes-field">
-                    <label for="name_field">Email:</label>
-                    <input type="text" id="new-user" autocomplete="username" class="nes-input name_field" placeholder="Enter an email address">
-
+                    <label for="name_field">User Name:</label>
+                    <input type="text" id="new-user" autocomplete="username" class="name_field" placeholder="Enter a user name">
+                    <small class="user-check">Type in a user name</small>
                     <label for="password_field">Password:</label>
-                    <input type="password" id="new-word" autocomplete="new-password" class="nes-input password_field" placeholder="Enter a password">
+                    <input type="password" id="new-word" autocomplete="new-password" class="password_field" placeholder="Enter a Password">
+                    <small class="pass">Must contain upper and lower case and a number (min 8 characters)</small>
                     <label for="password_field">Password:</label>
-                    <input type="password" autocomplete="new-password" class="nes-input password_field" placeholder="Re-enter password">
-                    <button class="modal-close waves-effect waves-green btn-flat">Submit</button> 
+                    <input type="password" autocomplete="new-password" class="password_field" id='pass-check' placeholder="Re-enter password">
+                    <small class="pass-check">Type in a matching password</small>
+                    <button class="modal-close waves-effect waves-green btn-flat" id="add-user-btn">Submit</button> 
                 </div>
             </form>
         </div>
@@ -97,7 +99,7 @@
                     <label for="char-name">Character Name:</label>
                     <input type="text" id="char-name" class="nes-input" placeholder="Enter a name for your character (max 30 char.)">
                     <label for="luck">Lucky Number:</label>
-                    <input type="text" type="number" id="luck" class="nes-input" placeholder="Will be used to determine critical hits! (1-100)">
+                    <input type="text" type="number" id="luck" min="1" max="100" class="nes-input" placeholder="Will be used to determine critical hits! (1-100)">
                     <button type="submit">Add!</button>
                 </form>
                 <input type="hidden" id='userId'>
@@ -112,5 +114,4 @@
     </div>
         
 </body>
-<!-- <script src="./js/modals.js"></script> -->
 </html>
