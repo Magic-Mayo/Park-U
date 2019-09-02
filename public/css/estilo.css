@@ -71,15 +71,39 @@ body {
 }
 
 .subtitle {
-    position: absolute;
+    position: relative;
     text-align: center;
     top: 14rem;
     width: 100%;
     font-size: 1.3rem;
 }
+
 .subtitle p:not(:last-child) {
-    text-decoration-line: line-through;
-    text-decoration-style: wavy;
+    position: relative;
+}
+
+.subtitle p:not(:last-child):after {
+    content: '';
+    position: absolute;
+    border-bottom: #b7b7af 2.5px solid;
+    bottom: 12px;
+    left: 50%;
+    right: 0;
+    height: 0.5em;
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
+.subtitle p:nth-child(1):after {
+    width: 500px;
+}
+
+.subtitle p:nth-child(2):after {
+    width: 380px;
+}
+
+.subtitle p:nth-child(3):after {
+    width: 460px;
 }
 
 .subtitle p:last-of-type {
@@ -110,8 +134,20 @@ body {
     99% {z-index: 1000;}
 }
 
-.flash {
-    animation: flash .08s linear;
+@keyframes dark-flash {
+    0% {z-index: 1000;}
+    37.5% {background-color: #000000;}
+    75% {background-color: #ffffff;}
+    99% {z-index: 1000;}
+
+}
+
+.dbl-dmg {
+    animation: flash .18s 3 linear;
+}
+
+.hit {
+    animation: dark-flash .1s linear;
 }
 
 .attack {
@@ -121,6 +157,7 @@ body {
 }
 
 nav {
+    position: fixed;
     background-color: #0D584E !important;
     overflow: hidden;
     white-space: nowrap;
@@ -150,7 +187,7 @@ nav {
 
 .comp-hp-row {
     position: relative;
-    top: 5rem;
+    top: 7rem;
 }
 
 .comp-hp-bar {
@@ -160,11 +197,12 @@ nav {
 
 .comp-hp-stats {
     position: relative;
+    right: 5rem;
 }
 
 .atk-row {
     position: relative;
-    top: 8.5rem;
+    top: 12rem;
 }
 
 #attackOne, #attackTwo, #attackThree, #attackFour {
@@ -226,7 +264,7 @@ nav {
 
 .user-hp-row {
     position: relative;
-    top: 7rem;
+    top: 10rem;
 }
 
 .hide {
@@ -304,7 +342,7 @@ nav {
 
 #add-user-btn {
     position: fixed;
-    bottom: 30px;
+    bottom: 36px;
     left: 50%;
     transform: translateX(-50%)
 }
@@ -314,6 +352,9 @@ label {
     color: #000000;
     top: 7px;
     padding-top: 12px;
+}
+#modal2 label, #modal2 label, #modal2 label {
+    font-size: 1rem;
 }
 
 small {
@@ -342,4 +383,75 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+#log-in, #signout {
+    position: fixed;
+    bottom: 67px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.triangle {
+    width: 0; 
+    height: 0; 
+    position: absolute;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 25px solid #bbb;
+}
+
+.speech-bubble {
+    position: absolute;
+    height: 200px;
+    width: 400px;
+    background-color: #bbb;
+    border-radius: 50%;
+}
+
+.speech-text {
+    color: #000000;
+    position: absolute;
+    width: 300px;
+}
+
+.user-speech .speech-bubble {
+    top: 300px;
+    right: 750px;
+}
+
+.user-speech .triangle {
+    top: 460px;
+    right: 780px;
+    transform: rotate(-25deg)
+}
+
+.user-speech .speech-text {
+    top: 70px;
+    right: 50px;
+}
+
+.user-speech {
+    position: relative;
+    bottom: 700px;
+}
+
+.comp-speech .speech-bubble {
+    left: 650px;
+    top: 300px
+}
+
+.comp-speech .triangle {
+    left: 680px;
+    top: 310px;
+    transform: rotate(150deg)
+}
+
+.comp-speech .speech-text {
+    bottom: 70px;
+    left: 50px;
+}
+
+.comp-speech {
+    position: relative;
 }
