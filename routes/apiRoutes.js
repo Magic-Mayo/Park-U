@@ -55,7 +55,7 @@ module.exports = (app) => {
                 if(result){
                     console.log(pass.dataValues.id)
                     uid(18).then(newToken=>{
-                        db.Token.update({token: newToken}, {where: {userId: pass.dataValues.id}});
+                        db.Token.create({token: newToken, UserId: pass.dataValues.id});
                         db.Character.findAll({where: {UserId: pass.dataValues.id}}).then(char=>{
                             res.json({token: newToken, character: char, uid: pass.dataValues.id})
                         })
@@ -97,7 +97,6 @@ module.exports = (app) => {
     })
     
     app.get('/user/:name', (req,res)=>{
-        console.log(req.params.name)
         db.User.findOne({where: {userName: req.params.name}}).then(user=>{
             if(user){
                 res.json(true)
@@ -107,6 +106,7 @@ module.exports = (app) => {
         })
     })
 
+    // Future dev for saving/leveling up
     app.get('/user/:charId', (req,res)=>{
         db.Character.findOne({where: {id: req.params.charId}, include: [db.User]}).then(user=>{
             db.findOne({where: {id: user.User.dataValues.id}, include: [db.Token]}).then(token=>{
@@ -119,5 +119,11 @@ module.exports = (app) => {
         db.Token.update(null, {where: {token: req.body}}).then(
             res.json(true)
         )
+    })
+
+    app.get('/comp/:name/stats', (req,res)=>{
+        db.CompCharacter.findOne({where: {charName: req.params.name}, include: [db.Attack]}).then(comp=>{
+            res.json(comp)
+        })
     })
 }
