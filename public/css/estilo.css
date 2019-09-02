@@ -10,7 +10,7 @@ html, body {
 body {
     background-color: #111a29;
     color: #b7b7af;
-    height: 1%;
+    /* height: 100vh; */
 }
 
 #signLogButtons{
@@ -19,6 +19,7 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    /* transform: translateY(-50%); */
 }
 
 .modalTitle{
@@ -116,6 +117,7 @@ body {
 
 .game-window {
     width: 100%;
+    height: 100vh;
 }
 
 #gameWindowRight {
@@ -153,8 +155,11 @@ body {
 .attack {
     font-size: 1rem;
     width: 250px;
+    height: 85px;
     white-space: nowrap;
-}
+    border-radius: 10px;
+    background-color: #209cee;
+    box-shadow: 4px 4px 4px 4px #b7b7af}
 
 nav {
     position: fixed;
@@ -454,4 +459,17 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
 
 .comp-speech {
     position: relative;
+}
+
+.drop-title {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.redirect {
+    text-align: center;
+    position: relative;
+    top: 75vh;
+    left: 50%;
+    transform: translateX(-50%);
 }
