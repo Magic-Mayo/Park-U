@@ -20,19 +20,19 @@ module.exports = (sequelize, DataTypes)=>{
             type: DataTypes.STRING,
             allowNull: false
         },
-        attackOne: {
+        attackOneDmg: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        attackTwo: {
+        attackTwoDmg: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        attackThree: {
+        attackThreeDmg: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        attackFour: {
+        attackFourDmg: {
             type: DataTypes.STRING,
             allowNull: false
         },
