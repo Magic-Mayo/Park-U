@@ -7,6 +7,11 @@ $(document).ready(()=>{
         endingTop: '28%'
     })
 
+    $('#modal3').modal({
+        dismissible: false,
+        endingTop: '25%'
+    })
+
     const parkUToken = localStorage.getItem('_ParkU');
     const newUser = $('#new-user');
     const newWord = $('#new-word');
@@ -109,7 +114,8 @@ $(document).ready(()=>{
     }
     let uid;
     const verifyToken = (token) => {
-        $.get(`/token/${token}`, (dbtoken)=>{
+        $.get(`/token/${token}`, dbtoken=>{
+            console.log(dbtoken)
             if (dbtoken){
                 userId = dbtoken.characters.id
                 for (let i=0; i<dbtoken.characters.length; i++){
