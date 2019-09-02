@@ -56,11 +56,14 @@ $(document).ready(()=>{
 
     const createUser = (user) => {
         $.post('/new/user', user).then(token=>{
-            if(token.token){
+            console.log(token)
+            if(token){
                 localStorage.setItem('_ParkU', token.token);
                 $('#modal4').modal('open');
                 userId = token.uid;
-            } 
+            } else {
+                $('#modal1').append(`<p style='color: red; font-size: .8rem; text-align: center;position: relative; bottom: 26px;'>User name not available! Please choose another!</p>`);
+            }
         })
     }
 
@@ -114,7 +117,7 @@ $(document).ready(()=>{
     }
 
     const verifyToken = (token) => {
-        $.get(`/token/${token}`, dbtoken=>{
+        $.post(`/token/`, {token: token}).then(dbtoken=>{
             if (dbtoken){
                 userId = dbtoken.characters.id
                 for (let i=0; i<dbtoken.characters.length; i++){
