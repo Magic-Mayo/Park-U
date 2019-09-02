@@ -13,12 +13,21 @@
     <title>&lt;WeekOne id="Andrew"&gt;</title>
 </head>
 <body id="battle-scene">
+
+    <div class="modal" id="game-modal1">
+        <div class="modal-content game-modal1">
+            <h3>Pause Menu</h3>
+            <button>Resume</button>
+            <button>Exit to Main Menu</button>
+            <button>Log Out</button>
+        </div>
+    </div>
     <nav>
-        <h3 class="game-title hide" id="andrew">&lt;WeekOne id="Andrew"&gt;</h3>
+        <h3 class="game-title" id="andrew">&lt;WeekOne id="Andrew"&gt;</h3>
         <h3 class="game-title hide" id="jason">$(ProjectOne).attr('Jason')</h3>
         <h3 class="game-title hide" id="neill">app.get('/project/two', (Neill)=>{})</h3>
-        <h3 class="game-title smashed" id="david">projectThree = (David) =&gt; {}</h3>
-        <h3 class="game-title smash" id="jj">GraJJuation Day</h3>
+        <h3 class="game-title hide" id="david">projectThree = (David) =&gt; {}</h3>
+        <h3 class="game-title hide" id="jj">GraJJuation Day</h3>
     </nav>
     <div class="game-window">
         <!-- <video src="assets/videos/mp4versionofanim.mp4" width="400" height="300" preload controls autoplay><p>Start Video</p></video> -->
@@ -42,17 +51,20 @@
         </div>
         
         <div class="row atk-row">
-            <div class="atk-btn"></div>            
+            <div class="atk-btn col"></div>
+            <div class="col">
+                <button><i class="nes-logo"></i></button>
+            </div>
         </div>
 
     </div>
     </div>
 </body>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="/js/game.js"></script>
 </html>
