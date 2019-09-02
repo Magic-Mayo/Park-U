@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         luck: {
             type: DataTypes.INTEGER,
         },
-        hp: {
+        maxHP: {
+            type: DataTypes.INTEGER,
+        },
+        currentHP: {
             type: DataTypes.INTEGER,
         }
     }, {timestamps: false})
