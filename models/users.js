@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes)=>{
                 allowNull: false
             },
             onDelete: 'cascade',
-            constraints: false
         });
     }
     User.associate = (models) => {
