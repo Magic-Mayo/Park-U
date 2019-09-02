@@ -108,14 +108,13 @@ $(document).ready(()=>{
                     $('#modal4').modal('open');
                 }
             } else {
-                // let user know wrong password was entered
+                
             }
         })
     }
-    let uid;
+
     const verifyToken = (token) => {
         $.get(`/token/${token}`, dbtoken=>{
-            console.log(dbtoken)
             if (dbtoken){
                 userId = dbtoken.characters.id
                 for (let i=0; i<dbtoken.characters.length; i++){
@@ -140,6 +139,17 @@ $(document).ready(()=>{
     $(document).on('submit', '#add-char', handleNewCharacter);
     $(document).on('submit', '#login', handleVerifyPass);
     
+    $('#signout').click(()=>{
+        $.ajax({
+            method: 'DELETE',
+            url: `/logout/user/${parkUToken}`
+        }).then(logout=>{
+            if (logout){
+                $('#modal3').modal('close');
+            }
+        })
+    })
+    
     $('.char-btn').on('click', '.user-char-btn', function(){
         window.location.href = `/start/id=${$(this).data('id')}`
     })
@@ -148,10 +158,8 @@ $(document).ready(()=>{
         $.get(`/user/${newUser.val().trim()}`).then(user=>{
             if(user){
                 $('.user-check').css('color', 'red').text('Not available!');
-                // .css('left', '453px')
             } else {
                 $('.user-check').css('color', '#17e73a').text('Available!');
-                // .css('left', '484px')
             }
         })
     })
