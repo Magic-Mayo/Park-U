@@ -39,17 +39,13 @@ $(document).ready(()=>{
 
     let userAcc = userStats.attack.accuracy;
     let userAtk = userStats.attack.strength;
-    let userLuck = userStats.luck;
-    let userDef = userStats.defense;
-    let compDef = compStats.defense;
-    let compLuck = compStats.luck;
     let compAcc = compStats.attack.accuracy;
     let compAtk = compStats.attack.strength;
     let compAtkName = compStats.attack.names;
-    
+
     const id = window.location.href.split('=')[1];
     let windowTitle = $('title');
-    const gameTitle = $('.game-title').html();
+    const gameTitle = $('.game-title').not($('.game-title').hasClass('hide')).html();
     
     const getStats = (charId, comp) => {
         if (!userStats.data){
@@ -78,15 +74,13 @@ $(document).ready(()=>{
                             $('.atk-btn').append(btn); break;
                     }
                 }
-
                 $('.user-hp-bar').attr('value', `${userStats.currentHP}`).attr('max', `${userStats.maxHP}`);
                 $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`)
-                // $('.comp-hp-bar').attr('value', `${compStats.hp}`).attr('max', `${compStats.hp}`)
-                gotStats = true;
+                windowTitle.html(gameTitle);
             })
         }
 
-        switch (compStats.id){
+        switch (comp){
             case '': getCompStats('Andrew'); break;
             case 'Andrew': getCompStats('Jason'); break;
             case 'Jason': getCompStats('Neill'); break;
@@ -114,36 +108,35 @@ $(document).ready(()=>{
 
             console.log(compStats)
             $('.comp-hp-bar').attr('value', `${compStats.currentHP}`).attr('max', `${compStats.maxHP}`);
-            $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`)
+            $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
         })
     }
     
-    getStats(id);
+    getStats(id, compStats.id);
 
     const handleAtk = (attackId) => {
         switch (attackId){
-            case 'attackOne': attack(userAtk[0], userAcc[0], compDef, userLuck, compStats.currentHP, 'user'); break;
-            case 'attackTwo': attack(userAtk[1], userAcc[1], compDef, userLuck, compStats.currentHP, 'user'); break;
-            case 'attackThree': attack(userAtk[2], userAcc[2], compDef, userLuck, compStats.currentHP, 'user'); break;
-            case 'attackFour': attack(userAtk[3], userAcc[3], compDef, userLuck, compStats.currentHP, 'user'); break;
+            case 'attackOne': attack(userAtk[0], userAcc[0], compStats.defense, userStats.luck, compStats.currentHP, 'user'); break;
+            case 'attackTwo': attack(userAtk[1], userAcc[1], compStats.defense, userStats.luck, compStats.currentHP, 'user'); break;
+            case 'attackThree': attack(userAtk[2], userAcc[2], compStats.defense, userStats.luck, compStats.currentHP, 'user'); break;
+            case 'attackFour': attack(userAtk[3], userAcc[3], compStats.defense, userStats.luck, compStats.currentHP, 'user'); break;
         }
         
     }
 
     const handleCompAtk = () => {
         let atkChosen = Math.floor(Math.random()*4);
-        attack(compAtk[atkChosen], compAcc[atkChosen], userDef, compLuck, userStats.currentHP, 'comp')
+        attack(compAtk[atkChosen], compAcc[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp')
     }
 
     const attack = (attack, acc, defense, luck, hp, who) => {
+        console.log(attack, acc, defense, luck, hp, who)
         let finalAtk;
         const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random()*100);
         const dblDmg = Math.ceil(Math.random()*100);
         let finalHP;
-        console.log(hp)
         if (atk <= acc){
-            console.log(finalHP)
             let total = hp + defense;
             if (luck===dblDmg){
                 finalAtk = attack[4]*2;
@@ -165,9 +158,8 @@ $(document).ready(()=>{
                 }
                 total -= finalAtk;
                 finalHP = total;
-                console.log(finalHP)
-                $('.game-window').addClass('flash');
-                setTimeout(()=>{$('.game-window').removeClass('flash')},300);
+                $('.game-window').addClass('hit');
+                setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
             console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`)
         } else {
@@ -176,44 +168,61 @@ $(document).ready(()=>{
             // send to dialog attack was missed
         }
         if (who==='user' && finalAtk !== undefined){
-            compStats.currentHP=finalHP;
-            $('.comp-hp-text').text(`${compStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
-            $('.comp-hp-bar').val(compStats.currentHP);
-            handleCompAtk();
+            if(finalHP<=0){
+                userStats.data = false;
+                userStats.currentHP = userStats.maxHP;
+                compDefeat();
+            } else {
+                compStats.currentHP=finalHP;
+                $('.comp-hp-text').text(`${compStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
+                $('.comp-hp-bar').val(compStats.currentHP);
+                handleSpeech(who);
+                handleCompAtk();
+            }
         } else if(who==='comp' && finalAtk !== undefined){
-            userStats.currentHP=finalHP;
-            $('.user-hp-text').text(`${userStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
-            $('.user-hp-bar').val(userStats.currentHP);
+            if(finalHP<=0){
+                // modal for game over
+            } else {
+                userStats.currentHP=finalHP;
+                $('.user-hp-text').text(`${userStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
+                $('.user-hp-bar').val(userStats.currentHP);
+            }
         }
     }
 
-    const handleLogOut = (token) => {
+    const handleSpeech = (who) =>{
+        if (who==='user'){
 
+        } else {
+
+        }
+    }
+
+    const compDefeat = () => {
+        getStats(id, compStats.id);
+    }
+
+    const handleLogOut = (token) => {
         $.ajax({
-            method: 'PATCH',
-            url: `/logout/user/`,
-            data: token
+            method: 'delete',
+            url: `/logout/user/${token}`,
         }).then(logout=>{
-            console.log(logout)
             if (logout){
                 window.location.href = '/'
             }
         })
     }
     
-    $('#gameWindowRight').on('click', '.attack', function(e){
-        e.preventDefault();
+    $('#gameWindowRight').on('click', '.attack', function(){
         const atkChosen = $(this).val().trim();
         handleAtk(atkChosen);
     });
 
     $('.nes-logo').click(function(){
-        // $.get(`/`
         modal1.modal('open')
     })
 
     modal1.on('click', 'button', function(){
-        console.log($(this).text())
         switch ($(this).text()){
             case 'Resume': modal1.modal('close'); break;
             case 'Exit to Main Menu': window.location.href = '/'; break;
