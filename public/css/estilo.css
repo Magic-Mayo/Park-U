@@ -473,3 +473,10 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     left: 50%;
     transform: translateX(-50%);
 }
+
+.add-char-btn {
+    position: relative;
+    left: 50%;
+    transform: translateX(-85%);
+    top: 25px;
+}
