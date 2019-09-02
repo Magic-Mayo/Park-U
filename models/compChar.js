@@ -17,5 +17,12 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {timestamps: false})
 
+    CompCharacter.associate = (models) => {
+        CompCharacter.belongsTo(models.Attack, {
+            foreignKey: {
+                allowNull: false
+            }
+        })
+    }
     return CompCharacter;
 }
