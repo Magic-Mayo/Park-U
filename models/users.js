@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes)=>{
         },
         pass: {
             type: DataTypes.STRING,
-            allowNull: false
+            defaultValue: ''
         }
     });
 
