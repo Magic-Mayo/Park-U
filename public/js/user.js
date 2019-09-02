@@ -5,12 +5,17 @@ $(document).ready(()=>{
 
     $('#modal1').modal({
         endingTop: '28%'
-    })
+    });
 
     $('#modal3').modal({
         dismissible: false,
         endingTop: '25%'
-    })
+    });
+
+    $('#modal4').modal({
+        dismissible: false,
+        endingTop: '25%'
+    });
 
     const parkUToken = localStorage.getItem('_ParkU');
     const newUser = $('#new-user');
@@ -30,7 +35,6 @@ $(document).ready(()=>{
         if(!newUser.val().trim() || !newWord.val().trim()){
             return
         }
-
         createUser({userName: newUser.val().trim(), pass: newWord.val().trim()});
     }
 
@@ -60,6 +64,7 @@ $(document).ready(()=>{
             if(token){
                 localStorage.setItem('_ParkU', token.token);
                 $('#modal4').modal('open');
+                $('#modal1').modal('close');
                 userId = token.uid;
             } else {
                 $('#modal1').append(`<p style='color: red; font-size: .8rem; text-align: center;position: relative; bottom: 26px;'>User name not available! Please choose another!</p>`);
@@ -68,8 +73,8 @@ $(document).ready(()=>{
     }
 
     // Future for resetting passwords
-    const forgotWord = (user, pass) => {
-        $.post(`/new/word/${user}`, pass)
+    const forgotWord = (pass) => {
+        $.post(`/new/word/`, pass)
     }
 
     const newCharacter = (newChar) => {
@@ -91,13 +96,12 @@ $(document).ready(()=>{
     }
 
     const verifyPass = (pass) => {
+        $('.char-btn').empty();
         $.post('/word/verify', pass).then(verified=>{
             if (verified){
                 localStorage.setItem('_ParkU', verified.token);
                 userId = verified.uid;
-                
                 if (verified.token && verified.character.length > 0){
-                    // uid = verified.
                     for (let i=0; i<verified.character.length; i++){
                         const btn = $('<button>');
                         btn.append(`<h4 class='char-name'>${verified.character[i].charName}</h4>`)
@@ -118,8 +122,10 @@ $(document).ready(()=>{
 
     const verifyToken = (token) => {
         $.post(`/token/`, {token: token}).then(dbtoken=>{
-            if (dbtoken){
-                userId = dbtoken.characters.id
+            console.log(dbtoken)
+            if (dbtoken.characters.length > 0){
+                $('.char-btn').empty();
+                userId = dbtoken.characters.id;
                 for (let i=0; i<dbtoken.characters.length; i++){
                     const btn = $('<button>')
                     btn.append(`<h4 class='char-name'>${dbtoken.characters[i].charName}</h4>`)
@@ -129,6 +135,8 @@ $(document).ready(()=>{
                     $('.char-btn').append('<br>').append(btn);
                 }
                 $('#modal3').modal('open');
+            } else {
+                $('#modal4').modal('open');
             }
         })
     }
@@ -170,10 +178,8 @@ $(document).ready(()=>{
     passCheck.keyup(function(){
         if (passCheck.val().trim()===newWord.val().trim()){
             $('.pass-check').text('Passwords Match!').css('color', '#17e73a')
-            // .css('left', '438px')
         } else {
             $('.pass-check').text('Passwords don\'t match!').css('color', 'red')
-            // .css('left', '388px')
         }
     })
 
