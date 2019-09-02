@@ -10,7 +10,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="/css/estilo.css">
     
-    <title>&lt;WeekOne id="Andrew"&gt;</title>
+    <title></title>
 </head>
 <body id="battle-scene">
 
@@ -29,6 +29,7 @@
         <h3 class="game-title hide" id="david">projectThree = (David) =&gt; {}</h3>
         <h3 class="game-title hide" id="jj">GraJJuation Day</h3>
     </nav>
+
     <div class="game-window">
         <!-- <video src="assets/videos/mp4versionofanim.mp4" width="400" height="300" preload controls autoplay><p>Start Video</p></video> -->
         <!-- Left -->
@@ -39,6 +40,12 @@
                     <progress class="hp-bar comp-hp-bar nes-progress is-success" value="90" max="100"></progress>
                 </div>
             </div>
+            <div class="row comp-speech hide">
+                    <div class="row">
+                        <div class="speech-bubble"><span class="speech-text"></span></div>
+                        <div class="triangle"></div>
+                    </div>
+            </div>
         </div>
         <!-- Right -->
         <div class="row" id="gameWindowRight">
@@ -48,17 +55,23 @@
                     <progress class="hp-bar user-hp-bar nes-progress is-success" value="90" max="100"></progress>
                 </div>
                 <input type="hidden" id='userId' value="1">
-        </div>
+            </div>
         
-        <div class="row atk-row">
-            <div class="atk-btn col"></div>
-            <div class="col">
-                <button><i class="nes-logo"></i></button>
+            <div class="row atk-row">
+                <div class="atk-btn col"></div>
+                <div class="col">
+                    <button><i class="nes-logo"></i></button>
+                </div>
+            </div>
+            <div class="row user-speech hide">
+                    <div class="row">
+                        <div class="speech-bubble"><span class="speech-text"></span></div>
+                        <div class="triangle"></div>
+                    </div>
             </div>
         </div>
+    </div>
 
-    </div>
-    </div>
 </body>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
