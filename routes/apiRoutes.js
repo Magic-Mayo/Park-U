@@ -2,15 +2,17 @@ const db = require('../models');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const uid = require('uid-safe');
+const moment = require('moment')
 
 module.exports = (app) => {
     app.post('/new/user', (req,res)=>{
         bcrypt.hash(req.body.pass, 8).then((hash)=>{
-            db.User.create({userName: req.body.userName, pass: hash}).then(created=>{
+            db.User.findOrCreate({where: {userName: req.body.userName, pass: hash}}).then(([user, created])=>{
+                console.log(user)
                 if (created){
                     uid(18).then(newToken=>{
-                        db.Token.create({token: newToken, UserId: created.dataValues.id}).then(
-                            res.json(newToken)
+                        db.Token.create({token: newToken, UserId: user.dataValues.id}).then(
+                            res.json({token: newToken, uid: user.dataValues.id})
                         )
                     })
                 } else {
@@ -41,7 +43,9 @@ module.exports = (app) => {
             case 'Javascript': atk = 3; break
         }
 
-        db.Character.create({charName: req.body.name, class: req.body.class, defense: def, maxHP: HP, currentHP: HP, UserId: user, luck: req.body.luckyNum, AttackId: atk})
+        db.Character.create({charName: req.body.name, class: req.body.class, defense: def, maxHP: HP, currentHP: HP, UserId: user, luck: req.body.luckyNum, AttackId: atk}).then(created=>{
+            res.json(created.id)
+        })
     })
 
     app.post('/word/verify', (req,res)=>{
@@ -78,19 +82,42 @@ module.exports = (app) => {
     })
 
     app.get('/token/:token', (req,res)=>{
-        console.log('db token')
         db.Token.findOne({where: {token: req.params.token}, include: [db.User]}).then(token=>{
-            console.log(token)
             if (token !== null){
-                db.Character.findAll({where: {UserId: token.User.id}}).then(char=>{
-                    res.json({userId: token.User.id, characters: char})
-                })
+                if (moment().diff(token.createdAt, 'days', true)<30){
+                    db.Character.findAll({where: {UserId: token.User.dataValues.id}}).then(char=>{
+                        res.json({userId: token.User.id, characters: char})
+                    })
+                } else {
+                    db.Token.destroy({where: {token: req.body}}).then(
+                        res.json(false)
+                )}
+            }
+        })
+    })
+    
+    app.get('/user/:name', (req,res)=>{
+        console.log(req.params.name)
+        db.User.findOne({where: {userName: req.params.name}}).then(user=>{
+            if(user){
+                res.json(true)
             } else {
                 res.json(false)
             }
         })
     })
-    // app.get('user/:id', (req,res)=>{
-    //     db.User.findOne({where: {}})
-    // })
+
+    app.get('/user/:charId', (req,res)=>{
+        db.Character.findOne({where: {id: req.params.charId}, include: [db.User]}).then(user=>{
+            db.findOne({where: {id: user.User.dataValues.id}, include: [db.Token]}).then(token=>{
+                db.Token.update({where: {}})
+            })
+        })
+    })
+
+    app.patch('/logout/user/', (req,res)=>{
+        db.Token.update(null, {where: {token: req.body}}).then(
+            res.json(true)
+        )
+    })
 }
