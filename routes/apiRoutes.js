@@ -8,7 +8,7 @@ module.exports = (app) => {
     app.post('/new/user', (req,res)=>{
         bcrypt.hash(req.body.pass, 8).then((hash)=>{
             db.User.findOrCreate({where: {userName: req.body.userName, pass: hash}}).then(([user, created])=>{
-                if (created){
+                if (!user){
                     uid(18).then(newToken=>{
                         db.Token.create({token: newToken, UserId: user.dataValues.id}).then(
                             res.json({token: newToken, uid: user.dataValues.id})
@@ -29,17 +29,17 @@ module.exports = (app) => {
         switch (req.body.class){
             case 'CSS': def = 3; break;
             case 'HTML': def = 6; break;
-            case 'Javascript': def = 5; break
+            case 'Javascript': def = 5; break;
         }
         switch (req.body.class){
             case 'CSS': HP = 125; break;
             case 'HTML': HP = 100; break;
-            case 'Javascript': HP = 115; break
+            case 'Javascript': HP = 115; break;
         }
         switch (req.body.class){
             case 'CSS': atk = 1; break;
             case 'HTML': atk = 2; break;
-            case 'Javascript': atk = 3; break
+            case 'Javascript': atk = 3; break;
         }
 
         db.Character.create({charName: req.body.name, class: req.body.class, defense: def, maxHP: HP, currentHP: HP, UserId: user, luck: req.body.luckyNum, AttackId: atk}).then(created=>{
@@ -77,15 +77,15 @@ module.exports = (app) => {
         })
     })
 
-    app.get('/token/:token', (req,res)=>{
-        db.Token.findOne({where: {token: req.params.token}, include: [db.User]}).then(token=>{
+    app.post('/token/', (req,res)=>{
+        db.Token.findOne({where: {token: req.body.token}, include: [db.User]}).then(token=>{
             if (token !== null){
                 if (moment().diff(token.createdAt, 'days', true)<30){
                     db.Character.findAll({where: {UserId: token.User.dataValues.id}}).then(char=>{
                         res.json({userId: token.User.id, characters: char})
                     })
                 } else {
-                    db.Token.destroy({where: {token: req.params.token}}).then(
+                    db.Token.destroy({where: {token: req.body.token}}).then(
                         res.json(false)
                     )
                 }
