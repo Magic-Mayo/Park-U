@@ -8,7 +8,6 @@ module.exports = (app) => {
     app.post('/new/user', (req,res)=>{
         bcrypt.hash(req.body.pass, 8).then((hash)=>{
             db.User.findOrCreate({where: {userName: req.body.userName, pass: hash}}).then(([user, created])=>{
-                console.log(user)
                 if (created){
                     uid(18).then(newToken=>{
                         db.Token.create({token: newToken, UserId: user.dataValues.id}).then(
@@ -50,10 +49,8 @@ module.exports = (app) => {
 
     app.post('/word/verify', (req,res)=>{
         db.User.findOne({where: {userName: req.body.userName.toString()}, include: [db.Token]}).then(pass=>{
-            // console.log(pass)
             bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
                 if(result){
-                    console.log(pass.dataValues.id)
                     uid(18).then(newToken=>{
                         db.Token.create({token: newToken, UserId: pass.dataValues.id});
                         db.Character.findAll({where: {UserId: pass.dataValues.id}}).then(char=>{
@@ -75,7 +72,6 @@ module.exports = (app) => {
     })
 
     app.get('/user/char/:id/stats', (req,res)=>{
-        console.log(req.params.id)
         db.Character.findOne({where: {id: req.params.id}, include: [db.Attack]}).then(stats=>{
             res.json(stats)
         })
@@ -89,9 +85,10 @@ module.exports = (app) => {
                         res.json({userId: token.User.id, characters: char})
                     })
                 } else {
-                    db.Token.destroy({where: {token: req.body}}).then(
+                    db.Token.destroy({where: {token: req.params.token}}).then(
                         res.json(false)
-                )}
+                    )
+                }
             }
         })
     })
@@ -125,5 +122,11 @@ module.exports = (app) => {
         db.CompCharacter.findOne({where: {charName: req.params.name}, include: [db.Attack]}).then(comp=>{
             res.json(comp)
         })
+    })
+
+    app.delete('/logout/user/:token', (req,res)=>{
+        db.Token.destroy({where: {token: req.params.token}}).then(
+            res.json(true)
+        )
     })
 }
