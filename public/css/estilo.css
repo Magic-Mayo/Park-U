@@ -27,10 +27,21 @@ body {
     color: #111a29;
 }
 
-#modal1, #modal2, #modal3, #modal4 {
+#modal2, #modal3, #modal4 {
     padding: 50px 75px 25px;
     transform: scaleX(1.6) !important;
     transform: scaleY(1.8) !important;
+}
+
+#modal1 {
+    padding: 50px 75px 25px;
+    transform: scaleX(1.6) !important;
+    transform: scaleY(2.2) !important;
+}
+
+#add-user {
+    position: relative;
+    top: -23px;
 }
 
 .char-btn {
@@ -68,6 +79,7 @@ body {
 }
 .subtitle p:not(:last-child) {
     text-decoration-line: line-through;
+    text-decoration-style: wavy;
 }
 
 .subtitle p:last-of-type {
@@ -105,6 +117,7 @@ body {
 .attack {
     font-size: 1rem;
     width: 250px;
+    white-space: nowrap;
 }
 
 nav {
@@ -217,7 +230,7 @@ nav {
 }
 
 ::placeholder {
-    font-size: .8rem;
+    font-size: .7rem;
 }
 
 .modal-title {
@@ -258,4 +271,71 @@ nav {
 .smashed {
     position: relative;
     animation: smashed 1.35s linear;
+}
+
+#new-user {
+    color: #000000;
+}
+
+.user-check, .pass-check, .pass {
+    position: fixed;
+    font-size: 50%;
+}
+
+.user-check {
+    left: 50%;
+    transform: translateX(-50%);
+    color: red;
+}
+
+.pass {
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.pass-check {
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+#add-user-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+label {
+    position: relative;
+    color: #000000;
+    top: 7px;
+    padding-top: 12px;
+}
+
+small {
+    white-space: nowrap;
+}
+
+input[type='text']:not(.browser-default), input[type='password']:not(.browser-default) {
+    height: 1rem;
+    margin-bottom: .2rem;
+    font-size: 75%;
+}
+
+.nes-logo {
+    position: fixed;
+    top: 7px;
+    left: 20px;
+}
+
+.modal {
+    height: 400px;
+}
+
+.game-modal1 {
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
