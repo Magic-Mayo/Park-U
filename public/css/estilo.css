@@ -95,6 +95,7 @@ body {
 
 nav {
     background-color: #0D584E !important;
+    position: absolute;
 }
 
 #battle-scene {
@@ -188,14 +189,17 @@ nav {
 }
 
 .user-hp-stats {
-    position: relative;
+    position: absolute;
 }
 
 .user-hp-row {
-    position: relative;
+    position: absolute;
     top: 7rem;
 }
 
 .hide {
     display: none;
+}
+#backgroundPhoto{
+    position: relative;
 }
