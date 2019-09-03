@@ -10,7 +10,7 @@ module.exports = (app) => {
         res.sendFile(path.join(__dirname, '../public/start.html'))
     })
 
-    app.get('/start/droppedout', (req,res)=>{
+    app.get('/*', (req,res)=>{
         res.sendFile(path.join(__dirname, '../public/dropped.html'))
     })
 }
