@@ -8,11 +8,11 @@ module.exports = (app) => {
     app.post('/new/user', (req,res)=>{
         db.User.findOrCreate({where: {userName: req.body.userName}}).then(([user, created])=>{
             if (created){
-                bcrypt.hash(req.body.pass, 8).then((hash)=>{
+                bcrypt.hash(req.body.pass, 8).then(hash=>{
                     uid(18).then(newToken=>{
                         db.Token.create({token: newToken, UserId: user.dataValues.id}).then(
                             db.User.update({pass: hash}, {where: {userName: req.body.userName}}).then(
-                                res.json({token: newToken, uid: user.dataValues.id})
+                                res.json({token: newToken, uid: user.dataValues.id, userName: user.dataValues.userName})
                         ))
                     })
                 })
@@ -42,27 +42,47 @@ module.exports = (app) => {
             case 'HTML': atk = 2; break;
             case 'Javascript': atk = 3; break;
         }
-
+        console.log(user)
         db.Character.create({charName: req.body.name, class: req.body.class, defense: def, maxHP: HP, currentHP: HP, UserId: user, luck: req.body.luckyNum, AttackId: atk}).then(created=>{
             res.json(created.id)
         })
     })
 
     app.post('/word/verify', (req,res)=>{
+        console.log(req.body)
         db.User.findOne({where: {userName: req.body.userName.toString()}, include: [db.Token]}).then(pass=>{
-            bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
-                if(result){
-                    uid(18).then(newToken=>{
-                        db.Token.create({token: newToken, UserId: pass.dataValues.id});
-                        db.Character.findAll({where: {UserId: pass.dataValues.id}}).then(char=>{
-                            res.json({token: newToken, character: char, uid: pass.dataValues.id})
+            console.log(pass)
+            if(pass && !pass.dataValues.locked){
+                let invalid = pass.dataValues.invalidAttempt;
+                bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
+                    if(result){
+                        uid(18).then(newToken=>{
+                            db.Token.create({token: newToken, UserId: pass.dataValues.id});
+                            db.Character.findAll({where: {UserId: pass.dataValues.id}}).then(char=>{
+                                res.json({token: newToken, character: char, uid: pass.dataValues.id})
+                            })
                         })
-                    })
-                } else {
-                    res.json(false)
-                }
-            });
-            
+                    } else {
+                        if (invalid < 5 && invalid === null){
+                            db.User.update({invalidAttempt: 1}, {where: {userName: pass.dataValues.userName}}).then(
+                                res.json({valid: false, msg: `Invalid Password!  You only have ${4} more attempts until your account is locked!`})
+                                )
+                        } else if(invalid < 5) {
+                            db.User.update({invalidAttempt: invalid+1}, {where: {userName: pass.dataValues.userName}}).then(
+                                res.json({valid: false, msg: `Invalid Password!  You only have ${5-pass.dataValues.invalidAttempt} more attempts until your account is locked!`})
+                            )
+                        } else {
+                            db.User.update({locked: true}, {where: {userName: pass.dataValues.userName}}).then()
+                                res.json({locked: true, valid: false, msg: 'Your account has been locked after too many failed log-in attempts!  Please reset your password!'})
+                        }
+                    }
+                    
+                });
+            } else if (pass.dataValues.locked) {
+                res.json({valid: false, msg: 'Your account has been locked after too many failed log-in attempts!  Please reset your password!'})            
+            } else {
+                res.json({valid: false, msg: 'Please make sure you entered a valid user name and password!'})
+            }            
         })
     })
 
@@ -79,11 +99,12 @@ module.exports = (app) => {
     })
 
     app.post('/token/', (req,res)=>{
+        console.log(req.body)
         db.Token.findOne({where: {token: req.body.token}, include: [db.User]}).then(token=>{
             if (token !== null){
                 if (moment().diff(token.createdAt, 'days', true)<30){
                     db.Character.findAll({where: {UserId: token.User.dataValues.id}}).then(char=>{
-                        res.json({userId: token.User.id, characters: char})
+                        res.json({userId: token.User.id, characters: char, userName: token.User.userName})
                     })
                 } else {
                     db.Token.destroy({where: {token: req.body.token}}).then(
@@ -129,5 +150,12 @@ module.exports = (app) => {
         db.Token.destroy({where: {token: req.params.token}}).then(
             res.json(true)
         )
+    })
+
+    app.get('/start/id=:id/:compId', (req,res)=>{
+        const id = req.params.id;
+        const compId = req.params.compId;
+
+        
     })
 }
