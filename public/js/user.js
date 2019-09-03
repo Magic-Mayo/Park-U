@@ -33,9 +33,12 @@ $(document).ready(()=>{
         e.preventDefault();
         
         if(!newUser.val().trim() || !newWord.val().trim()){
-            return
+            return;
+        } else if(newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
+            createUser({userName: newUser.val().trim(), pass: newWord.val().trim()});
+        } else {
+            return;
         }
-        createUser({userName: newUser.val().trim(), pass: newWord.val().trim()});
     }
 
     const handleNewCharacter = (e) => {
@@ -184,7 +187,7 @@ $(document).ready(()=>{
     })
 
     newWord.keyup(function(){
-        if (newWord.val().match(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)){
+        if (newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
             pass.css('color', '#17e73a').text('Password is Valid!')
         } else {
             pass.css('color', 'red').text('Invalid Password!')
