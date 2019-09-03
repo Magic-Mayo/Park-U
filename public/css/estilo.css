@@ -35,7 +35,7 @@ body {
 }
 
 #modal1 {
-    padding: 50px 75px 25px;
+    padding: 20px 75px;
     transform: scaleX(1.6) !important;
     transform: scaleY(2.2) !important;
 }
@@ -325,31 +325,27 @@ nav {
 }
 
 .user-check, .pass-check, .pass {
-    position: fixed;
+    position: relative;
     font-size: 50%;
+    bottom: 1vh;
 }
 
 .user-check {
-    left: 50%;
+    left: 35%;
     transform: translateX(-50%);
     color: red;
 }
 
-.pass {
-    left: 50%;
-    transform: translateX(-50%)
-}
-
 .pass-check {
-    left: 50%;
-    transform: translateX(-50%)
+    left: 30%;
+    transform: translateX(-50%);
 }
 
 #add-user-btn {
-    position: fixed;
-    bottom: 36px;
+    position: absolute;
+    bottom: -11%;
     left: 50%;
-    transform: translateX(-50%)
+    transform: translateX(-50%);
 }
 
 label {
@@ -391,10 +387,10 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
 }
 
 #log-in, #signout {
-    position: fixed;
-    bottom: 67px;
-    left: 50%;
+    position: relative;
+    left: 47%;
     transform: translateX(-50%);
+    bottom: -2vh;
 }
 
 .triangle {
@@ -461,22 +457,16 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     position: relative;
 }
 
-.drop-title {
-    font-size: 3rem;
-    text-align: center;
-}
-
-.redirect {
-    text-align: center;
-    position: relative;
-    top: 75vh;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 .add-char-btn {
     position: relative;
     left: 50%;
     transform: translateX(-85%);
     top: 25px;
+}
+
+.invalid-pass {
+    color: red;
+    font-size: .75rem;
+    text-align: center;
+    position: relative;
 }
