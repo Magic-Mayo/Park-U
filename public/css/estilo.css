@@ -168,7 +168,8 @@ nav {
     white-space: nowrap;
 }
 
-#battle-scene {
+.battle-scene {
+    z-index: 5;
     background-color: #29111E;
 }
 
@@ -303,11 +304,11 @@ nav {
 }
 
 @keyframes defeat {
-    100% {opacity: 0; display: none}
+    100% {opacity: 0;}
 }
 
 .defeat {
-    animation: defeat 2s linear;
+    animation: defeat 2.5s linear;
 }
 
 .smash {
