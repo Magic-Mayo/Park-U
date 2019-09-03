@@ -49,9 +49,7 @@ module.exports = (app) => {
     })
 
     app.post('/word/verify', (req,res)=>{
-        console.log(req.body)
         db.User.findOne({where: {userName: req.body.userName.toString()}, include: [db.Token]}).then(pass=>{
-            console.log(pass)
             if(pass && !pass.dataValues.locked){
                 let invalid = pass.dataValues.invalidAttempt;
                 bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
@@ -99,7 +97,6 @@ module.exports = (app) => {
     })
 
     app.post('/token/', (req,res)=>{
-        console.log(req.body)
         db.Token.findOne({where: {token: req.body.token}, include: [db.User]}).then(token=>{
             if (token !== null){
                 if (moment().diff(token.createdAt, 'days', true)<30){
