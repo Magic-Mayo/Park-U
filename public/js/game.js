@@ -43,6 +43,7 @@ $(document).ready(()=>{
     let compAtk = compStats.attack.strength;
     let compAtkName = compStats.attack.names;
 
+    const compId = window.location.href.split('/').pop();
     const id = window.location.href.split('=')[1];
     let windowTitle = $('title');
     const gameTitle = $('.game-title').not($('.game-title').hasClass('hide')).html();
@@ -168,10 +169,10 @@ $(document).ready(()=>{
             // send to dialog attack was missed
         }
         if (who === 'user' && finalAtk !== undefined){
-            if(finalHP<=0){
+            if(finalHP <= 0){
                 userStats.data = false;
                 userStats.currentHP = userStats.maxHP;
-                compDefeat();
+                return compDefeat();
             } else {
                 compStats.currentHP=finalHP;
                 $('.comp-hp-text').text(`${compStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
@@ -180,7 +181,8 @@ $(document).ready(()=>{
                 return handleCompAtk();
             }
         } else if(who === 'comp' && finalAtk !== undefined){
-            if(finalHP<=0){
+            if(finalHP <= 0){
+
                 // modal for game over
             } else {
                 userStats.currentHP=finalHP;
@@ -192,9 +194,10 @@ $(document).ready(()=>{
 
     const handleSpeech = (who) =>{
         if (who === 'user'){
+            $('.attack').prop('disabled', true)
 
         } else {
-
+            $('.attack').prop('disabled', false)
         }
     }
 
@@ -242,6 +245,6 @@ $(document).ready(()=>{
     if (parkUToken){
         verifyToken(parkUToken);
     } else {
-        window.location.href = '/start/droppedout'
+        window.location.href = '/droppedout'
     }
 })
