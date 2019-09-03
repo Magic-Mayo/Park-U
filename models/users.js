@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes)=>{
         pass: {
             type: DataTypes.STRING,
             defaultValue: ''
+        },
+        locked: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
+        invalidAttempt: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
         }
     });
 
