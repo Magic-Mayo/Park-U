@@ -47,7 +47,7 @@ $(document).ready(()=>{
             return;
         }
         if (parkUToken){
-            $.get(`/token/${parkUToken}`).then(uid=>{
+            $.post(`/token/`, {token: parkUToken}).then(uid=>{
                 userId = uid.userId
             })
         }
@@ -66,8 +66,9 @@ $(document).ready(()=>{
             console.log(token)
             if(token){
                 localStorage.setItem('_ParkU', token.token);
-                $('#modal4').modal('open');
+                $('.create-modal-title').text(`${token.userName}, Create A Character!`);
                 $('#modal1').modal('close');
+                $('#modal4').modal('open');
                 userId = token.uid;
             } else {
                 $('#modal1').append(`<p style='color: red; font-size: .8rem; text-align: center;position: relative; bottom: 26px;'>User name not available! Please choose another!</p>`);
@@ -101,7 +102,7 @@ $(document).ready(()=>{
     const verifyPass = (pass) => {
         $('.char-btn').empty();
         $.post('/word/verify', pass).then(verified=>{
-            if (verified){
+            if (verified.valid){
                 localStorage.setItem('_ParkU', verified.token);
                 userId = verified.uid;
                 if (verified.token && verified.character.length > 0){
@@ -115,10 +116,15 @@ $(document).ready(()=>{
                     }
                     $('#modal3').modal('open');
                 } else {
+                    $('.create-modal-title').text(`${verified.userName},Create A Character!`);
                     $('#modal4').modal('open');
                 }
+            } else if (!verified.locked) {
+                $('.invalid-pass').text(verified.msg);
+            } else if(verified.locked){
+                $('.invalid-pass').text(verified.msg);
             } else {
-                
+                $('.invalid-pass').text(verified.msg);
             }
         })
     }
@@ -139,6 +145,7 @@ $(document).ready(()=>{
                 }
                 $('#modal3').modal('open');
             } else {
+                $('.create-modal-title').text(`${dbtoken.userName},Create A Character!`);
                 $('#modal4').modal('open');
             }
         })
@@ -168,7 +175,7 @@ $(document).ready(()=>{
         window.location.href = `/start/id=${$(this).data('id')}`
     })
 
-    $('#new-user').change(()=>{
+    newUser.change(()=>{
         $.get(`/user/${newUser.val().trim()}`).then(user=>{
             if(user){
                 $('.user-check').css('color', 'red').text('Not available!');
