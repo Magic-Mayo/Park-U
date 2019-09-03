@@ -135,14 +135,23 @@ $(document).ready(()=>{
         let finalAtk;
         const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random()*100);
-        const dblDmg = Math.ceil(Math.random()*100);
+        let dblDmg;
         let finalHP;
+
+        switch (who){
+            case 'user': dblDmg = Math.ceil(Math.random()*100); break;
+            case 'comp': dblDmg = Math.ceil(Math.random()*50); break;
+        }
+
         if (atk <= acc){
+            console.log(compStats)
             let total = hp + defense;
             if (luck===dblDmg){
                 finalAtk = attack[4]*2;
                 total -= finalAtk;
                 finalHP = total;
+                $('.game-window').addClass('dbl-dmg');
+                setTimeout(()=>{$('.game-window').removeClass('dbl-dmg')},300);
                 console.log('dbl')
             } else {
                 switch (atkRng){
@@ -162,9 +171,9 @@ $(document).ready(()=>{
                 $('.game-window').addClass('hit');
                 setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`)
+            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
         } else {
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`)
+            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
             console.log('missed')
             // send to dialog attack was missed
         }
@@ -175,18 +184,19 @@ $(document).ready(()=>{
                 return compDefeat();
             } else {
                 compStats.currentHP=finalHP;
-                $('.comp-hp-text').text(`${compStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
+                $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
                 $('.comp-hp-bar').val(compStats.currentHP);
-                handleSpeech(who);
-                return handleCompAtk();
+                // handleSpeech(who);
             }
         } else if(who === 'comp' && finalAtk !== undefined){
             if(finalHP <= 0){
-
+                $('.user-hp-text').text(`0/${userStats.maxHP}`);
+                $('.user-hp-bar').val(0);
+                $('.battle-scene').addClass('defeat');
                 // modal for game over
             } else {
                 userStats.currentHP=finalHP;
-                $('.user-hp-text').text(`${userStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
+                $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
                 $('.user-hp-bar').val(userStats.currentHP);
             }
         }
@@ -219,6 +229,9 @@ $(document).ready(()=>{
     $('#gameWindowRight').on('click', '.attack', function(){
         const atkChosen = $(this).val().trim();
         handleAtk(atkChosen);
+        setTimeout(handleCompAtk, 1000);
+        // $('.comp-hp-text').text(`${compStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
+        // $('.comp-hp-bar').val(compStats.currentHP);
     });
 
     $('.nes-logo').click(function(){
