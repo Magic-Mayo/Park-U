@@ -1,12 +1,14 @@
 $(document).ready(()=>{
-    const modal1 = $('#game-modal1')
+    const modal1 = $('#game-modal1');
+    const defeatModal = $('#defeat-modal')
     $('.modal').modal({
         endingTop: '28%'
     });
     modal1.modal({
         endingTop: '28%',
         dismissible: false
-    })
+    });
+    // defeatModal.modal('open');
     
     const parkUToken = localStorage.getItem('_ParkU');
     let gotCompStats = false;
@@ -110,6 +112,7 @@ $(document).ready(()=>{
             console.log(compStats)
             $('.comp-hp-bar').attr('value', `${compStats.currentHP}`).attr('max', `${compStats.maxHP}`);
             $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
+            gotCompStats = true;
         })
     }
     
@@ -186,32 +189,50 @@ $(document).ready(()=>{
                 compStats.currentHP=finalHP;
                 $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
                 $('.comp-hp-bar').val(compStats.currentHP);
-                // handleSpeech(who);
+                // return handleSpeech(who, finalAtk);
             }
         } else if(who === 'comp' && finalAtk !== undefined){
             if(finalHP <= 0){
                 $('.user-hp-text').text(`0/${userStats.maxHP}`);
                 $('.user-hp-bar').val(0);
-                $('.battle-scene').addClass('defeat');
-                // modal for game over
+                return userDefeat();
             } else {
-                userStats.currentHP=finalHP;
+                userStats.currentHP = finalHP;
                 $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
                 $('.user-hp-bar').val(userStats.currentHP);
+                // return handleSpeech(who, finalAtk);
             }
         }
     }
 
-    const handleSpeech = (who) =>{
+    const handleSpeech = (who, hitOrMiss) =>{
         if (who === 'user'){
-            $('.attack').prop('disabled', true)
+            $('.user-speech').removeClass('hide');
+            setTimeout(()=>{$('.user-speech').addClass('hide')}, 2000)
+            $('.attack').prop('disabled', true);
+            if (hitOrMiss === undefined){
+
+            }
 
         } else {
-            $('.attack').prop('disabled', false)
+            $('.comp-speech').removeClass('hide');
+            setTimeout(()=>{$('.comp-speech').addClass('hide')}, 2000)
+            $('.attack').prop('disabled', false);
+            if (hitOrMiss === undefined){
+
+            }
         }
     }
 
+    const userDefeat = () => {
+        $('.battle-scene').addClass('defeat');
+        $('.defeat-text').text(`Your coding prowess was no match for ${compStats.id}....this time`);
+        setTimeout(()=>{$('.battle-scene').addClass('transparent')}, 2500);
+        setTimeout(()=>{$('#defeat-modal').modal('open').css('opacity', '1')}, 2750);
+    }
+
     const compDefeat = () => {
+        gotCompStats = false;
         getStats(id, compStats.id);
     }
 
@@ -228,10 +249,14 @@ $(document).ready(()=>{
     
     $('#gameWindowRight').on('click', '.attack', function(){
         const atkChosen = $(this).val().trim();
-        handleAtk(atkChosen);
-        setTimeout(handleCompAtk, 1000);
-        // $('.comp-hp-text').text(`${compStats.currentHP}/${$('.user-hp-bar').attr('max')}`);
-        // $('.comp-hp-bar').val(compStats.currentHP);
+        
+        if (compStats.currentHP){
+            handleAtk(atkChosen);
+        }
+
+        if (userStats.currentHP > 0 && gotCompStats){
+            setTimeout(handleCompAtk, 1000);
+        }
     });
 
     $('.nes-logo').click(function(){
