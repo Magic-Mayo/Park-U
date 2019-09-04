@@ -76,7 +76,7 @@ module.exports = (app) => {
                     }
                     
                 });
-            } else if (pass.dataValues.locked) {
+            } else if (pass && pass.dataValues.locked) {
                 res.json({valid: false, msg: 'Your account has been locked after too many failed log-in attempts!  Please reset your password!'})            
             } else {
                 res.json({valid: false, msg: 'Please make sure you entered a valid user name and password!'})
@@ -108,6 +108,8 @@ module.exports = (app) => {
                         res.json(false)
                     )
                 }
+            } else {
+                res.json(false)
             }
         })
     })
