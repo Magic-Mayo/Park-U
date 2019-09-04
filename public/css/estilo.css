@@ -15,7 +15,7 @@ body {
 
 #signLogButtons{
     text-align: center;
-    top: 50%;
+    top: 57vh;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -470,4 +470,10 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     font-size: .75rem;
     text-align: center;
     position: relative;
+}
+
+#signUp, #logIn {
+    margin: 10px 0;
+    white-space: nowrap;
+    width: 282px;
 }
