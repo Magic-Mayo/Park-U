@@ -471,3 +471,14 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     text-align: center;
     position: relative;
 }
+
+.transparent {
+    opacity: 0;
+}
+
+.game-over-btn {
+    position: relative;
+    bottom: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+}
