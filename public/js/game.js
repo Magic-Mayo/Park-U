@@ -8,13 +8,27 @@ $(document).ready(()=>{
         endingTop: '28%',
         dismissible: false
     });
-    // defeatModal.modal('open');
+    defeatModal.modal({
+        endingTop: '28%',
+        dismissible: false
+    })
     
     const parkUToken = localStorage.getItem('_ParkU');
     let gotCompStats = false;
 
+    const jason = $('#jason');
+    const david = $('#david');
+    const neill = $('#neill');
+    const jj = $('#jj');
+    const andrew = $('#andrew');
+    const userSpeech = $('.user-speech-text');
+    const compSpeech = $('.comp-speech-text');
+    const userBubble = $('.user-speech-bubble');
+    const compBubble = $('.comp-speech-bubble');
+
     let userStats = {
         data: false,
+        class: '',
         attack: {
             names: [],
             strength: [],
@@ -55,7 +69,6 @@ $(document).ready(()=>{
             $.get(`/user/char/${charId}/stats`, (stats)=>{
                 const atk = userStats.attack;
                 const stat = stats.Attack;
-                console.log(stats)
                 for (i in stat){
                     switch(i.toString().slice(-3)){
                         case 'ame': atk.names.push(stats.Attack[i]); break;
@@ -78,10 +91,15 @@ $(document).ready(()=>{
                     }
                 }
                 $('.user-hp-bar').attr('value', `${userStats.currentHP}`).attr('max', `${userStats.maxHP}`);
-                $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`)
-                windowTitle.html(gameTitle);
+                $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
             })
+        } else {
+            userStats.currentHP = userStats.maxHP;
+            $('.user-hp-bar').attr('value', `${userStats.currentHP}`).attr('max', `${userStats.maxHP}`);
+            $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
         }
+        
+        windowTitle.html(gameTitle);
 
         switch (comp){
             case '': getCompStats('Andrew'); break;
@@ -109,7 +127,6 @@ $(document).ready(()=>{
                 }
             }
 
-            console.log(compStats)
             $('.comp-hp-bar').attr('value', `${compStats.currentHP}`).attr('max', `${compStats.maxHP}`);
             $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
             gotCompStats = true;
@@ -175,12 +192,13 @@ $(document).ready(()=>{
                 setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
             console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-        } else {
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-            console.log('missed')
-            // send to dialog attack was missed
-        }
-        if (who === 'user' && finalAtk !== undefined){
+        } // else {
+        //     console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
+        //     console.log('missed')
+        //     // send to dialog attack was missed
+        // }
+
+        else if (who === 'user' && finalAtk !== undefined){
             if(finalHP <= 0){
                 userStats.data = false;
                 userStats.currentHP = userStats.maxHP;
@@ -189,7 +207,7 @@ $(document).ready(()=>{
                 compStats.currentHP=finalHP;
                 $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
                 $('.comp-hp-bar').val(compStats.currentHP);
-                // return handleSpeech(who, finalAtk);
+                handleSpeech(who, finalAtk);
             }
         } else if(who === 'comp' && finalAtk !== undefined){
             if(finalHP <= 0){
@@ -200,27 +218,79 @@ $(document).ready(()=>{
                 userStats.currentHP = finalHP;
                 $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
                 $('.user-hp-bar').val(userStats.currentHP);
-                // return handleSpeech(who, finalAtk);
+                handleSpeech(who, finalAtk, attack);
             }
         }
     }
 
-    const handleSpeech = (who, hitOrMiss) =>{
+    const handleSpeech = (who, hit, attack, userClass) =>{
+        console.log(hit)
         if (who === 'user'){
-            $('.user-speech').removeClass('hide');
-            setTimeout(()=>{$('.user-speech').addClass('hide')}, 2000)
             $('.attack').prop('disabled', true);
-            if (hitOrMiss === undefined){
+            
+            // if (userClass === 'CSS'){
+            //     let attackName
+            //     switch (attack){
+            //         case 'attackOne': attackName = ; break;
+            //         case 'attackTwo': attackName = ; break;
+            //         case 'attackThree': attackName = ; break;
+            //         case 'attackFour': attackName = ; break;
+            //     }
+                
+            //     userSpeech.text(attackName);
+            //     userSpeech.removeClass('hide');
+                
+            // }
+            
+            // if (userClass === 'HTML'){
+            //     let attackName
+            //     switch (attack){
+            //         case 'attackOne': attackName = ; break;
+            //         case 'attackTwo': attackName = ; break;
+            //         case 'attackThree': attackName = ; break;
+            //         case 'attackFour': attackName = ; break;
+            //     }
+                
+            //     userSpeech.text(attackName);
+            //     userSpeech.removeClass('hide');
+
+            // }
+            
+            // if (userClass === 'CSS'){
+            //     let attackName
+            //     switch (attack){
+            //         case 'attackOne': attackName = ; break;
+            //         case 'attackTwo': attackName = ; break;
+            //         case 'attackThree': attackName = ; break;
+            //         case 'attackFour': attackName = ; break;
+            //     }
+                if (hit){
+                userSpeech.text('I hit');
+                userBubble.removeClass('hide');
 
             }
+            setTimeout(()=>{userBubble.addClass('hide')}, 2000);
+
+            if (hit === undefined){
+                userSpeech.text('I missed too');
+                userBubble.removeClass('hide');
+                setTimeout(()=>{userBubble.addClass('hide')}, 2000);
+            }
+            
 
         } else {
-            $('.comp-speech').removeClass('hide');
-            setTimeout(()=>{$('.comp-speech').addClass('hide')}, 2000)
-            $('.attack').prop('disabled', false);
-            if (hitOrMiss === undefined){
 
+            compSpeech.text(attack);
+            compBubble.removeClass('hide');
+            
+            if (hit === undefined){
+                compSpeech.text('I missed');
+                compBubble.removeClass('hide');                
             }
+            setTimeout(()=>{ console.log('unfreeze')
+                compBubble.addClass('hide');
+                $('.attack').prop('disabled', false);
+            }, 2000);
         }
     }
 
@@ -233,7 +303,48 @@ $(document).ready(()=>{
 
     const compDefeat = () => {
         gotCompStats = false;
+        handleBannerChange(compStats.id);
         getStats(id, compStats.id);
+    }
+
+    const handleBannerChange = (comp) => {
+        if (comp === 'Andrew') {
+            jason.removeClass('hide');
+            andrew.addClass('smashed');
+            jason.addClass('smash');
+            setTimeout(()=>{
+                andrew.addClass('hide');
+                andrew.removeClass('smashed');
+                jason.removeClass('smash');
+            }, 1350);
+        } else if (comp === 'Jason') {
+            neill.removeClass('hide');
+            jason.addClass('smashed');
+            neill.addClass('smash');
+            setTimeout(()=>{
+                jason.addClass('hide');
+                jason.removeClass('smashed');
+                neill.removeClass('smash');
+            }, 1355);
+        } else if (comp === 'Neill') {
+            david.removeClass('hide');
+            neill.addClass('smashed');
+            david.addClass('smash');
+            setTimeout(()=>{
+                neill.addClass('hide');
+                neill.removeClass('smashed');
+                david.removeClass('smash');
+            }, 1355);
+        } else if (comp === 'David') {
+            jj.removeClass('hide');
+            david.addClass('smashed');
+            jj.addClass('smash');
+            setTimeout(()=>{
+                david.addClass('hide');
+                david.removeClass('smashed');
+                jj.removeClass('smash');
+            }, 1355);
+        }
     }
 
     const handleLogOut = (token) => {
@@ -255,7 +366,7 @@ $(document).ready(()=>{
         }
 
         if (userStats.currentHP > 0 && gotCompStats){
-            setTimeout(handleCompAtk, 1000);
+            setTimeout(handleCompAtk, 1999);
         }
     });
 
@@ -271,14 +382,26 @@ $(document).ready(()=>{
         }
     })
 
+    $('.game-over-btn').on('click', 'button', function(){
+        switch($(this).text()){
+            case 'Try Again': getStats(id, ''); break;
+            case 'Main Menu': window.location.href = '/'; break;
+            case 'Sign Out': handleLogOut(parkUToken);
+        }
+    })
+
     const verifyToken = (token) => {
         $.post(`/token/`, {token: token}).then(dbtoken=>{
-            console.log(dbtoken)
             if (!dbtoken){
                 window.location.href = '/'
             }
         })
     }
+
+    defeatModal.on('click', 'button', ()=>{
+        defeatModal.modal('close');
+        $('.battle-scene').removeClass('transparent');
+    })
 
     if (parkUToken){
         verifyToken(parkUToken);
