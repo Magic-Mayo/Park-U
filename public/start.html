@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/css/estilo.css">
+    
+    <title></title>
+</head>
+<body>
+    <div class="modal" id="game-modal1">
+        <div class="modal-content game-modal1">
+            <h3>Pause Menu</h3>
+            <button>Resume</button>
+            <button>Exit to Main Menu</button>
+            <button>Log Out</button>
+        </div>
+    </div>
+    <div class="modal" id="defeat-modal">
+        <div class="modal-content defeat-modal">
+            <h4 class="defeat-text">Your coding prowess was no match for Andrew....this time</h4>
+            <div class="game-over-btn">
+                <button>Try Again</button>
+                <button>Main Menu</button>
+                <button>Sign Out</button>
+            </div>
+        </div>
+    </div>
+    <div class="battle-scene">
+    <nav>
+            <h3 class="game-title" id="andrew">&lt;WeekOne id="Andrew"&gt;</h3>
+            <h3 class="game-title hide" id="jason">$(ProjectOne).attr('Jason')</h3>
+            <h3 class="game-title hide" id="neill">app.get('/project/two', (Neill)=>{})</h3>
+            <h3 class="game-title hide" id="david">projectThree = (David) =&gt; {}</h3>
+            <h3 class="game-title hide" id="jj">GraJJuation Day</h3>
+        </nav>
+
+        <div class="game-window">
+            <!-- <video src="assets/videos/mp4versionofanim.mp4" width="400" height="300" preload controls autoplay><p>Start Video</p></video> -->
+            <!-- Left -->
+            <div class="row" id="gameWindowLeft">
+                <div class="row comp-hp-row">
+                    <div class="comp-hp-stats">
+                        <span class="comp-hp-text">90/100</span>
+                        <progress class="hp-bar comp-hp-bar nes-progress is-success" value="90" max="100"></progress>
+                    </div>
+                </div>
+                <div class="row comp-speech comp-speech-bubble hide">
+                        <div class="row">
+                            <div class="speech-bubble"><span class="speech-text comp-speech-text"></span></div>
+                            <div class="triangle"></div>
+                        </div>
+                </div>
+            </div>
+            <!-- Right -->
+            <div class="row" id="gameWindowRight">
+                <div class="row user-hp-row">
+                    <div class="user-hp-stats">
+                        <span class="user-hp-text"></span>
+                        <progress class="hp-bar user-hp-bar nes-progress is-success" value="90" max="100"></progress>
+                    </div>
+                    <input type="hidden" id='userId' value="1">
+                </div>
+            
+                <div class="row atk-row">
+                    <div class="atk-btn col"></div>
+                    <div class="col">
+                        <button><i class="nes-logo"></i></button>
+                    </div>
+                </div>
+                <div class="row user-speech user-speech-bubble hide">
+                        <div class="row">
+                            <div class="speech-bubble"><span class="speech-text user-speech-text"></span></div>
+                            <div class="triangle"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="/js/game.js"></script>
+</html>

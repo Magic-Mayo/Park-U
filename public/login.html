@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="/css/estilo.css">
+    <!-- <link rel="stylesheet" href="css/game.css"> -->
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./js/user.js"></script>
+    <title>ParkU</title>
+</head>
+<body>
+    
+    <h1 class="title">Park U</h1>
+    <div class="subtitle">
+        <p><span>A game worth developing</span></p>
+        <p><span>A developing game</span></p>
+        <p><span>A game for developers</span></p>
+        <p><span>A game</span></p>
+    </div>
+
+    <div id="signLogButtons">
+        <button type="button" id="signUp" class="nes-btn is-success modal-trigger" href="#modal1">Sign Up!</button>             
+        <button type="button" id="logIn" class="nes-btn is-success modal-trigger" href='#modal2' id="nameSubmit">Login</button>
+    </div>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4 class="modalTitle">Sign Up</h4>
+      
+            <div class=" add-user-outer-row">
+                <form id="add-user">
+                    <div class="nes-field add-user-col">
+                        <!-- <div class="row add-user-inner-row"> -->
+                            <label for="name_field">User Name:</label>
+                            <input type="text" id="new-user" autocomplete="username" class="name_field" placeholder="Enter a user name">
+                            <span class="user-check">Type in a user name</span>
+                            <label for="password_field">Password:</label>
+                            <input type="password" id="new-word" autocomplete="new-password" class="password_field" placeholder="Enter a Password">
+                            <span class="pass">Must contain upper and lower case and a number (min 8 characters)</span>
+                            <label for="password_field">Password:</label>
+                            <input type="password" autocomplete="new-password" class="password_field" id='pass-check' placeholder="Re-enter password">
+                            <span class="pass-check">Type in a matching password</span>
+                            <button id="add-user-btn">Submit</button>
+                        <!-- </div> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <h4 class="modalTitle">Log In</h4>
+            <form id="login">
+                <div class="nes-field">
+                    <label for="name_field">User Name:</label>
+                    <input type="text" id="user" autocomplete="username" class="name_field" placeholder="Enter your user name">
+                    <label for="password_field">Password:</label>
+                    <input type="password" id="userPass" autocomplete="current-password" class="password_field" placeholder="Enter your password">
+                    <button id="log-in">Submit</button> 
+                </div>
+            </form> 
+        </div>
+        <p class="invalid-pass"></p>
+    </div>
+
+    <div class="modal" id="modal3">
+        <div class="modal-content">
+            <h4 class="modalTitle modal-title">Select A Character</h4>
+            <div class="char-btn">
+
+            </div>
+            <button id="signout">Sign Out</button>
+        </div>
+    </div>
+
+    <div class="modal" id="modal4">
+        <div class="modal-content">
+            <h5 class="modalTitle create-modal-title modal-title"></h5>
+            <div class="create-char">
+                <form id="add-char">
+                    <label>
+                        <input type="radio" class="nes-radio user-class" value="CSS" name="user-class" checked/>
+                        <span>CSS</span>
+                    </label>                  
+                    <label>
+                        <input type="radio" class="nes-radio user-class" value="HTML" name="user-class" />
+                        <span>HTML</span>
+                    </label>
+                    <label>
+                        <input type="radio" class="nes-radio user-class" value="Javascript" name="user-class" />
+                        <span>Javascript</span>
+                    </label><br>
+                    <label for="char-name">Character Name:</label>
+                    <input type="text" id="char-name" class="nes-input" placeholder="Enter a name for your character (max 30 char.)">
+                    <label for="luck">Lucky Number:</label>
+                    <input type="text" type="number" id="luck" min="1" max="100" class="nes-input" placeholder="Will be used to determine critical hits! (1-100)">
+                    <button type="submit" class="add-char-btn">Add!</button>
+                </form>
+                <input type="hidden" id='userId'>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal5">
+        <div class="modal-content">
+
+        </div>
+    </div>
+        
+</body>
+</html>

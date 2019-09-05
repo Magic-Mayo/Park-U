@@ -1,0 +1,483 @@
+#opcoes{
+    background-color: purple;
+    height: 60px;
+}
+
+html, body {
+    font-family: 'Press Start 2P';
+}
+
+body {
+    background-color: #111a29;
+    color: #b7b7af;
+    /* height: 100vh; */
+}
+
+#signLogButtons{
+    text-align: center;
+    top: 57vh;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* transform: translateY(-50%); */
+}
+
+.modalTitle{
+    position: relative;
+    top: -2rem;
+    color: #111a29;
+}
+
+#modal2, #modal3, #modal4 {
+    padding: 50px 75px 25px;
+    transform: scaleY(1.8) !important;
+}
+
+#modal1 {
+    padding: 20px 75px;
+    transform: scaleY(2.2) !important;
+}
+
+.defeat-modal {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.char-btn {
+    display: flex;
+    position: relative;
+    height: auto;
+    top: -1rem;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.nes-btn, .nes-btn::after {
+    border-radius: 10px;
+    padding: 25px;
+    font-size: 2rem;
+    box-shadow: 4px 4px 4px 4px #b7b7af;
+    border-image-repeat: unset;
+    border: none;
+}
+
+.title {
+    font-size: 10rem;
+    position: absolute;
+    top: 2.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.subtitle {
+    position: relative;
+    text-align: center;
+    top: 14rem;
+    width: 100%;
+    font-size: 1.3rem;
+}
+
+.subtitle p:not(:last-child) {
+    position: relative;
+}
+
+.subtitle p:not(:last-child):after {
+    content: '';
+    position: absolute;
+    border-bottom: #b7b7af 2.5px solid;
+    bottom: 12px;
+    left: 50%;
+    right: 0;
+    height: 0.5em;
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
+.subtitle p:nth-child(1):after {
+    width: 500px;
+}
+
+.subtitle p:nth-child(2):after {
+    width: 380px;
+}
+
+.subtitle p:nth-child(3):after {
+    width: 460px;
+}
+
+.subtitle p:last-of-type {
+    text-decoration-line: none;
+}
+
+#gameWindowLeft, #gameWindowRight{
+    text-align: center;
+}
+
+.game-window {
+    width: 100%;
+    height: 100vh;
+}
+
+#gameWindowRight {
+    bottom: 0;
+    height: 427px;
+}
+
+#gameWindowLeft {
+    top: 64px;
+    height: 427px;
+}
+
+@keyframes flash {
+    0% {z-index: 1000;}
+    50% {background-color: #ffffff;}
+    99% {z-index: 1000;}
+}
+
+@keyframes dark-flash {
+    0% {z-index: 1000;}
+    37.5% {background-color: #000000;}
+    75% {background-color: #ffffff;}
+    99% {z-index: 1000;}
+
+}
+
+.dbl-dmg {
+    animation: flash .18s 3 linear;
+}
+
+.hit {
+    animation: dark-flash .1s linear;
+}
+
+.attack {
+    font-size: 1rem;
+    width: 250px;
+    height: 85px;
+    white-space: nowrap;
+    border-radius: 10px;
+    background-color: #209cee;
+    box-shadow: 4px 4px 4px 4px #b7b7af}
+
+nav {
+    position: fixed;
+    background-color: #0D584E !important;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.battle-scene {
+    z-index: 5;
+    background-color: #29111E;
+}
+
+.game-title {
+    height: 64px;
+    margin: 0;
+    text-align: center;
+    line-height: 64px;
+}
+
+.hp-bar {
+    height: 3vh;
+    width: 600px;
+    border-radius: 10px;
+}
+
+.user-hp-bar {
+    position: absolute;
+    left: 5.25rem;
+}
+
+.comp-hp-row {
+    position: relative;
+    top: 7rem;
+}
+
+.comp-hp-bar {
+    position: absolute;
+    right: 5.25rem;
+}
+
+.comp-hp-stats {
+    position: relative;
+    right: 5rem;
+}
+
+.atk-row {
+    position: relative;
+    top: 12rem;
+}
+
+#attackOne, #attackTwo, #attackThree, #attackFour {
+    width: 300px
+}
+
+#attackOne {
+    position: absolute;
+    left: 1.4rem;
+    top: 1.7rem;
+}
+
+#attackTwo {
+    position: absolute;
+    left: 1.4rem;
+    bottom: 1.7rem;
+}
+
+#attackThree {
+    position: absolute;
+    top: 1.7rem;
+    right: 1.4rem;
+}
+
+#attackFour {
+    position: absolute;
+    bottom: 1.7rem;
+    right: 1.4rem;
+}
+
+.atk-btn {
+    left: 3rem;
+    width: 673px;
+    height: 255px;
+    border-radius: 5px;
+    position: relative;
+    background-color: #dfdfdf;
+}
+
+.user-hp-text {
+    position: absolute;
+    left: 22rem;
+    top: .45rem;
+    z-index: 1000;
+    color: black;
+}
+
+.comp-hp-text {
+    position: absolute;
+    right: 22rem;
+    top: .45rem;
+    z-index: 1000;
+    color: #000000;
+}
+
+.user-hp-stats {
+    position: relative;
+}
+
+.user-hp-row {
+    position: relative;
+    top: 10rem;
+}
+
+.hide {
+    display: none;
+}
+
+::placeholder {
+    font-size: .7rem;
+}
+
+.modal-title {
+    font-size: 2rem;
+}
+
+@keyframes top-smash {
+    0% {top: -120px}
+    20% {top: -80px}
+    40% {top: -100px}
+    70% {top: -50px}
+    80% {top: -85px}
+    90% {top: -60px}
+}
+
+@keyframes smashed {
+    20% {top: 17px}
+    40% {top: 17px}
+    60% {top: 45px}
+    80% {top: 45px}
+    85% {top: 51px}
+    100% {top: 70px; display: none}
+}
+
+@keyframes defeat {
+    100% {opacity: 0;}
+}
+
+.defeat {
+    animation: defeat 2.5s linear;
+}
+
+.smash {
+    position: relative;
+    animation: top-smash 1.35s linear;
+}
+
+.smashed {
+    position: relative;
+    animation: smashed 1.35s linear;
+}
+
+#new-user {
+    color: #000000;
+}
+
+.user-check, .pass-check, .pass {
+    text-align: center;
+    color: red;
+    font-size: 51%;
+}
+
+#add-user-btn {
+    position: relative;
+    bottom: -3vh;
+    width: 112px;
+    left: 50%;
+    transform: translateX(-50%);
+} 
+
+#modal1 label {
+    color: #000000;
+}
+
+#modal2 label, #modal2 label, #modal2 label {
+    font-size: 1rem;
+}
+
+small {
+    white-space: nowrap;
+}
+
+input[type='text']:not(.browser-default), input[type='password']:not(.browser-default) {
+    height: 1rem;
+    margin-bottom: .2rem;
+    font-size: 75%;
+}
+
+.nes-logo {
+    position: fixed;
+    top: 7px;
+    left: 20px;
+}
+
+.modal {
+    height: 400px;
+}
+
+.game-modal1 {
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#log-in, #signout {
+    position: relative;
+    left: 47%;
+    transform: translateX(-50%);
+    bottom: -2vh;
+}
+
+.triangle {
+    width: 0; 
+    height: 0; 
+    position: absolute;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 25px solid #bbb;
+}
+
+.speech-bubble {
+    position: absolute;
+    height: 200px;
+    width: 400px;
+    background-color: #bbb;
+    border-radius: 50%;
+}
+
+.speech-text {
+    color: #000000;
+    position: absolute;
+    width: 300px;
+}
+
+.user-speech .speech-bubble {
+    top: 300px;
+    right: 750px;
+}
+
+.user-speech .triangle {
+    top: 460px;
+    right: 780px;
+    transform: rotate(-25deg)
+}
+
+.user-speech .speech-text {
+    top: 70px;
+    right: 50px;
+}
+
+.user-speech {
+    position: relative;
+    bottom: 700px;
+}
+
+.comp-speech .speech-bubble {
+    left: 650px;
+    top: 300px
+}
+
+.comp-speech .triangle {
+    left: 680px;
+    top: 310px;
+    transform: rotate(150deg)
+}
+
+.comp-speech .speech-text {
+    bottom: 70px;
+    left: 50px;
+}
+
+.comp-speech {
+    position: relative;
+}
+
+.add-char-btn {
+    position: relative;
+    left: 50%;
+    transform: translateX(-85%);
+    top: 25px;
+}
+
+.invalid-pass {
+    color: red;
+    font-size: .75rem;
+    text-align: center;
+    position: relative;
+}
+
+.transparent {
+    opacity: 0;
+}
+
+.game-over-btn {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#signUp, #logIn {
+    margin: 10px 0;
+    white-space: nowrap;
+    width: 282px;
+}
+
+.add-user-col {
+    display: flex;
+    flex-direction: column;
+}
