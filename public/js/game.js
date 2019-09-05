@@ -76,11 +76,14 @@ $(document).ready(()=>{
                         case 'Dmg': atk.strength.push(stats.Attack[i].split('-')); break;
                     }
                 }
+                
                 userStats.maxHP = stats.maxHP;
                 userStats.currentHP = stats.currentHP;
                 userStats.defense = stats.defense;
                 userStats.luck = stats.luck;
                 userStats.data = true;
+                userStats.class = stats.class;
+
                 console.log(userStats)
                 for (i in stat){
                     const btn = $('<button>');
