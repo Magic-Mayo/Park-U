@@ -30,19 +30,19 @@ body {
 
 #modal2, #modal3, #modal4 {
     padding: 50px 75px 25px;
-    transform: scaleX(1.6) !important;
     transform: scaleY(1.8) !important;
 }
 
 #modal1 {
     padding: 20px 75px;
-    transform: scaleX(1.6) !important;
     transform: scaleY(2.2) !important;
 }
 
-#add-user {
-    position: relative;
-    top: -23px;
+.defeat-modal {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .char-btn {
@@ -291,7 +291,7 @@ nav {
     40% {top: -100px}
     70% {top: -50px}
     80% {top: -85px}
-    90% {top: -69px}
+    90% {top: -60px}
 }
 
 @keyframes smashed {
@@ -326,35 +326,23 @@ nav {
 }
 
 .user-check, .pass-check, .pass {
-    position: relative;
-    font-size: 50%;
-    bottom: 1vh;
-}
-
-.user-check {
-    left: 35%;
-    transform: translateX(-50%);
+    text-align: center;
     color: red;
-}
-
-.pass-check {
-    left: 30%;
-    transform: translateX(-50%);
+    font-size: 51%;
 }
 
 #add-user-btn {
-    position: absolute;
-    bottom: -11%;
+    position: relative;
+    bottom: -3vh;
+    width: 112px;
     left: 50%;
     transform: translateX(-50%);
+} 
+
+#modal1 label {
+    color: #000000;
 }
 
-label {
-    position: relative;
-    color: #000000;
-    top: 7px;
-    padding-top: 12px;
-}
 #modal2 label, #modal2 label, #modal2 label {
     font-size: 1rem;
 }
@@ -477,14 +465,19 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
 }
 
 .game-over-btn {
-    position: relative;
-    bottom: 2vh;
-    left: 50%;
-    transform: translateX(-50%);
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 #signUp, #logIn {
     margin: 10px 0;
     white-space: nowrap;
     width: 282px;
+}
+
+.add-user-col {
+    display: flex;
+    flex-direction: column;
 }
