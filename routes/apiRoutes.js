@@ -23,6 +23,7 @@ module.exports = (app) => {
     })
 
     app.post('/new/char/:user', (req, res)=>{
+        console.log(req.body)
         const user = req.params.user;
         let def;
         let HP;
@@ -42,10 +43,13 @@ module.exports = (app) => {
             case 'HTML': atk = 2; break;
             case 'Javascript': atk = 3; break;
         }
-        console.log(user)
-        db.Character.create({charName: req.body.name, class: req.body.class, defense: def, maxHP: HP, currentHP: HP, UserId: user, luck: req.body.luckyNum, AttackId: atk}).then(created=>{
-            res.json(created.id)
-        })
+        if (def && req.body.luckyNum && HP && atk && req.body.class && user){
+            db.Character.create({charName: req.body.name, class: req.body.class, defense: def, maxHP: HP, currentHP: HP, UserId: user, luck: req.body.luckyNum, AttackId: atk}).then(created=>{
+                res.json(created.id)
+            })
+        } else {
+            res.json(false)
+        }
     })
 
     app.post('/word/verify', (req,res)=>{
@@ -53,22 +57,19 @@ module.exports = (app) => {
             if(pass && !pass.dataValues.locked){
                 let invalid = pass.dataValues.invalidAttempt;
                 bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
+                    console.log(result)
                     if(result){
                         uid(18).then(newToken=>{
                             db.Token.create({token: newToken, UserId: pass.dataValues.id});
                             db.Character.findAll({where: {UserId: pass.dataValues.id}}).then(char=>{
-                                res.json({token: newToken, character: char, uid: pass.dataValues.id})
+                                res.json({valid: true, token: newToken, character: char, uid: pass.dataValues.id, userName: pass.dataValues.userName})
                             })
                         })
                     } else {
                         if (invalid < 5 && invalid === null){
                             db.User.update({invalidAttempt: 1}, {where: {userName: pass.dataValues.userName}}).then(
-                                res.json({valid: false, msg: `Invalid Password!  You only have ${4} more attempts until your account is locked!`})
+                                res.json({valid: false, msg: `Please make sure you entered a valid user name and password!  Too many invalid attempts will result in this account being locked!`})
                                 )
-                        } else if(invalid < 5) {
-                            db.User.update({invalidAttempt: invalid+1}, {where: {userName: pass.dataValues.userName}}).then(
-                                res.json({valid: false, msg: `Invalid Password!  You only have ${5-pass.dataValues.invalidAttempt} more attempts until your account is locked!`})
-                            )
                         } else {
                             db.User.update({locked: true}, {where: {userName: pass.dataValues.userName}}).then()
                                 res.json({locked: true, valid: false, msg: 'Your account has been locked after too many failed log-in attempts!  Please reset your password!'})
@@ -79,7 +80,7 @@ module.exports = (app) => {
             } else if (pass && pass.dataValues.locked) {
                 res.json({valid: false, msg: 'Your account has been locked after too many failed log-in attempts!  Please reset your password!'})            
             } else {
-                res.json({valid: false, msg: 'Please make sure you entered a valid user name and password!'})
+                res.json({valid: false, msg: 'Please make sure you entered a valid user name and password!  Too many invalid attempts will result in this account being locked!'})
             }            
         })
     })
