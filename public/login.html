@@ -37,20 +37,24 @@
         <div class="modal-content">
             <h4 class="modalTitle">Sign Up</h4>
       
-            <form id="add-user">
-                <div class="nes-field">
-                    <label for="name_field">User Name:</label>
-                    <input type="text" id="new-user" autocomplete="username" class="name_field" placeholder="Enter a user name">
-                    <small class="user-check">Type in a user name</small>
-                    <label for="password_field">Password:</label>
-                    <input type="password" id="new-word" autocomplete="new-password" class="password_field" placeholder="Enter a Password">
-                    <small class="pass">Must contain upper and lower case and a number (min 8 characters)</small>
-                    <label for="password_field">Password:</label>
-                    <input type="password" autocomplete="new-password" class="password_field" id='pass-check' placeholder="Re-enter password">
-                    <small class="pass-check">Type in a matching password</small>
-                    <button id="add-user-btn">Submit</button>
-                </div>
-            </form>
+            <div class=" add-user-outer-row">
+                <form id="add-user">
+                    <div class="nes-field add-user-col">
+                        <!-- <div class="row add-user-inner-row"> -->
+                            <label for="name_field">User Name:</label>
+                            <input type="text" id="new-user" autocomplete="username" class="name_field" placeholder="Enter a user name">
+                            <span class="user-check">Type in a user name</span>
+                            <label for="password_field">Password:</label>
+                            <input type="password" id="new-word" autocomplete="new-password" class="password_field" placeholder="Enter a Password">
+                            <span class="pass">Must contain upper and lower case and a number (min 8 characters)</span>
+                            <label for="password_field">Password:</label>
+                            <input type="password" autocomplete="new-password" class="password_field" id='pass-check' placeholder="Re-enter password">
+                            <span class="pass-check">Type in a matching password</span>
+                            <button id="add-user-btn">Submit</button>
+                        <!-- </div> -->
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
   
@@ -86,15 +90,15 @@
             <div class="create-char">
                 <form id="add-char">
                     <label>
-                        <input type="radio" class="nes-radio" value="CSS" name="answer" checked />
+                        <input type="radio" class="nes-radio user-class" value="CSS" name="user-class" checked/>
                         <span>CSS</span>
                     </label>                  
                     <label>
-                        <input type="radio" class="nes-radio" value="HTML" name="answer" />
+                        <input type="radio" class="nes-radio user-class" value="HTML" name="user-class" />
                         <span>HTML</span>
                     </label>
                     <label>
-                        <input type="radio" class="nes-radio" value="Javascript" name="answer" />
+                        <input type="radio" class="nes-radio user-class" value="Javascript" name="user-class" />
                         <span>Javascript</span>
                     </label><br>
                     <label for="char-name">Character Name:</label>
