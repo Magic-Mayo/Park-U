@@ -192,13 +192,13 @@ $(document).ready(()=>{
                 setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
             console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-        } // else {
-        //     console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-        //     console.log('missed')
-        //     // send to dialog attack was missed
-        // }
+        } else {
+            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
+            console.log('missed')
+            // send to dialog attack was missed
+        }
 
-        else if (who === 'user' && finalAtk !== undefined){
+        if (who === 'user' && finalAtk !== undefined){
             if(finalHP <= 0){
                 userStats.data = false;
                 userStats.currentHP = userStats.maxHP;
