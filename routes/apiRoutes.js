@@ -23,7 +23,6 @@ module.exports = (app) => {
     })
 
     app.post('/new/char/:user', (req, res)=>{
-        console.log(req.body)
         const user = req.params.user;
         let def;
         let HP;
@@ -57,7 +56,6 @@ module.exports = (app) => {
             if(pass && !pass.dataValues.locked){
                 let invalid = pass.dataValues.invalidAttempt;
                 bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
-                    console.log(result)
                     if(result){
                         uid(18).then(newToken=>{
                             db.Token.create({token: newToken, UserId: pass.dataValues.id});
