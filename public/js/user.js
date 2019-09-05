@@ -25,7 +25,7 @@ $(document).ready(()=>{
     const charName = $('#char-name');
     const luck = $('#luck');
     let userId;
-    const newClass = $('input:checked').val();
+    let newClass;
     const passCheck = $('#pass-check');
     const pass = $('.pass')
 
@@ -51,8 +51,12 @@ $(document).ready(()=>{
                 userId = uid.userId
             })
         }
+        
+        if ($('.user-class').prop('checked')){
+            newClass = $('.user-class').val();
+        }
 
-        newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val(), class: newClass})
+            newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val().trim(), class: newClass})
     }
 
     const handleVerifyPass = (e) => {
@@ -63,7 +67,6 @@ $(document).ready(()=>{
 
     const createUser = (user) => {
         $.post('/new/user', user).then(token=>{
-            console.log(token)
             if(token){
                 localStorage.setItem('_ParkU', token.token);
                 $('.create-modal-title').text(`${token.userName}, Create A Character!`);
@@ -83,7 +86,11 @@ $(document).ready(()=>{
 
     const newCharacter = (newChar) => {
         $.post(`/new/char/${newChar.id}`, newChar).then(char=>{
-            window.location.href = `/start/id=${char}`;
+            if (char){
+                window.location.href = `/start/id=${char}`;
+            } else {
+                // .text('Looks like you're missing some info!)
+            }
         })
     }
 
@@ -116,11 +123,9 @@ $(document).ready(()=>{
                     }
                     $('#modal3').modal('open');
                 } else {
-                    $('.create-modal-title').text(`${verified.userName},Create A Character!`);
+                    $('.create-modal-title').text(`${verified.userName}, Create A Character!`);
                     $('#modal4').modal('open');
                 }
-            } else if (!verified.locked) {
-                $('.invalid-pass').text(verified.msg);
             } else if(verified.locked){
                 $('.invalid-pass').text(verified.msg);
             } else {
@@ -132,7 +137,9 @@ $(document).ready(()=>{
     const verifyToken = (token) => {
         $.post(`/token/`, {token: token}).then(dbtoken=>{
             console.log(dbtoken)
-            if (dbtoken.characters.length > 0){
+            if (!dbtoken){
+                return;
+            } else if (dbtoken.characters.length > 0){
                 $('.char-btn').empty();
                 userId = dbtoken.characters.id;
                 for (let i=0; i<dbtoken.characters.length; i++){
@@ -145,7 +152,7 @@ $(document).ready(()=>{
                 }
                 $('#modal3').modal('open');
             } else {
-                $('.create-modal-title').text(`${dbtoken.userName},Create A Character!`);
+                $('.create-modal-title').text(`${dbtoken.userName}, Create A Character!`);
                 $('#modal4').modal('open');
             }
         })
