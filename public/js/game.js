@@ -85,7 +85,6 @@ $(document).ready(()=>{
                 userStats.luck = stats.luck;
                 userStats.data = true;
                 userStats.class = stats.class;
-
                 
                 for (i in stat){
                     const btn = $('<button>');
@@ -157,8 +156,6 @@ $(document).ready(()=>{
 
 
     const attack = (attack, acc, defense, luck, hp, who, compAtkName) => {
-        console.log(attack, acc, defense, luck, hp, who)
-
         let finalAtk;
         const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random()*100);
@@ -199,12 +196,8 @@ $(document).ready(()=>{
                 setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
 
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
         } else if (atk>acc){
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-
             handleSpeech(who);
-
         }
 
         if (who === 'user' && finalAtk !== undefined){
@@ -270,10 +263,8 @@ $(document).ready(()=>{
             //     userSpeech.text(attackName);
             //     userBubble.removeClass('hide');
             // }
-            console.log('user: ', hit)
             if (hit === undefined){
-                const missSpeech = userMisses[Math.floor(Math.random()*3)];
-                console.log(missSpeech)
+                const missSpeech = userMisses[Math.floor(Math.random()*3)];                
                 userSpeech.text(missSpeech)
                 userBubble.removeClass('hide');
             } else {
@@ -284,13 +275,10 @@ $(document).ready(()=>{
 
         } else if (who === 'comp') {
 
-            console.log('comp');
             if (hit === undefined){
                 compSpeech.text('I missed');
                 compBubble.removeClass('hide');                
-                console.log('miss');
-            } else {
-                console.log('comp ', hit)
+            } else {               
                 compSpeech.text(compAtkName);
                 compBubble.removeClass('hide');
             }
@@ -301,7 +289,7 @@ $(document).ready(()=>{
             }, 2000);
             
         } else {
-            console.log('else')
+        
         }
     }
 
