@@ -86,7 +86,7 @@ $(document).ready(()=>{
                 userStats.data = true;
                 userStats.class = stats.class;
 
-                console.log(userStats)
+                
                 for (i in stat){
                     const btn = $('<button>');
                     switch(i.toString().slice(-3)){
@@ -117,7 +117,7 @@ $(document).ready(()=>{
     
     const getCompStats = (name) =>{
         $.get(`/comp/${name}/stats`).then(comp=>{
-            console.log(comp)
+            
             compStats.id = comp.charName;
             compStats.maxHP = comp.maxHP;
             compStats.currentHP = comp.currentHP;
@@ -155,8 +155,10 @@ $(document).ready(()=>{
         attack(compStats.attack.strength[atkChosen], compStats.attack.accuracy[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compStats.attack.names[atkChosen])
     }
 
+
     const attack = (attack, acc, defense, luck, hp, who, compAtkName) => {
         console.log(attack, acc, defense, luck, hp, who)
+
         let finalAtk;
         const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random()*100);
@@ -169,7 +171,7 @@ $(document).ready(()=>{
         }
 
         if (atk <= acc){
-            console.log(compStats)
+            
             let total = hp + defense;
             if (luck===dblDmg){
                 finalAtk = attack[4]*2;
@@ -177,7 +179,7 @@ $(document).ready(()=>{
                 finalHP = total;
                 $('.game-window').addClass('dbl-dmg');
                 setTimeout(()=>{$('.game-window').removeClass('dbl-dmg')},300);
-                console.log('dbl')
+                
             } else {
                 switch (atkRng){
                     case 0:
@@ -196,11 +198,13 @@ $(document).ready(()=>{
                 $('.game-window').addClass('hit');
                 setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
+
             console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
         } else if (atk>acc){
             console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
 
             handleSpeech(who);
+
         }
 
         if (who === 'user' && finalAtk !== undefined){
@@ -229,6 +233,7 @@ $(document).ready(()=>{
     }
 
     const handleSpeech = (who, hit, attack, compAtkName) =>{
+
         if (who === 'user'){
             $('.attack').prop('disabled', true);
             let attackName;
@@ -290,8 +295,7 @@ $(document).ready(()=>{
                 compBubble.removeClass('hide');
             }
 
-
-            setTimeout(()=>{
+            setTimeout(()=>{ 
                 compBubble.addClass('hide');
                 $('.attack').prop('disabled', false);
             }, 2000);

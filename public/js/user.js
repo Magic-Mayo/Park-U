@@ -142,7 +142,6 @@ $(document).ready(()=>{
 
     const verifyToken = (token) => {
         $.post(`/token/`, {token: token}).then(dbtoken=>{
-            console.log(dbtoken)
             if (!dbtoken){
                 return;
             } else if (dbtoken.characters.length > 0){
