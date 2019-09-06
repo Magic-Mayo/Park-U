@@ -397,6 +397,9 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     width: 400px;
     background-color: #bbb;
     border-radius: 50%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
 }
 
 .speech-text {
