@@ -23,7 +23,6 @@ module.exports = (app) => {
     })
 
     app.post('/new/char/:user', (req, res)=>{
-        console.log(req.body)
         const user = req.params.user;
         let def;
         let HP;
