@@ -66,8 +66,8 @@ module.exports = (app) => {
                             })
                         })
                     } else {
-                        if (invalid < 5 && invalid === null){
-                            db.User.update({invalidAttempt: 1}, {where: {userName: pass.dataValues.userName}}).then(
+                        if (invalid < 5){
+                            db.User.update({invalidAttempt: invalid++}, {where: {userName: pass.dataValues.userName}}).then(
                                 res.json({valid: false, msg: `Please make sure you entered a valid user name and password!  Too many invalid attempts will result in this account being locked!`})
                                 )
                         } else {
