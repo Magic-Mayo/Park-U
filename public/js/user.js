@@ -43,20 +43,26 @@ $(document).ready(()=>{
 
     const handleNewCharacter = (e) => {
         e.preventDefault();
+
+        if ($('#user-class-javascript').prop('checked')){
+            newClass = 'Jvascript';
+        } else if ($('#user-class-html').prop('checked')){
+            newClass = 'HTML';
+        } else if ($('#user-class-css').prop('checked')){
+            newClass = 'CSS';
+        }
+
         if (!luck.val().trim() || !charName.val().trim()){
             return;
         }
+
         if (parkUToken){
             $.post(`/token/`, {token: parkUToken}).then(uid=>{
                 userId = uid.userId
             })
         }
-        
-        if ($('.user-class').prop('checked')){
-            newClass = $('.user-class').val();
-        }
 
-            newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val().trim(), class: newClass})
+        newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val().trim(), class: newClass})
     }
 
     const handleVerifyPass = (e) => {
@@ -141,7 +147,7 @@ $(document).ready(()=>{
                 return;
             } else if (dbtoken.characters.length > 0){
                 $('.char-btn').empty();
-                userId = dbtoken.characters.id;
+                userId = dbtoken.id;
                 for (let i=0; i<dbtoken.characters.length; i++){
                     const btn = $('<button>')
                     btn.append(`<h4 class='char-name'>${dbtoken.characters[i].charName}</h4>`)
@@ -152,6 +158,7 @@ $(document).ready(()=>{
                 }
                 $('#modal3').modal('open');
             } else {
+                userId = dbtoken.userId;
                 $('.create-modal-title').text(`${dbtoken.userName}, Create A Character!`);
                 $('#modal4').modal('open');
             }
