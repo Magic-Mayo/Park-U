@@ -25,6 +25,7 @@ $(document).ready(()=>{
     const compSpeech = $('.comp-speech-text');
     const userBubble = $('.user-speech-bubble');
     const compBubble = $('.comp-speech-bubble');
+    const battleScene = $('.battle-scene');
 
     const userMisses = ['I guess I must\'ve had a typo...', 'One sec...let me check stack overflow on why that didn\'t work', 'Shoot, I forgot a semicolon!!', ];
     const compMisses = [];
@@ -58,9 +59,6 @@ $(document).ready(()=>{
 
     let userAcc = userStats.attack.accuracy;
     let userAtk = userStats.attack.strength;
-    let compAcc = compStats.attack.accuracy;
-    let compAtk = compStats.attack.strength;
-    let compAtkName = compStats.attack.names;
 
     const compId = window.location.href.split('/').pop();
     const id = window.location.href.split('=')[1];
@@ -68,6 +66,7 @@ $(document).ready(()=>{
     const gameTitle = $('.game-title').not($('.game-title').hasClass('hide')).html();
     
     const getStats = (charId, comp) => {
+        $('.attack').prop('disabled', false);
         if (!userStats.data){
             $.get(`/user/char/${charId}/stats`, (stats)=>{
                 const atk = userStats.attack;
@@ -127,9 +126,9 @@ $(document).ready(()=>{
 
             for (i in comp.Attack){
                 switch(i.toString().slice(-3)){
-                    case 'ame': compAtkName.push(comp.Attack[i]); break;
-                    case 'Acc': compAcc.push(comp.Attack[i]); break;
-                    case 'Dmg': compAtk.push(comp.Attack[i].split('-')); break;
+                    case 'ame': compStats.attack.names.push(comp.Attack[i]); break;
+                    case 'Acc': compStats.attack.accuracy.push(comp.Attack[i]); break;
+                    case 'Dmg': compStats.attack.strength.push(comp.Attack[i].split('-')); break;
                 }
             }
 
@@ -153,7 +152,7 @@ $(document).ready(()=>{
 
     const handleCompAtk = () => {
         let atkChosen = Math.floor(Math.random()*4);
-        attack(compAtk[atkChosen], compAcc[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compAtkName[atkChosen])
+        attack(compStats.attack.strength[atkChosen], compStats.attack.accuracy[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compStats.attack.names[atkChosen])
     }
 
     const attack = (attack, acc, defense, luck, hp, who, compAtkName) => {
@@ -321,6 +320,7 @@ $(document).ready(()=>{
             andrew.addClass('smashed');
             jason.addClass('smash');
             setTimeout(()=>{
+                battleScene.css('background-image', 'url("/assets/images/jason.png")');
                 andrew.addClass('hide');
                 andrew.removeClass('smashed');
                 jason.removeClass('smash');
@@ -330,6 +330,7 @@ $(document).ready(()=>{
             jason.addClass('smashed');
             neill.addClass('smash');
             setTimeout(()=>{
+                battleScene.css('background-image', 'url("/assets/images/neill.png")');
                 jason.addClass('hide');
                 jason.removeClass('smashed');
                 neill.removeClass('smash');
@@ -339,6 +340,7 @@ $(document).ready(()=>{
             neill.addClass('smashed');
             david.addClass('smash');
             setTimeout(()=>{
+                battleScene.css('background-image', 'url("/assets/images/FIGHTTODAVID.png")');
                 neill.addClass('hide');
                 neill.removeClass('smashed');
                 david.removeClass('smash');
@@ -348,6 +350,7 @@ $(document).ready(()=>{
             david.addClass('smashed');
             jj.addClass('smash');
             setTimeout(()=>{
+                battleScene.css('background-image', 'url("/assets/images/jj\ fight.png")');
                 david.addClass('hide');
                 david.removeClass('smashed');
                 jj.removeClass('smash');
