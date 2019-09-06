@@ -26,6 +26,9 @@ $(document).ready(()=>{
     const userBubble = $('.user-speech-bubble');
     const compBubble = $('.comp-speech-bubble');
 
+    const userMisses = ['I guess I must\'ve had a typo...', 'One sec...let me check stack overflow on why that didn\'t work', 'Shoot, I forgot a semicolon!!', ];
+    const compMisses = [];
+
     let userStats = {
         data: false,
         class: '',
@@ -194,11 +197,12 @@ $(document).ready(()=>{
                 $('.game-window').addClass('hit');
                 setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-        } else {
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-            console.log('missed')
-            // send to dialog attack was missed
+            // console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
+        } else if (atk>acc && who === 'user'){
+            // console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
+            console.log('missed');
+
+            handleSpeech(who);
         }
 
         if (who === 'user' && finalAtk !== undefined){
@@ -226,13 +230,12 @@ $(document).ready(()=>{
         }
     }
 
-    const handleSpeech = (who, hit, attack, userClass) =>{
-        console.log(hit)
+    const handleSpeech = (who, hit, attack) =>{
         if (who === 'user'){
             $('.attack').prop('disabled', true);
+            let attackName;
             
-            // if (userClass === 'CSS'){
-            //     let attackName
+            // if (userStats.class === 'CSS'){
             //     switch (attack){
             //         case 'attackOne': attackName = ; break;
             //         case 'attackTwo': attackName = ; break;
@@ -243,10 +246,7 @@ $(document).ready(()=>{
             //     userSpeech.text(attackName);
             //     userSpeech.removeClass('hide');
                 
-            // }
-            
-            // if (userClass === 'HTML'){
-            //     let attackName
+            // } else if (userStats.class === 'HTML'){
             //     switch (attack){
             //         case 'attackOne': attackName = ; break;
             //         case 'attackTwo': attackName = ; break;
@@ -257,40 +257,38 @@ $(document).ready(()=>{
             //     userSpeech.text(attackName);
             //     userSpeech.removeClass('hide');
 
-            // }
-            
-            // if (userClass === 'CSS'){
-            //     let attackName
+            // } else if (userStats.class === 'Javascript'){
             //     switch (attack){
             //         case 'attackOne': attackName = ; break;
             //         case 'attackTwo': attackName = ; break;
             //         case 'attackThree': attackName = ; break;
             //         case 'attackFour': attackName = ; break;
             //     }
-                if (hit){
-                userSpeech.text('I hit');
+            //     userSpeech.text(attackName);
+            //     userBubble.removeClass('hide');
+            // }
+            console.log('user: ', hit)
+            if (hit === undefined){
+                const missSpeech = userMisses[Math.floor(Math.random()*4)];
+                userSpeech.text(missSpeech)
                 userBubble.removeClass('hide');
+            } else {
 
+            userSpeech.text(attack);
             }
             setTimeout(()=>{userBubble.addClass('hide')}, 2000);
-
-            if (hit === undefined){
-                userSpeech.text('I missed too');
-                userBubble.removeClass('hide');
-                setTimeout(()=>{userBubble.addClass('hide')}, 2000);
-            }
-            
-
         } else {
 
             compSpeech.text(attack);
             compBubble.removeClass('hide');
-            
+            console.log('comp:', hit)
             if (hit === undefined){
+                console.log('undefined')
                 compSpeech.text('I missed');
                 compBubble.removeClass('hide');                
             }
-            setTimeout(()=>{ console.log('unfreeze')
+            console.log('miss')
+            setTimeout(()=>{
                 compBubble.addClass('hide');
                 $('.attack').prop('disabled', false);
             }, 2000);
@@ -360,7 +358,7 @@ $(document).ready(()=>{
             }
         })
     }
-    
+
     $('#gameWindowRight').on('click', '.attack', function(){
         const atkChosen = $(this).val().trim();
         
@@ -396,7 +394,7 @@ $(document).ready(()=>{
     const verifyToken = (token) => {
         $.post(`/token/`, {token: token}).then(dbtoken=>{
             if (!dbtoken){
-                window.location.href = '/'
+                window.location.href = '/droppedout'
             }
         })
     }
