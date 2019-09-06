@@ -197,9 +197,9 @@ $(document).ready(()=>{
                 $('.game-window').addClass('hit');
                 setTimeout(()=>{$('.game-window').removeClass('hit')},300);
             }
-            // console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-        } else if (atk>acc && who === 'user'){
-            // console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
+            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
+        } else if (atk>acc){
+            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
             console.log('missed');
 
             handleSpeech(who);
@@ -269,36 +269,44 @@ $(document).ready(()=>{
             // }
             console.log('user: ', hit)
             if (hit === undefined){
-                const missSpeech = userMisses[Math.floor(Math.random()*4)];
+                const missSpeech = userMisses[Math.floor(Math.random()*3)];
+                console.log(missSpeech)
                 userSpeech.text(missSpeech)
                 userBubble.removeClass('hide');
             } else {
-
-            userSpeech.text(attack);
+                userSpeech.text(attack);
             }
-            setTimeout(()=>{userBubble.addClass('hide')}, 2000);
-        } else {
 
-            compSpeech.text(attack);
-            compBubble.removeClass('hide');
-            console.log('comp:', hit)
+            setTimeout(()=>{userBubble.addClass('hide')}, 2000);
+
+        } else if (who === 'comp') {
+
+            console.log('comp');
             if (hit === undefined){
-                console.log('undefined')
                 compSpeech.text('I missed');
                 compBubble.removeClass('hide');                
+                console.log('miss');
+            } else {
+                console.log('comp ', hit)
+                compSpeech.text(attack);
+                compBubble.removeClass('hide');
             }
-            console.log('miss')
+
+
             setTimeout(()=>{
                 compBubble.addClass('hide');
                 $('.attack').prop('disabled', false);
             }, 2000);
+            
+        } else {
+            console.log('else')
         }
     }
 
     const userDefeat = () => {
         $('.battle-scene').addClass('defeat');
         $('.defeat-text').text(`Your coding prowess was no match for ${compStats.id}....this time`);
-        setTimeout(()=>{$('.battle-scene').addClass('transparent')}, 2500);
+        setTimeout(()=>{$('.battle-scene').addClass('transparent')}, 2450);
         setTimeout(()=>{$('#defeat-modal').modal('open').css('opacity', '1')}, 2750);
     }
 
