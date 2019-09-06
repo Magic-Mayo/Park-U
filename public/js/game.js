@@ -340,7 +340,7 @@ $(document).ready(()=>{
             neill.addClass('smashed');
             david.addClass('smash');
             setTimeout(()=>{
-                battleScene.css('background-image', 'url("/assets/images/FIGHTTODAVID.png")');
+                battleScene.css('background-image', 'url("/assets/images/FIGHTODAVID.png")');
                 neill.addClass('hide');
                 neill.removeClass('smashed');
                 david.removeClass('smash');
