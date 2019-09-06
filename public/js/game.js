@@ -153,10 +153,10 @@ $(document).ready(()=>{
 
     const handleCompAtk = () => {
         let atkChosen = Math.floor(Math.random()*4);
-        attack(compAtk[atkChosen], compAcc[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp')
+        attack(compAtk[atkChosen], compAcc[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compAtkName[atkChosen])
     }
 
-    const attack = (attack, acc, defense, luck, hp, who) => {
+    const attack = (attack, acc, defense, luck, hp, who, compAtkName) => {
         console.log(attack, acc, defense, luck, hp, who)
         let finalAtk;
         const atkRng = Math.floor(Math.random()*5);
@@ -200,7 +200,6 @@ $(document).ready(()=>{
             console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
         } else if (atk>acc){
             console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-            console.log('missed');
 
             handleSpeech(who);
         }
@@ -225,12 +224,12 @@ $(document).ready(()=>{
                 userStats.currentHP = finalHP;
                 $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
                 $('.user-hp-bar').val(userStats.currentHP);
-                handleSpeech(who, finalAtk, attack);
+                handleSpeech(who, finalAtk, attack, compAtkName);
             }
         }
     }
 
-    const handleSpeech = (who, hit, attack) =>{
+    const handleSpeech = (who, hit, attack, compAtkName) =>{
         if (who === 'user'){
             $('.attack').prop('disabled', true);
             let attackName;
@@ -288,7 +287,7 @@ $(document).ready(()=>{
                 console.log('miss');
             } else {
                 console.log('comp ', hit)
-                compSpeech.text(attack);
+                compSpeech.text(compAtkName);
                 compBubble.removeClass('hide');
             }
 
