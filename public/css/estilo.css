@@ -265,7 +265,7 @@ nav {
 }
 
 .user-hp-stats {
-    position: relative;
+    position: absolute;
 }
 
 .user-hp-row {
