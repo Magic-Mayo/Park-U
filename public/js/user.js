@@ -45,7 +45,7 @@ $(document).ready(()=>{
         e.preventDefault();
 
         if ($('#user-class-javascript').prop('checked')){
-            newClass = 'Jvascript';
+            newClass = 'Javascript';
         } else if ($('#user-class-html').prop('checked')){
             newClass = 'HTML';
         } else if ($('#user-class-css').prop('checked')){
