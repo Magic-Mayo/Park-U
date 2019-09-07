@@ -345,7 +345,7 @@ $(document).ready(()=>{
             david.addClass('smashed');
             jj.addClass('smash');
             setTimeout(()=>{
-                battleScene.css('background-image', 'url("/assets/images/jj\ fight.png")');
+                battleScene.css('background-image', 'url("/assets/images/jjfight.png")');
                 david.addClass('hide');
                 david.removeClass('smashed');
                 jj.removeClass('smash');
