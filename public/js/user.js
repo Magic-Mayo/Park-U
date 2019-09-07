@@ -258,19 +258,25 @@ $(document).ready(()=>{
     })
 
     passCheck.keyup(function(){
-        if (passCheck.val().trim()===newWord.val().trim()){
-            $('.pass-check').text('Passwords Match!').css('color', '#17e73a')
-        } else {
-            $('.pass-check').text('Passwords don\'t match!').css('color', 'red')
+        if (newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
+            if (passCheck.val().trim()===newWord.val().trim()){
+                $('.pass-check').text('Passwords Match!').css('color', '#17e73a')
+            } else {
+                $('.pass-check').text('Passwords don\'t match!').css('color', 'red')
+            }
         }
     })
 
-    newWord.keyup(function(){
+    newWord.on('change', function(){
         if (newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
             pass.css('color', '#17e73a').text('Password is Valid!')
         } else {
             pass.css('color', 'red').text('Invalid Password!')
         }
+    })
+
+    newWord.on('focus', ()=>{
+        pass.text('Must contain upper and lower case and a number (min 8 characters)')
     })
 
     $('#create-new-char').click(()=>{
