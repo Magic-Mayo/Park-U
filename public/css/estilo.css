@@ -23,8 +23,9 @@ body {
 }
 
 .modalTitle{
+    text-align: center;
     position: relative;
-    top: -2rem;
+    top: -.8rem;
     color: #111a29;
 }
 
@@ -36,6 +37,10 @@ body {
 #modal1 {
     padding: 20px 75px;
     transform: scaleY(2.2) !important;
+}
+
+.modal .modal-content {
+    padding: 0;
 }
 
 .defeat-modal {
@@ -331,14 +336,6 @@ nav {
     text-align: center;
     color: red;
     font-size: 51%;
-}
-
-#add-user-btn {
-    position: relative;
-    bottom: -3vh;
-    width: 112px;
-    left: 50%;
-    transform: translateX(-50%);
 } 
 
 #modal1 label {
@@ -377,7 +374,7 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     justify-content: space-around;
 }
 
-.modal3-buttons {
+.modal-buttons {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -449,13 +446,6 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
 
 .comp-speech {
     position: relative;
-}
-
-.add-char-btn {
-    position: relative;
-    left: 50%;
-    transform: translateX(-85%);
-    top: 25px;
 }
 
 .invalid-pass {
