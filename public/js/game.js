@@ -325,7 +325,7 @@ $(document).ready(()=>{
             jason.addClass('smashed');
             neill.addClass('smash');
             setTimeout(()=>{
-                battleScene.css('background-image', 'url("/assets/images/neill.png")');
+                battleScene.css('background-image', 'url("/assets/images/Neill.png")');
                 jason.addClass('hide');
                 jason.removeClass('smashed');
                 neill.removeClass('smash');
