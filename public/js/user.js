@@ -106,6 +106,7 @@ $(document).ready(()=>{
     const createUser = (user) => {
         $.post('/new/user', user).then(token=>{
             if(token){
+                $('.char-select-btn').addClass('hide');
                 localStorage.setItem('_ParkU', token.token);
                 $('.create-modal-title').text(`${token.userName}, Create A Character!`);
                 modal1.modal('close');
@@ -146,8 +147,26 @@ $(document).ready(()=>{
 
     const verifyPass = (pass) => {
         $('.char-btn').empty();
+        if (!user.val()){
+            user.addClass('placeholder-color');
+            user.attr('placeholder', 'Please enter a user name!');
+        }
+
+        if (!userPass.val()){
+            userPass.addClass('placeholder-color');
+            userPass.attr('placeholder', 'Please enter a password!');
+        }
+
         $.post('/word/verify', pass).then(verified=>{
             userPass.val('');
+            if (userPass.hasClass('placeholder-color')){
+                userPass.removeClass('placeholder-color');
+            }
+
+            if (user.hasClass('placeholder-color')){
+                user.aremoveClass('placeholder-color');
+            }
+
             if (verified.valid){
                 localStorage.setItem('_ParkU', verified.token);
                 userId = verified.uid;
@@ -264,5 +283,14 @@ $(document).ready(()=>{
         e.preventDefault();
         modal3.modal('open');
         modal4.modal('close');
+    })
+
+    $('#logIn').click((e)=>{
+        e.preventDefault();
+        if(user.hasClass('placeholder-color')){
+            user.removeClass('placeholder-color')
+        }
+        userPass.attr('placeholder', 'Enter your password');
+        user.attr('placeholder', 'Enter your user name');
     })
 })
