@@ -27,14 +27,32 @@ $(document).ready(()=>{
     let userId;
     let newClass;
     const passCheck = $('#pass-check');
-    const pass = $('.pass')
+    const pass = $('.pass');
+    const modal3 = $('#modal3');
+    const modal4 = $('#modal4');
+    let userName;
 
     const handleNewUser = (e) => {
         e.preventDefault();
         
         if(!newUser.val().trim() || !newWord.val().trim()){
+            if (!newUser.val()){
+                newUser.attr('placeholder', 'Please enter a user name!');
+                newUser.addClass('placeholder-color');
+            }
+            if (!newWord.val()){
+                newWord.attr('placeholder', 'Please enter a password!');
+                newWord.addClass('placeholder-color');
+            }
+
             return;
         } else if(newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
+            if (newUser.hasClass('placeholder-color')){
+                newUser.removeClass('placeholder-color');
+            }
+            if (newWord.hasClass('placeholder-color')){
+                newWord.removeClass('placeholder-color');
+            }
             createUser({userName: newUser.val().trim(), pass: newWord.val().trim()});
         } else {
             return;
@@ -53,7 +71,22 @@ $(document).ready(()=>{
         }
 
         if (!luck.val().trim() || !charName.val().trim()){
+            if (!luck.val()){
+                $('#luck').attr('placeholder', 'Please select a number from 1-100!');
+                $('#luck').addClass('placeholder-color');
+            }
+            if(!charName.val()){
+                $('#char-name').attr('placeholder', 'Please enter a name for your character!');
+                $('#char-name').addClass('placeholder-color');
+            }
             return;
+        } else if (luck.val().trim() <= 100 && luck.val().trim() >= 1 && charName.val().trim()){
+            if ($('#char-name').hasClass('placeholder-color')){
+                $('#char-name').removeClass('placeholder-color');
+            } else if($('#luck').addClass('placeholder-color')){
+                $('#luck').removeClass('placeholder-color');
+            }
+            newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val().trim(), class: newClass})
         }
 
         if (parkUToken){
@@ -62,7 +95,6 @@ $(document).ready(()=>{
             })
         }
 
-        newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val().trim(), class: newClass})
     }
 
     const handleVerifyPass = (e) => {
@@ -146,6 +178,7 @@ $(document).ready(()=>{
                 return;
             } else if (dbtoken.characters.length > 0){
                 $('.char-btn').empty();
+                userName = dbtoken.userName;
                 userId = dbtoken.id;
                 for (let i=0; i<dbtoken.characters.length; i++){
                     const btn = $('<button>')
@@ -157,6 +190,7 @@ $(document).ready(()=>{
                 }
                 $('#modal3').modal('open');
             } else {
+                userName = dbtoken.userName;
                 userId = dbtoken.userId;
                 $('.create-modal-title').text(`${dbtoken.userName}, Create A Character!`);
                 $('#modal4').modal('open');
@@ -212,5 +246,11 @@ $(document).ready(()=>{
         } else {
             pass.css('color', 'red').text('Invalid Password!')
         }
+    })
+
+    $('#create-new-char').click(()=>{
+        $('.create-modal-title').text(`${userName}, Create A Character!`);
+        modal4.modal('open');
+        modal3.modal('close');
     })
 })
