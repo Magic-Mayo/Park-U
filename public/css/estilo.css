@@ -377,11 +377,11 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
     justify-content: space-around;
 }
 
-#log-in, #signout {
-    position: relative;
-    left: 47%;
-    transform: translateX(-50%);
-    bottom: -2vh;
+.modal3-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100px;
 }
 
 .triangle {
@@ -485,4 +485,8 @@ input[type='text']:not(.browser-default), input[type='password']:not(.browser-de
 .add-user-col {
     display: flex;
     flex-direction: column;
+}
+
+.placeholder-color::placeholder {
+    color: red;
 }
