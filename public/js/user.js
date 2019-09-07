@@ -147,6 +147,7 @@ $(document).ready(()=>{
     const verifyPass = (pass) => {
         $('.char-btn').empty();
         $.post('/word/verify', pass).then(verified=>{
+            userPass.val('');
             if (verified.valid){
                 localStorage.setItem('_ParkU', verified.token);
                 userId = verified.uid;
@@ -210,12 +211,14 @@ $(document).ready(()=>{
     $(document).on('submit', '#add-char', handleNewCharacter);
     $(document).on('submit', '#login', handleVerifyPass);
     
-    $('#signout').click(()=>{
+    $('.signout').click((e)=>{
+        e.preventDefault();
         $.ajax({
             method: 'DELETE',
             url: `/logout/user/${parkUToken}`
         }).then(logout=>{
             if (logout){
+                modal4.modal('close');
                 modal3.modal('close');
             }
         })
