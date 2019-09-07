@@ -28,6 +28,7 @@ $(document).ready(()=>{
     let newClass;
     const passCheck = $('#pass-check');
     const pass = $('.pass');
+    const modal1 = $('#modal1');
     const modal3 = $('#modal3');
     const modal4 = $('#modal4');
     let userName;
@@ -69,7 +70,6 @@ $(document).ready(()=>{
         } else if ($('#user-class-css').prop('checked')){
             newClass = 'CSS';
         }
-
         if (!luck.val().trim() || !charName.val().trim()){
             if (!luck.val()){
                 $('#luck').attr('placeholder', 'Please select a number from 1-100!');
@@ -108,11 +108,11 @@ $(document).ready(()=>{
             if(token){
                 localStorage.setItem('_ParkU', token.token);
                 $('.create-modal-title').text(`${token.userName}, Create A Character!`);
-                $('#modal1').modal('close');
-                $('#modal4').modal('open');
+                modal1.modal('close');
+                modal4.modal('open');
                 userId = token.uid;
             } else {
-                $('#modal1').append(`<p style='color: red; font-size: .8rem; text-align: center;position: relative; bottom: 26px;'>User name not available! Please choose another!</p>`);
+                modal1.append(`<p style='color: red; font-size: .8rem; text-align: center;position: relative; bottom: 26px;'>User name not available! Please choose another!</p>`);
             }
         })
     }
@@ -150,6 +150,7 @@ $(document).ready(()=>{
             if (verified.valid){
                 localStorage.setItem('_ParkU', verified.token);
                 userId = verified.uid;
+                userName = verified.userName;
                 if (verified.token && verified.character.length > 0){
                     for (let i=0; i<verified.character.length; i++){
                         const btn = $('<button>');
@@ -159,10 +160,11 @@ $(document).ready(()=>{
                         .data('id', verified.character[i].id);
                         $('.char-btn').append('<br>').append(btn);
                     }
-                    $('#modal3').modal('open');
+                    modal3.modal('open');
                 } else {
+                    $('.char-select-btn').addClass('hide');
                     $('.create-modal-title').text(`${verified.userName}, Create A Character!`);
-                    $('#modal4').modal('open');
+                    modal4.modal('open');
                 }
             } else if(verified.locked){
                 $('.invalid-pass').text(verified.msg);
@@ -188,12 +190,13 @@ $(document).ready(()=>{
                     .data('id', dbtoken.characters[i].id);
                     $('.char-btn').append('<br>').append(btn);
                 }
-                $('#modal3').modal('open');
+                modal3.modal('open');
             } else {
                 userName = dbtoken.userName;
                 userId = dbtoken.userId;
+                $('.char-select-btn').addClass('hide');
                 $('.create-modal-title').text(`${dbtoken.userName}, Create A Character!`);
-                $('#modal4').modal('open');
+                modal4.modal('open');
             }
         })
     }
@@ -213,7 +216,7 @@ $(document).ready(()=>{
             url: `/logout/user/${parkUToken}`
         }).then(logout=>{
             if (logout){
-                $('#modal3').modal('close');
+                modal3.modal('close');
             }
         })
     })
@@ -252,5 +255,11 @@ $(document).ready(()=>{
         $('.create-modal-title').text(`${userName}, Create A Character!`);
         modal4.modal('open');
         modal3.modal('close');
+    })
+
+    $('.char-select-btn').click((e)=>{
+        e.preventDefault();
+        modal3.modal('open');
+        modal4.modal('close');
     })
 })
