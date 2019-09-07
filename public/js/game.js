@@ -115,14 +115,17 @@ $(document).ready(()=>{
     }
     
     const getCompStats = (name) =>{
+        compStats.attack.accuracy = [];
+        compStats.attack.names = [];
+        compStats.attack.strength = [];
+
         $.get(`/comp/${name}/stats`).then(comp=>{
-            
             compStats.id = comp.charName;
             compStats.maxHP = comp.maxHP;
             compStats.currentHP = comp.currentHP;
             compStats.defense = comp.defense;
             compStats.luck = comp.luck;
-
+            
             for (i in comp.Attack){
                 switch(i.toString().slice(-3)){
                     case 'ame': compStats.attack.names.push(comp.Attack[i]); break;
@@ -151,7 +154,7 @@ $(document).ready(()=>{
 
     const handleCompAtk = () => {
         let atkChosen = Math.floor(Math.random()*4);
-        attack(compStats.attack.strength[atkChosen], compStats.attack.accuracy[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compStats.attack.names[atkChosen])
+        return attack(compStats.attack.strength[atkChosen], compStats.attack.accuracy[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compStats.attack.names[atkChosen])
     }
 
 
@@ -174,8 +177,8 @@ $(document).ready(()=>{
                 finalAtk = attack[4]*2;
                 total -= finalAtk;
                 finalHP = total;
-                $('.game-window').addClass('dbl-dmg');
-                setTimeout(()=>{$('.game-window').removeClass('dbl-dmg')},300);
+                setTimeout(()=>{$('.game-window').addClass('dbl-dmg')}, 1800);
+                setTimeout(()=>{$('.game-window').removeClass('dbl-dmg')},2100);
                 
             } else {
                 switch (atkRng){
@@ -192,12 +195,12 @@ $(document).ready(()=>{
                 }
                 total -= finalAtk;
                 finalHP = total;
-                $('.game-window').addClass('hit');
-                setTimeout(()=>{$('.game-window').removeClass('hit')},300);
+                setTimeout(()=>{$('.game-window').addClass('hit')}, 1800);
+                setTimeout(()=>{$('.game-window').removeClass('hit')},2100);
             }
 
         } else if (atk>acc){
-            handleSpeech(who);
+            return handleSpeech(who);
         }
 
         if (who === 'user' && finalAtk !== undefined){
@@ -209,7 +212,7 @@ $(document).ready(()=>{
                 compStats.currentHP=finalHP;
                 $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
                 $('.comp-hp-bar').val(compStats.currentHP);
-                handleSpeech(who, finalAtk);
+                return handleSpeech(who, finalAtk);
             }
         } else if(who === 'comp' && finalAtk !== undefined){
             if(finalHP <= 0){
@@ -220,7 +223,7 @@ $(document).ready(()=>{
                 userStats.currentHP = finalHP;
                 $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
                 $('.user-hp-bar').val(userStats.currentHP);
-                handleSpeech(who, finalAtk, attack, compAtkName);
+                return handleSpeech(who, finalAtk, attack, compAtkName);
             }
         }
     }
@@ -369,7 +372,7 @@ $(document).ready(()=>{
         }
 
         if (userStats.currentHP > 0 && gotCompStats){
-            setTimeout(handleCompAtk, 1999);
+            setTimeout(handleCompAtk, 2750);
         }
     });
 
