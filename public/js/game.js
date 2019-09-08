@@ -85,7 +85,6 @@ $(document).ready(()=>{
                 userStats.luck = stats.luck;
                 userStats.data = true;
                 userStats.class = stats.class;
-
                 
                 for (i in stat){
                     const btn = $('<button>');
@@ -116,14 +115,17 @@ $(document).ready(()=>{
     }
     
     const getCompStats = (name) =>{
+        compStats.attack.accuracy = [];
+        compStats.attack.names = [];
+        compStats.attack.strength = [];
+
         $.get(`/comp/${name}/stats`).then(comp=>{
-            
             compStats.id = comp.charName;
             compStats.maxHP = comp.maxHP;
             compStats.currentHP = comp.currentHP;
             compStats.defense = comp.defense;
             compStats.luck = comp.luck;
-
+            
             for (i in comp.Attack){
                 switch(i.toString().slice(-3)){
                     case 'ame': compStats.attack.names.push(comp.Attack[i]); break;
@@ -152,13 +154,11 @@ $(document).ready(()=>{
 
     const handleCompAtk = () => {
         let atkChosen = Math.floor(Math.random()*4);
-        attack(compStats.attack.strength[atkChosen], compStats.attack.accuracy[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compStats.attack.names[atkChosen])
+        return attack(compStats.attack.strength[atkChosen], compStats.attack.accuracy[atkChosen], userStats.defense, compStats.luck, userStats.currentHP, 'comp', compStats.attack.names[atkChosen])
     }
 
 
     const attack = (attack, acc, defense, luck, hp, who, compAtkName) => {
-        console.log(attack, acc, defense, luck, hp, who)
-
         let finalAtk;
         const atkRng = Math.floor(Math.random()*5);
         const atk = Math.ceil(Math.random()*100);
@@ -177,8 +177,8 @@ $(document).ready(()=>{
                 finalAtk = attack[4]*2;
                 total -= finalAtk;
                 finalHP = total;
-                $('.game-window').addClass('dbl-dmg');
-                setTimeout(()=>{$('.game-window').removeClass('dbl-dmg')},300);
+                setTimeout(()=>{$('.game-window').addClass('dbl-dmg')}, 1800);
+                setTimeout(()=>{$('.game-window').removeClass('dbl-dmg')},2100);
                 
             } else {
                 switch (atkRng){
@@ -195,16 +195,12 @@ $(document).ready(()=>{
                 }
                 total -= finalAtk;
                 finalHP = total;
-                $('.game-window').addClass('hit');
-                setTimeout(()=>{$('.game-window').removeClass('hit')},300);
+                setTimeout(()=>{$('.game-window').addClass('hit')}, 1800);
+                setTimeout(()=>{$('.game-window').removeClass('hit')},2100);
             }
 
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
         } else if (atk>acc){
-            console.log(`Attack power: ${finalAtk}`, `\n`, `Attack Select: ${atkRng}`, `\n`,  `Attack accuracy base: ${atk}`, `\n`,  `Accuracy: ${acc}`, `\n`,  `HP after defense: ${finalHP}`, `\n`,  `Dbl dmg: ${dblDmg}`, '\n', `Luck: ${luck}`)
-
-            handleSpeech(who);
-
+            return handleSpeech(who);
         }
 
         if (who === 'user' && finalAtk !== undefined){
@@ -216,7 +212,7 @@ $(document).ready(()=>{
                 compStats.currentHP=finalHP;
                 $('.comp-hp-text').text(`${compStats.currentHP}/${compStats.maxHP}`);
                 $('.comp-hp-bar').val(compStats.currentHP);
-                handleSpeech(who, finalAtk);
+                return handleSpeech(who, finalAtk);
             }
         } else if(who === 'comp' && finalAtk !== undefined){
             if(finalHP <= 0){
@@ -227,7 +223,7 @@ $(document).ready(()=>{
                 userStats.currentHP = finalHP;
                 $('.user-hp-text').text(`${userStats.currentHP}/${userStats.maxHP}`);
                 $('.user-hp-bar').val(userStats.currentHP);
-                handleSpeech(who, finalAtk, attack, compAtkName);
+                return handleSpeech(who, finalAtk, attack, compAtkName);
             }
         }
     }
@@ -270,10 +266,8 @@ $(document).ready(()=>{
             //     userSpeech.text(attackName);
             //     userBubble.removeClass('hide');
             // }
-            console.log('user: ', hit)
             if (hit === undefined){
-                const missSpeech = userMisses[Math.floor(Math.random()*3)];
-                console.log(missSpeech)
+                const missSpeech = userMisses[Math.floor(Math.random()*3)];                
                 userSpeech.text(missSpeech)
                 userBubble.removeClass('hide');
             } else {
@@ -284,13 +278,10 @@ $(document).ready(()=>{
 
         } else if (who === 'comp') {
 
-            console.log('comp');
             if (hit === undefined){
                 compSpeech.text('I missed');
                 compBubble.removeClass('hide');                
-                console.log('miss');
-            } else {
-                console.log('comp ', hit)
+            } else {               
                 compSpeech.text(compAtkName);
                 compBubble.removeClass('hide');
             }
@@ -301,7 +292,7 @@ $(document).ready(()=>{
             }, 2000);
             
         } else {
-            console.log('else')
+        
         }
     }
 
@@ -334,7 +325,7 @@ $(document).ready(()=>{
             jason.addClass('smashed');
             neill.addClass('smash');
             setTimeout(()=>{
-                battleScene.css('background-image', 'url("/assets/images/neill.png")');
+                battleScene.css('background-image', 'url("/assets/images/Neill.png")');
                 jason.addClass('hide');
                 jason.removeClass('smashed');
                 neill.removeClass('smash');
@@ -354,7 +345,7 @@ $(document).ready(()=>{
             david.addClass('smashed');
             jj.addClass('smash');
             setTimeout(()=>{
-                battleScene.css('background-image', 'url("/assets/images/jj\ fight.png")');
+                battleScene.css('background-image', 'url("/assets/images/jjfight.png")');
                 david.addClass('hide');
                 david.removeClass('smashed');
                 jj.removeClass('smash');
@@ -381,7 +372,7 @@ $(document).ready(()=>{
         }
 
         if (userStats.currentHP > 0 && gotCompStats){
-            setTimeout(handleCompAtk, 1999);
+            setTimeout(handleCompAtk, 2750);
         }
     });
 

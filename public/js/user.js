@@ -27,14 +27,33 @@ $(document).ready(()=>{
     let userId;
     let newClass;
     const passCheck = $('#pass-check');
-    const pass = $('.pass')
+    const pass = $('.pass');
+    const modal1 = $('#modal1');
+    const modal3 = $('#modal3');
+    const modal4 = $('#modal4');
+    let userName;
 
     const handleNewUser = (e) => {
         e.preventDefault();
         
         if(!newUser.val().trim() || !newWord.val().trim()){
+            if (!newUser.val()){
+                newUser.attr('placeholder', 'Please enter a user name!');
+                newUser.addClass('placeholder-color');
+            }
+            if (!newWord.val()){
+                newWord.attr('placeholder', 'Please enter a password!');
+                newWord.addClass('placeholder-color');
+            }
+
             return;
         } else if(newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
+            if (newUser.hasClass('placeholder-color')){
+                newUser.removeClass('placeholder-color');
+            }
+            if (newWord.hasClass('placeholder-color')){
+                newWord.removeClass('placeholder-color');
+            }
             createUser({userName: newUser.val().trim(), pass: newWord.val().trim()});
         } else {
             return;
@@ -45,15 +64,29 @@ $(document).ready(()=>{
         e.preventDefault();
 
         if ($('#user-class-javascript').prop('checked')){
-            newClass = 'Jvascript';
+            newClass = 'Javascript';
         } else if ($('#user-class-html').prop('checked')){
             newClass = 'HTML';
         } else if ($('#user-class-css').prop('checked')){
             newClass = 'CSS';
         }
-
         if (!luck.val().trim() || !charName.val().trim()){
+            if (!luck.val()){
+                $('#luck').attr('placeholder', 'Please select a number from 1-100!');
+                $('#luck').addClass('placeholder-color');
+            }
+            if(!charName.val()){
+                $('#char-name').attr('placeholder', 'Please enter a name for your character!');
+                $('#char-name').addClass('placeholder-color');
+            }
             return;
+        } else if (luck.val().trim() <= 100 && luck.val().trim() >= 1 && charName.val().trim()){
+            if ($('#char-name').hasClass('placeholder-color')){
+                $('#char-name').removeClass('placeholder-color');
+            } else if($('#luck').addClass('placeholder-color')){
+                $('#luck').removeClass('placeholder-color');
+            }
+            newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val().trim(), class: newClass})
         }
 
         if (parkUToken){
@@ -62,7 +95,6 @@ $(document).ready(()=>{
             })
         }
 
-        newCharacter({id: userId, name: charName.val().trim(), luckyNum: luck.val().trim(), class: newClass})
     }
 
     const handleVerifyPass = (e) => {
@@ -74,13 +106,14 @@ $(document).ready(()=>{
     const createUser = (user) => {
         $.post('/new/user', user).then(token=>{
             if(token){
+                $('.char-select-btn').addClass('hide');
                 localStorage.setItem('_ParkU', token.token);
                 $('.create-modal-title').text(`${token.userName}, Create A Character!`);
-                $('#modal1').modal('close');
-                $('#modal4').modal('open');
+                modal1.modal('close');
+                modal4.modal('open');
                 userId = token.uid;
             } else {
-                $('#modal1').append(`<p style='color: red; font-size: .8rem; text-align: center;position: relative; bottom: 26px;'>User name not available! Please choose another!</p>`);
+                modal1.append(`<p style='color: red; font-size: .8rem; text-align: center;position: relative; bottom: 26px;'>User name not available! Please choose another!</p>`);
             }
         })
     }
@@ -114,10 +147,30 @@ $(document).ready(()=>{
 
     const verifyPass = (pass) => {
         $('.char-btn').empty();
+        if (!user.val()){
+            user.addClass('placeholder-color');
+            user.attr('placeholder', 'Please enter a user name!');
+        }
+
+        if (!userPass.val()){
+            userPass.addClass('placeholder-color');
+            userPass.attr('placeholder', 'Please enter a password!');
+        }
+
         $.post('/word/verify', pass).then(verified=>{
+            userPass.val('');
+            if (userPass.hasClass('placeholder-color')){
+                userPass.removeClass('placeholder-color');
+            }
+
+            if (user.hasClass('placeholder-color')){
+                user.aremoveClass('placeholder-color');
+            }
+
             if (verified.valid){
                 localStorage.setItem('_ParkU', verified.token);
                 userId = verified.uid;
+                userName = verified.userName;
                 if (verified.token && verified.character.length > 0){
                     for (let i=0; i<verified.character.length; i++){
                         const btn = $('<button>');
@@ -127,10 +180,11 @@ $(document).ready(()=>{
                         .data('id', verified.character[i].id);
                         $('.char-btn').append('<br>').append(btn);
                     }
-                    $('#modal3').modal('open');
+                    modal3.modal('open');
                 } else {
+                    $('.char-select-btn').addClass('hide');
                     $('.create-modal-title').text(`${verified.userName}, Create A Character!`);
-                    $('#modal4').modal('open');
+                    modal4.modal('open');
                 }
             } else if(verified.locked){
                 $('.invalid-pass').text(verified.msg);
@@ -146,6 +200,7 @@ $(document).ready(()=>{
                 return;
             } else if (dbtoken.characters.length > 0){
                 $('.char-btn').empty();
+                userName = dbtoken.userName;
                 userId = dbtoken.id;
                 for (let i=0; i<dbtoken.characters.length; i++){
                     const btn = $('<button>')
@@ -155,11 +210,13 @@ $(document).ready(()=>{
                     .data('id', dbtoken.characters[i].id);
                     $('.char-btn').append('<br>').append(btn);
                 }
-                $('#modal3').modal('open');
+                modal3.modal('open');
             } else {
+                userName = dbtoken.userName;
                 userId = dbtoken.userId;
+                $('.char-select-btn').addClass('hide');
                 $('.create-modal-title').text(`${dbtoken.userName}, Create A Character!`);
-                $('#modal4').modal('open');
+                modal4.modal('open');
             }
         })
     }
@@ -173,13 +230,15 @@ $(document).ready(()=>{
     $(document).on('submit', '#add-char', handleNewCharacter);
     $(document).on('submit', '#login', handleVerifyPass);
     
-    $('#signout').click(()=>{
+    $('.signout').click((e)=>{
+        e.preventDefault();
         $.ajax({
             method: 'DELETE',
             url: `/logout/user/${parkUToken}`
         }).then(logout=>{
             if (logout){
-                $('#modal3').modal('close');
+                modal4.modal('close');
+                modal3.modal('close');
             }
         })
     })
@@ -199,18 +258,45 @@ $(document).ready(()=>{
     })
 
     passCheck.keyup(function(){
-        if (passCheck.val().trim()===newWord.val().trim()){
-            $('.pass-check').text('Passwords Match!').css('color', '#17e73a')
-        } else {
-            $('.pass-check').text('Passwords don\'t match!').css('color', 'red')
+        if (newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
+            if (passCheck.val().trim()===newWord.val().trim()){
+                $('.pass-check').text('Passwords Match!').css('color', '#17e73a')
+            } else {
+                $('.pass-check').text('Passwords don\'t match!').css('color', 'red')
+            }
         }
     })
 
-    newWord.keyup(function(){
+    newWord.on('change', function(){
         if (newWord.val().match(/^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)([a-zA-Z0-9]+)$/) && newWord.val().length>=8){
             pass.css('color', '#17e73a').text('Password is Valid!')
         } else {
             pass.css('color', 'red').text('Invalid Password!')
         }
+    })
+
+    newWord.on('focus', ()=>{
+        pass.text('Must contain upper and lower case and a number (min 8 characters)')
+    })
+
+    $('#create-new-char').click(()=>{
+        $('.create-modal-title').text(`${userName}, Create A Character!`);
+        modal4.modal('open');
+        modal3.modal('close');
+    })
+
+    $('.char-select-btn').click((e)=>{
+        e.preventDefault();
+        modal3.modal('open');
+        modal4.modal('close');
+    })
+
+    $('#logIn').click((e)=>{
+        e.preventDefault();
+        if(user.hasClass('placeholder-color')){
+            user.removeClass('placeholder-color')
+        }
+        userPass.attr('placeholder', 'Enter your password');
+        user.attr('placeholder', 'Enter your user name');
     })
 })

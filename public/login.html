@@ -40,7 +40,6 @@
             <div class=" add-user-outer-row">
                 <form id="add-user">
                     <div class="nes-field add-user-col">
-                        <!-- <div class="row add-user-inner-row"> -->
                             <label for="name_field">User Name:</label>
                             <input type="text" id="new-user" autocomplete="username" class="name_field" placeholder="Enter a user name">
                             <span class="user-check">Type in a user name</span>
@@ -50,8 +49,9 @@
                             <label for="password_field">Password:</label>
                             <input type="password" autocomplete="new-password" class="password_field" id='pass-check' placeholder="Re-enter password">
                             <span class="pass-check">Type in a matching password</span>
-                            <button id="add-user-btn">Submit</button>
-                        <!-- </div> -->
+                            <div class="modal-buttons">
+                                <button id="add-user-btn">Submit</button>
+                            </div>
                     </div>
                 </form>
             </div>
@@ -67,7 +67,9 @@
                     <input type="text" id="user" autocomplete="username" class="name_field" placeholder="Enter your user name">
                     <label for="password_field">Password:</label>
                     <input type="password" id="userPass" autocomplete="current-password" class="password_field" placeholder="Enter your password">
-                    <button id="log-in">Submit</button> 
+                    <div class="modal-buttons">
+                        <button id="log-in">Submit</button>
+                    </div>
                 </div>
             </form> 
         </div>
@@ -80,7 +82,10 @@
             <div class="char-btn">
 
             </div>
-            <button id="signout">Sign Out</button>
+            <div class="modal-buttons">
+                <button id="create-new-char">Create another character</button>
+                <button class="signout">Sign Out</button>
+            </div>
         </div>
     </div>
 
@@ -102,21 +107,18 @@
                         <span>Javascript</span>
                     </label><br>
                     <label for="char-name">Character Name:</label>
-                    <input type="text" id="char-name" class="nes-input" placeholder="Enter a name for your character (max 30 char.)">
+                    <input type="text" id="char-name" class="nes-input" placeholder="Enter a name for your character">
                     <label for="luck">Lucky Number:</label>
-                    <input type="text" type="number" id="luck" min="1" max="100" class="nes-input" placeholder="Will be used to determine critical hits! (1-100)">
-                    <button type="submit" class="add-char-btn">Add!</button>
+                    <input type="text" type="number" id="luck" min="1" max="100" class="nes-input" placeholder="1-100. Will be used to determine critical hits!">
+                    <div class="modal-buttons">
+                        <button type="submit" class="add-char-btn">Add!</button>
+                        <button class="char-select-btn">Character Selection</button>
+                        <button class="signout">Sign Out</button>
+                    </div>
                 </form>
                 <input type="hidden" id='userId'>
             </div>
         </div>
-    </div>
-
-    <div class="modal" id="modal5">
-        <div class="modal-content">
-
-        </div>
-    </div>
-        
+    </div>        
 </body>
 </html>

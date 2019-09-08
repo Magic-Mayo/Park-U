@@ -3,10 +3,7 @@ module.exports = (sequelize, DataTypes)=>{
         charName: {
             type: DataTypes.STRING,
             underscored: true,
-            allowNull: false,
-            validate: {
-                len: [1, 30]
-            }
+            allowNull: false
         },
         class: {
             type: DataTypes.STRING,
