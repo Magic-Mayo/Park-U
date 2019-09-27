@@ -53,11 +53,13 @@ module.exports = (app) => {
 
     app.post('/word/verify', (req,res)=>{
         db.User.findOne({where: {userName: req.body.userName.toString()}, include: [db.Token]}).then(pass=>{
+            console.log(pass)
             if(pass && !pass.dataValues.locked){
                 let invalid = pass.dataValues.invalidAttempt;
                 bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
                     if(result){
                         uid(18).then(newToken=>{
+                            db.User.update({loggedIn: true}, {where: {id: pass.dataValues.id}});
                             db.Token.create({token: newToken, UserId: pass.dataValues.id});
                             db.Character.findAll({where: {UserId: pass.dataValues.id}}).then(char=>{
                                 res.json({valid: true, token: newToken, character: char, uid: pass.dataValues.id, userName: pass.dataValues.userName})
@@ -98,11 +100,13 @@ module.exports = (app) => {
     app.post('/token/', (req,res)=>{
         db.Token.findOne({where: {token: req.body.token}, include: [db.User]}).then(token=>{
             if (token !== null){
-                if (moment().diff(token.createdAt, 'days', true)<30){
+                if (moment().diff(token.createdAt, 'hours', true)<12){
+                    db.User.update({loggedIn: true}, {where: {id: token.UserId}});
                     db.Character.findAll({where: {UserId: token.User.dataValues.id}}).then(char=>{
                         res.json({userId: token.User.id, characters: char, userName: token.User.userName})
                     })
                 } else {
+                    db.User.update({loggedIn: false}, {where: {id: token.UserId}});
                     db.Token.destroy({where: {token: req.body.token}}).then(
                         res.json(false)
                     )
@@ -133,9 +137,10 @@ module.exports = (app) => {
     })
 
     app.patch('/logout/user/', (req,res)=>{
-        db.Token.update(null, {where: {token: req.body}}).then(
+        db.Token.update(null, {where: {token: req.body}, include: [db.User]}).then(token=>{
+            db.User.update({loggedIn: false},{where: {id: token.UserId}});
             res.json(true)
-        )
+        })
     })
 
     app.get('/comp/:name/stats', (req,res)=>{
@@ -145,9 +150,12 @@ module.exports = (app) => {
     })
 
     app.delete('/logout/user/:token', (req,res)=>{
-        db.Token.destroy({where: {token: req.params.token}}).then(
-            res.json(true)
-        )
+        db.Token.findOne({where: {token: req.params.token}, include: [db.User]}).then(token=>{
+            db.User.update({loggedIn: false}, {where: {id: token.UserId}});
+            db.Token.destroy({where: {token: req.params.token}}).then(
+                res.json(true)
+            )
+        })
     })
 
     app.get('/start/id=:id/:compId', (req,res)=>{
