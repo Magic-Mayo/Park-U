@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes)=>{
         invalidAttempt: {
             type: DataTypes.INTEGER,
             defaultValue: 0
+        },
+        loggedIn: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
         }
     });
 
