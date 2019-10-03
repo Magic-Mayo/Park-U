@@ -58,6 +58,7 @@ module.exports = (app) => {
                 let invalid = pass.dataValues.invalidAttempt;
                 bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
                     if(result){
+                        db.User.update({invalidAttempt: 0});
                         uid(18).then(newToken=>{
                             db.User.update({loggedIn: true}, {where: {id: pass.dataValues.id}});
                             db.Token.create({token: newToken, UserId: pass.dataValues.id});
@@ -131,7 +132,7 @@ module.exports = (app) => {
     app.get('/user/:charId', (req,res)=>{
         db.Character.findOne({where: {id: req.params.charId}, include: [db.User]}).then(user=>{
             db.findOne({where: {id: user.User.dataValues.id}, include: [db.Token]}).then(token=>{
-                db.Token.update({where: {}})
+                // db.Token.update({where: {}})
             })
         })
     })
