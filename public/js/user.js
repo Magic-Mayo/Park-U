@@ -299,4 +299,9 @@ $(document).ready(()=>{
         userPass.attr('placeholder', 'Enter your password');
         user.attr('placeholder', 'Enter your user name');
     })
+
+    $('#facebook').click((e)=>{
+        e.preventDefault();
+        $.get('/auth/facebook')
+    })
 })

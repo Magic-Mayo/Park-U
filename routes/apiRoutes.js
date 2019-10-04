@@ -2,9 +2,42 @@ const db = require('../models');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const uid = require('uid-safe');
-const moment = require('moment')
+const moment = require('moment');
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID || FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET || FACEBOOK_APP_SECRET,
+    callbackURL: /*'/auth/facebook/callback' ||*/ "https://park-u.herokuapp.com/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        // console.log(profile)
+    // db.User.findOne({userName: profile.id}, (err, user)=>{
+    //     if (err) { return done(err); }
+        // if(!user){
+        //     db.User.create({
+        //         userName: profile.id,
+        //         name: profile.displayName
+        //     }).then(user=>{done(user)})
+        // } else {
+        //     console.log(user)
+        //     done(user);
+        // }
+        done(profile)
+    // });
+    }
+));
 
 module.exports = (app) => {
+    app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile','email']}));
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/', successRedirect: '/home'}),
+        (req,res,next)=>{
+            console.log('we did it');
+            res.redirect('/home')
+        }
+    );
+
     app.post('/new/user', (req,res)=>{
         db.User.findOrCreate({where: {userName: req.body.userName}}).then(([user, created])=>{
             if (created){
