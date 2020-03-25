@@ -53,12 +53,11 @@ module.exports = (app) => {
 
     app.post('/word/verify', (req,res)=>{
         db.User.findOne({where: {userName: req.body.userName.toString()}, include: [db.Token]}).then(pass=>{
-            console.log(pass)
             if(pass && !pass.dataValues.locked){
                 let invalid = pass.dataValues.invalidAttempt;
                 bcrypt.compare(req.body.password, pass.dataValues.pass).then((result)=>{
                     if(result){
-                        db.User.update({invalidAttempt: 0});
+                        db.User.update({invalidAttempt: 0}, {where: {id: pass.dataValues.id}});
                         uid(18).then(newToken=>{
                             db.User.update({loggedIn: true}, {where: {id: pass.dataValues.id}});
                             db.Token.create({token: newToken, UserId: pass.dataValues.id});
